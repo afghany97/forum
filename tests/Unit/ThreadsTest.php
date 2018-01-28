@@ -23,16 +23,16 @@ class ThreadsTest extends TestCase
     public function test_if_user_can_see_one_thread()
     {
 
-    	$responce = $this->get('/threads/' . $this->thread->id);
+    	$this->get($this->thread->path())
 
-        $responce->assertSee($this->thread->title);
+        ->assertSee($this->thread->title);
     }
 
     public function test_if_user_can_see_all_threads()
     {
 
-    	$responce = $this->get('/threads/');
+    	$this->get('/threads/')
 
-        $responce->assertSee($this->thread->title);
+        ->assertSee($this->thread->title);
     }
 }

@@ -17,7 +17,7 @@ class ReplyTest extends TestCase
 	{
 		$reply = factory(\App\Reply::class)->create();
 
-		$this->get('/threads/' . $reply->Thread->id)
+		$this->get($reply->Thread->path())
 		->assertSee($reply->body);
 		
 	}
