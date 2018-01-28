@@ -3,27 +3,36 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ThreadsTest extends TestCase
 {
 	use DatabaseTransactions;
 
+    public function setup()
+    {
+        parent::setUp();
+
+    	$this->thread = factory(\App\Thread::class)->create();
+        
+    }
+
     public function test_if_user_can_see_one_thread()
     {
-    	$thread = factory(\App\Thread::class)->create();
 
-    	$responce = $this->get('/threads/' . $thread->id);
+    	$responce = $this->get('/threads/' . $this->thread->id);
 
-        $responce->assertSee($thread->title);
+        $responce->assertSee($this->thread->title);
     }
+
     public function test_if_user_can_see_all_threads()
     {
-    	$thread = factory(\App\Thread::class)->create();
 
     	$responce = $this->get('/threads/');
 
-        $responce->assertSee($thread->title);
+        $responce->assertSee($this->thread->title);
     }
 }
