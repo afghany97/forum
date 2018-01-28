@@ -35,4 +35,18 @@ class ThreadsTest extends TestCase
 
         ->assertSee($this->thread->title);
     }
+
+
+    public function test_if_thread_have_replies()
+    {
+
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection' , $this->thread->Replies);
+
+    }
+
+    public function test_if_thread_have_owner()
+    {
+        $this->assertInstanceOf('App\User' , $this->thread->User);
+    }
+
 }

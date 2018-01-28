@@ -26,4 +26,12 @@ class Thread extends Model
    	{
    		return '/threads/' . $this->id;
    	}
+
+      public function addReply($data)
+      {
+         return $this->Replies()->create([
+            'body' => $data['body'],
+            'user_id' => $data['user_id']
+         ]);
+      }
 }
