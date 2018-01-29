@@ -16,10 +16,10 @@ class Reply extends Model
 
 	// create the relationship between replies and users table
 
-    public function User()
-    {
-    	return $this->belongsTo(User::class);
-    }
+   public function User()
+   {
+       return $this->belongsTo(User::class);
+   }
 
 	// create the relationship between replies and threads table
 
