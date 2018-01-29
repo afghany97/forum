@@ -31,10 +31,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // create the relationship between users and threads table
+
     public function Threads()
     {
         return $this->hasMany(Thread::class);
     }
+    
+    // create the relationship between users and replies table
+
     public function Replies()
     {
         return $this->hasMany(Reply::class);

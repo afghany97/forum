@@ -38,11 +38,17 @@ class RepliesController extends Controller
      */
     public function store(Thread $thread)
     {
+        // call addReply method and send the param's
+
         $thread->addReply([
+
             'body' => request('body'),
+        
             'user_id' => auth()->id()
         ]);
 
+        // return the previous page
+        
         return back();
 
     }

@@ -14,7 +14,12 @@ class ThreadsController extends Controller
      */
     public function index()
     {
+        // fetch all threads from database in descending order
+
         $threads = Thread::latest()->get();
+        
+        // return view with threads
+
         return view('threads.index', compact('threads'));
     }
 
@@ -47,6 +52,8 @@ class ThreadsController extends Controller
      */
     public function show(Thread $thread)
     {
+        // return view with specific thread
+
         return view('threads.show',compact('thread'));
     }
 

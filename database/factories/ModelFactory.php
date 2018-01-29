@@ -12,6 +12,9 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+// define new factory to create new user
+
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
@@ -22,6 +25,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+// define new factory to create new thread
 
 $factory->define(App\Thread::class, function (Faker\Generator $faker) {
 
@@ -34,6 +39,8 @@ $factory->define(App\Thread::class, function (Faker\Generator $faker) {
         'body' => $faker->paragraph,
     ];
 });
+
+// define new factory to create new reply
 
 $factory->define(App\Reply::class, function (Faker\Generator $faker) {
 

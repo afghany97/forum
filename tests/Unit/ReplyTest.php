@@ -10,13 +10,21 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ReplyTest extends TestCase
 {
+	// use DatabaseTransactions to delete all data "thread and reply" after test  
+
 	use DatabaseTransactions;
 
 	public function setUp()
 	{
+		// call setUp function from parent class to be sure it's executed
+
 		parent::setUp();
 
+		// create a new thread
+
 		$this->thread = factory(\App\Thread::class)->create();
+
+		// create a new reply
 
 		$this->reply = factory(\App\Reply::class)->create();
 	}
@@ -33,7 +41,7 @@ class ReplyTest extends TestCase
 
 	public function test_add_reply()
 	{
-		// call addReply method to test if it add reply successfully	
+		// call addReply method 	
 
 		$reply = $this->thread->addReply([
 		
@@ -42,6 +50,8 @@ class ReplyTest extends TestCase
 			'user_id' => 999
 		
 		]);
+
+		// test if the reply add successfully
 
 		$this->assertEquals($this->thread->id,$reply->Thread->id);
 	}
