@@ -40,6 +40,11 @@
                         
                         <li><a href="{{ route('threads') }}">All Threads</a></li>
 
+                        @if(auth()->check())
+
+                            <li><a href="\threads\create">New Thread</a></li>
+
+                        @endif
 
                     </ul>
 

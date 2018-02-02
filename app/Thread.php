@@ -43,8 +43,27 @@ class Thread extends Model
          // return instance of the added reply
          
          return $this->Replies()->create([
+
             'body' => $data['body'],
+            
             'user_id' => $data['user_id']
+         
+         ]);
+      }
+
+      public static function addThread(array $data)
+      {
+         // expect array of data "thread title and body"
+
+         // return instance of the added Thread
+
+         return static::create([
+            
+            'user_id' => auth()->id(),
+
+            'title' => $data['title'],
+
+            'body' => $data['body']
          ]);
       }
 }

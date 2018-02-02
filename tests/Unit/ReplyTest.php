@@ -34,6 +34,8 @@ class ReplyTest extends TestCase
    		// send get request for render thread to test if the user can browse the replies
 
 		$this->get($this->reply->Thread->path())
+
+		->assertStatus(200)
 		
 		->assertSee($this->reply->body);
 		
@@ -55,7 +57,26 @@ class ReplyTest extends TestCase
 
 		$this->assertEquals($this->thread->id,$reply->Thread->id);
 	}
-   
+
+   public function test_if_unlogin_user_can_submit_add_reply_form()
+   {
+   		// expect exception returned from this test 
+        
+        $this->expectException('Illuminate\Auth\AuthenticationException');
+
+   		// send post request with reply data to store it at database
+
+   		$this->post($this->thread->path() . "/replies", $this->reply->toArray());
+
+   		// send get request for render thread to test if the reply added successfully
+   		
+   		$this->get($this->thread->path())
+
+   		->assertStatus(200)
+   		
+   		->assertSee($this->reply->body);
+   }
+
    public function test_if_login_user_can_submit_add_reply_form()
    {
    		// create user and sign in 
@@ -63,13 +84,15 @@ class ReplyTest extends TestCase
    		$this->be($user = factory(\App\User::class)->create());
 
    		// send post request with reply data to store it at database
-   		
+
    		$this->post($this->thread->path() . "/replies", $this->reply->toArray());
 
    		// send get request for render thread to test if the reply added successfully
    		
    		$this->get($this->thread->path())
 
+   		->assertStatus(200)
+   		
    		->assertSee($this->reply->body);
    }
 }

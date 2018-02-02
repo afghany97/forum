@@ -32,6 +32,8 @@ class ThreadsTest extends TestCase
 
     	$this->get($this->thread->path())
 
+        ->assertStatus(200)
+
         ->assertSee($this->thread->title);
     }
 
@@ -40,6 +42,8 @@ class ThreadsTest extends TestCase
         // send get request to threads path to test if user can browse all threads
 
     	$this->get('/threads/')
+
+        ->assertStatus(200)
 
         ->assertSee($this->thread->title);
     }
@@ -60,4 +64,50 @@ class ThreadsTest extends TestCase
         $this->assertInstanceOf('App\User' , $this->thread->User);
     }
 
+    public function test_if_unloogin_user_can_add_thread()
+    {
+        // expect exception returned from this test 
+        
+        $this->expectException('Illuminate\Auth\AuthenticationException');
+
+        $thread = factory(\App\Thread::class)->make();
+
+        // send post request with thread data to test if it would be added to database successfully
+
+        $this->post('/threads' , $thread->toArray());
+
+        // send get request to test if the thread appeared to thread page 
+
+        $this->get($thread->path())
+
+        ->assertSee($this->thread->title) // test if the title of new thread in thread page
+
+        ->assertSee($this->thread->body); // test if the body of new thread i
+    }
+
+    public function test_if_login_user_can_add_thread()
+    {
+        // create user and sign in 
+
+        $this->be($user = factory(\App\User::class)->create());
+
+        // create a instance of thread model
+
+        $thread = factory(\App\Thread::class)->make();
+
+        // send post request with thread data to test if it would be added to database successfully
+
+        $this->post('/threads' , $thread->toArray());
+
+        // send get request to test if the thread appeared to thread page 
+
+        $this->get($thread->path())
+
+        ->assertStatus(200)
+
+        ->assertSee($this->thread->title) // test if the title of new thread in thread page
+
+        ->assertSee($this->thread->body); // test if the body of new thread in thread page
+
+    }
 }

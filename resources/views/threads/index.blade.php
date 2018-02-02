@@ -18,6 +18,7 @@
                     <div class="panel-body">
                        
                        @foreach($threads as $thread)
+                           
                             <a href="{{$thread->path()}}">
                                
                                 <h4>{{$thread->title}}</h4>
