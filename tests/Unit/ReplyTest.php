@@ -22,11 +22,11 @@ class ReplyTest extends TestCase
 
 		// create a new thread
 
-		$this->thread = factory(\App\Thread::class)->create();
+		$this->thread = create(\App\Thread::class);
 
 		// create a new reply
 
-		$this->reply = factory(\App\Reply::class)->create();
+		$this->reply = create(\App\Reply::class);
 	}
 
 	public function test_if_user_can_see_replies()
@@ -80,8 +80,8 @@ class ReplyTest extends TestCase
    public function test_if_login_user_can_submit_add_reply_form()
    {
    		// create user and sign in 
-   		
-   		$this->be($user = factory(\App\User::class)->create());
+
+        $this->signIn(create(\App\User::class));
 
    		// send post request with reply data to store it at database
 

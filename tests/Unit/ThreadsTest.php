@@ -22,7 +22,7 @@ class ThreadsTest extends TestCase
 
         // create a new thread
 
-    	$this->thread = factory(\App\Thread::class)->create();
+    	$this->thread = create(\App\Thread::class);
         
     }
 
@@ -70,7 +70,7 @@ class ThreadsTest extends TestCase
         
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
-        $thread = factory(\App\Thread::class)->make();
+        $thread = make(\App\Thread::class);
 
         // send post request with thread data to test if it would be added to database successfully
 
@@ -89,11 +89,11 @@ class ThreadsTest extends TestCase
     {
         // create user and sign in 
 
-        $this->be($user = factory(\App\User::class)->create());
+        $this->signIn(create(\App\User::class));
 
         // create a instance of thread model
 
-        $thread = factory(\App\Thread::class)->make();
+        $thread = make(\App\Thread::class);
 
         // send post request with thread data to test if it would be added to database successfully
 
