@@ -109,4 +109,27 @@ class ThreadsTest extends TestCase
         ->assertSee($thread->body); // test if the body of new thread in thread page
 
     }
+
+    public function test_if_user_can_see_threads_for_each_channel()
+    {
+        // create new channl
+
+        $channel = create('App\Channel');
+
+        // create new thread for previous channel
+
+        $threadInChannel = create('App\Thread' , ['channel_id' => $channel->id]);
+
+        // create new thread out of previous channel 
+
+        $threadOutChannel = create('App\Thread');
+
+        // send get request for channel page to test if the the threads that belong to the channel appeared
+
+        $this->get('/threads/' . $channel->name)
+
+        ->assertSee($threadInChannel->title)
+
+        ->assertDontSee($threadOutChannel->title);
+    }
 }

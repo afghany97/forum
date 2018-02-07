@@ -39,11 +39,24 @@
                         &nbsp;
                         
                         <li><a href="{{ route('threads') }}">All Threads</a></li>
+                        <li>
+                            
+                            <div class="dropdown">
+                                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Channels
+                                  </button>
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @foreach(\App\Channel::all() as $channel)
+                                            <a class="dropdown-item" href="/threads/{{$channel->name}}">{{$channel->name}}</a>
+                                    @endforeach
+                                  </div>
+                            </div>  
+                        </li>
 
                         @if(auth()->check())
 
                             <li><a href="\threads\create">New Thread</a></li>
-
+                            
                         @endif
 
                     </ul>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Thread;
 
+use App\Channel;
+
 use Illuminate\Http\Request;
 
 class ThreadsController extends Controller
@@ -13,16 +15,30 @@ class ThreadsController extends Controller
     {
         $this->middleware('auth')->only(['create' , 'store']);
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    
+    public function index(Channel $channel)
     {
-        // fetch all threads from database in descending order
+        // cheack if channel object exists
 
-        $threads = Thread::latest()->get();
+        if($channel->exists){
+
+            // fetch all threads for channel in descending order
+
+            $threads = $channel->threads()->latest()->get();
+        }
+
+        else{
+
+            // fetch all threads from database in descending order
+
+            $threads = Thread::latest()->get();
+        }
         
         // return view with threads
 
@@ -49,6 +65,18 @@ class ThreadsController extends Controller
      */
     public function store(Request $request)
     {
+
+        // validate the request data 
+
+        $this->validate(request(),[
+            
+            'title' => 'required',
+
+            'body' => 'required',
+
+            'channel_id' => 'required|exists:channels,id'
+        ]);
+
 
         $thread = Thread::addThread(request()->all());
 

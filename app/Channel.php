@@ -13,4 +13,11 @@ class Channel extends Model
     {
     	return $this->hasMany(Thread::class);
     }
+
+    // override getRouteKeyName to make routes fetch the model binding by column name not priamry key "defualt" 
+
+    public function getRouteKeyName()
+    {
+    	return 'name';
+    }
 }
