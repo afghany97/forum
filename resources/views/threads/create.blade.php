@@ -23,6 +23,8 @@
 		
 		</div>
 		
+			<input name="channel_id" type="hidden" value="1">
+
 		<button type="submit" class="btn btn-primary">create post</button>
 	
 	</form>

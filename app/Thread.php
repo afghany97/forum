@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\User;
 
+use App\Channel;
+
 use App\Reply;
 
 class Thread extends Model
 {
-      // unuard all fileds of replies table "able to fill"
+      // unguard all fileds of replies table "able to fill"
 
    	protected $guarded = [];
 
@@ -20,6 +22,13 @@ class Thread extends Model
    	{
    		return $this->belongsTo(User::class);
    	}
+
+      // create the relationship between threads and channels table
+
+      public function Channel()
+      {
+         return $this->belongsTo(Channel::class);
+      }
       
       // create the relationship between threads and replies table
 
@@ -33,7 +42,8 @@ class Thread extends Model
    	{
          // return the path of specific thread
 
-   		return '/threads/' . $this->id;
+         return '/threads/' . $this->Channel->name . '/' .  $this->id;
+
    	}
 
       public function addReply(array $data)
@@ -58,6 +68,8 @@ class Thread extends Model
          // return instance of the added Thread
 
          return static::create([
+
+            'channel_id' => $data['channel_id'],
             
             'user_id' => auth()->id(),
 
