@@ -16,6 +16,16 @@ class Thread extends Model
 
    	protected $guarded = [];
 
+      public static function boot()
+      {
+         parent::boot();
+
+         static::addGlobalScope('replyCount', function($builder)
+         {
+            $builder->withCount('replies');
+         });
+      }
+
       // create the relationship between threads and users table
 
    	public function User()
