@@ -132,4 +132,27 @@ class ThreadsTest extends TestCase
 
         ->assertDontSee($threadOutChannel->title);
     }
+
+    public function test_if_user_can_filter_threas_by_user()
+    {
+        // create user and sign in 
+
+        $this->signIn(create(\App\User::class));
+        
+        // create thread by login user
+
+        $threadbyuser = create('App\Thread',['user_id' => auth()->id()]);
+
+        // create thread by other user
+
+        $threadnotbyuser = create('App\Thread');
+
+        // send get request for threads filtered by username
+
+        $this->get('/threads?by=' . auth()->user()->name)
+
+        ->assertSee($threadbyuser->title)
+
+        ->assertDontSee($threadnotbyuser->title);    
+    }
 }

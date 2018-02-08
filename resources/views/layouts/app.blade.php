@@ -37,9 +37,29 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
+                                                
+                        <li class="nav-item dropdown">
                         
-                        <li><a href="{{ route('threads') }}">All Threads</a></li>
+                            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         
+                              Browse
+                        
+                            </a>
+                        
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            
+                                <a class="dropdown-item" href="{{ route('threads') }}">All Threads</a>
+
+                                @if(auth()->checK())
+
+                                    <a class="dropdown-item" href="/threads?by={{auth()->user()->name}}">My Threads</a>
+                            
+                                @endif
+
+                            </div>
+
+                        </li>
+
                         <li class="nav-item dropdown">
                         
                             <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,7 +70,7 @@
                         
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             
-                            @foreach(\App\Channel::all() as $channel)     
+                            @foreach($channels as $channel)     
 
                               <a class="dropdown-item" href="/threads/{{$channel->name}}">{{$channel->name}}</a>
                             

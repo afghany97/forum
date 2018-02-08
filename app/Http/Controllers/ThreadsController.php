@@ -6,6 +6,10 @@ use App\Thread;
 
 use App\Channel;
 
+use App\User;
+
+use App\filters\ThreadsFilters;
+
 use Illuminate\Http\Request;
 
 class ThreadsController extends Controller
@@ -22,23 +26,20 @@ class ThreadsController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function index(Channel $channel)
+    public function index(Channel $channel , ThreadsFilters $filters)
     {
+        $threads = Thread::latest()->filter($filters);
+
         // cheack if channel object exists
 
         if($channel->exists){
 
             // fetch all threads for channel in descending order
 
-            $threads = $channel->threads()->latest()->get();
+            $threads->where('channel_id' , $channel->id);
         }
 
-        else{
-
-            // fetch all threads from database in descending order
-
-            $threads = Thread::latest()->get();
-        }
+        $threads = $threads->get();
         
         // return view with threads
 

@@ -78,4 +78,10 @@ class Thread extends Model
             'body' => $data['body']
          ]);
       }
+
+      public function scopeFilter($query,$filters)
+      {
+         return $filters->apply($query);
+      }
+
 }
