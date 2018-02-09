@@ -122,7 +122,7 @@ class ThreadsTest extends TestCase
 
         // create new thread out of previous channel 
 
-        $threadOutChannel = create('App\Thread');
+        $threadOutChannel = $this->thread;
 
         // send get request for channel page to test if the the threads that belong to the channel appeared
 
@@ -133,7 +133,7 @@ class ThreadsTest extends TestCase
         ->assertDontSee($threadOutChannel->title);
     }
 
-    public function test_if_user_can_filter_threas_by_user()
+    public function test_if_user_can_filter_threads_by_user()
     {
         // create user and sign in 
 
@@ -155,4 +155,30 @@ class ThreadsTest extends TestCase
 
         ->assertDontSee($threadnotbyuser->title);    
     }
+
+    // public function test_if_user_can_filter_threads_by_populair()
+    // {
+    //     // create thread and create 3 replies for this thread
+
+    //     $threadswith3replies = create('App\Thread'); 
+
+    //     create('App\Reply',['thread_id' =>$threadswith3replies->id] , 3);
+        
+    //     // create thread and create 2 replies for this thread
+
+    //     $threadswith2replies = create('App\Thread'); 
+        
+    //     create('App\Reply',['thread_id' =>$threadswith2replies->id] , 2);
+
+    //     // create thread witout replies
+
+    //     $threadswithnoreplies = $this->thread; 
+
+    //     // get request for threads filtered by Popularity
+
+    //     $respone = $this->getJson('/threads?populair=1')->json();
+
+    //     $this->assertEquals([3,2,0],array_column($respone, 'replies_count'));
+
+    // }
 }

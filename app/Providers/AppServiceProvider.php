@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
+        // pass the channels var for all views
+
         view()->composer('*' ,function($view)
         {
             $view->with('channels',Channel::all()); 

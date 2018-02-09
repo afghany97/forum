@@ -24,6 +24,8 @@
                                 <h4>{{$thread->title}}</h4>
                             
                             </a>
+
+                            <strong>{{$thread->replies_count}} {{str_plural('reply', $thread->replies_count)}}</strong>
                             
                             <div class="body">
                             

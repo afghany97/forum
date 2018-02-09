@@ -91,6 +91,8 @@ class Thread extends Model
 
       public function scopeFilter($query,$filters)
       {
+         // msh 3arf aktb eh bas zay ma 7adrtko shayfen :"D 
+
          return $filters->apply($query);
       }
 

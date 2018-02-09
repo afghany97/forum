@@ -28,9 +28,11 @@ class ThreadsController extends Controller
     
     public function index(Channel $channel , ThreadsFilters $filters)
     {
+        // fetch all threads in descending order with filter them for asking filters
+
         $threads = Thread::latest()->filter($filters);
 
-        // cheack if channel object exists
+        // check if channel object exists
 
         if($channel->exists){
 
@@ -38,6 +40,14 @@ class ThreadsController extends Controller
 
             $threads->where('channel_id' , $channel->id);
         }
+
+        // check if request ask for json responce
+
+        if(request()->wantsJson())
+
+            // return the collection of threads
+
+            return $threads;
 
         $threads = $threads->get();
         
