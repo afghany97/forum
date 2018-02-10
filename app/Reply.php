@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\User;
 
+use App\Favourite;
+
 use App\Thread;
 
 class Reply extends Model
@@ -27,4 +29,26 @@ class Reply extends Model
     {
     	return $this->belongsTo(Thread::class);
 	}
+
+  // create the relationshop betwwen replies and favourites table
+
+  public function favourites()
+  {
+    return $this->morphMany(Favourite::class , 'favorited');
+  }
+
+
+  public function favourite()
+  {
+    // check if this user didn't favourite this reply
+
+    if(! $this->favourites()->where('user_id' , auth()->id())->exists())
+      
+      $this->favourites()->create(['user_id' => auth()->id()]);
+  }
+
+  public function isFavourited()
+  {
+    return $this->favourites()->where('user_id' , auth()->id())->exists();
+  }
 }

@@ -21,12 +21,12 @@ class AppServiceProvider extends ServiceProvider
 
         // pass the channels var for all views
 
-        view()->composer('*' ,function($view)
-        {
-            $view->with('channels',Channel::all()); 
-        });
+        // view()->composer('*' ,function($view)
+        // {
+        //     $view->with('channels',Channel::all()); 
+        // });
 
-        // view()->share('channels' , Channel::all());
+        view()->share('channels' , Channel::all());
     }
 
     /**
@@ -36,6 +36,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->isLocal())
+        {
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
     }
 }

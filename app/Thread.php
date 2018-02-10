@@ -8,6 +8,8 @@ use App\User;
 
 use App\Channel;
 
+use App\Favourite;
+
 use App\Reply;
 
 class Thread extends Model
@@ -47,6 +49,12 @@ class Thread extends Model
    		return $this->hasMany(Reply::class);
    	}
 
+      // create the relationshop betwwen thread and favourites table
+
+      public function favourites()
+      {
+         return $this->morphMany(Favourite::class , 'favorited');
+      }
 
    	public function path()
    	{
