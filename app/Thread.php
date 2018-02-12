@@ -26,6 +26,11 @@ class Thread extends Model
          {
             $builder->withCount('replies');
          });
+
+         static::addGlobalScope('channel' , function($builder)
+         {
+            $builder->with('Channel');
+         });
       }
 
       // create the relationship between threads and users table
@@ -46,7 +51,7 @@ class Thread extends Model
 
    	public function Replies()
    	{
-   		return $this->hasMany(Reply::class);
+   		return $this->hasMany(Reply::class)->withCount('favourites')->with('User');
    	}
 
       // create the relationshop betwwen thread and favourites table
