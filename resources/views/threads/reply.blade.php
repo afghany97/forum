@@ -5,7 +5,7 @@
                     <div class="level">
 
                             
-                    <a href="#"> 
+                    <a href="{{route('profile' , $thread->User)}}"> 
 
                         {{$Reply->User->name}}
 

@@ -36,7 +36,7 @@ class User extends Authenticatable
 
     public function Threads()
     {
-        return $this->hasMany(Thread::class);
+        return $this->hasMany(Thread::class)->latest();
     }
     
     // create the relationship between users and replies table
@@ -44,5 +44,12 @@ class User extends Authenticatable
     public function Replies()
     {
         return $this->hasMany(Reply::class);
+    }
+
+    // override getRouteKeyName to make routes fetch the model binding by column name not priamry key "defualt" 
+
+    public function getRouteKeyName()
+    {
+        return 'name';
     }
 }

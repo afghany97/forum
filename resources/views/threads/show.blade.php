@@ -11,7 +11,7 @@
         
                     <div class="panel-heading">
 
-                        <a href="#">
+                        <a href="{{route('profile' , $thread->User)}}">
 
                             {{$thread->User->name}}
                          
