@@ -16,6 +16,21 @@ class Reply extends Model
 
     protected $guarded = [];
 
+    public static function boot()
+    {
+      parent::boot();
+
+      static::addGlobalScope('user' , function($builder)
+      {
+        $builder->with('User');
+      });
+
+      static::addGlobalScope('favourites' , function($builder)
+      {
+        $builder->with('favourites');
+      });
+    }
+
 	// create the relationship between replies and users table
 
    public function User()
@@ -49,6 +64,6 @@ class Reply extends Model
 
   public function isFavourited()
   {
-    return $this->favourites()->where('user_id' , auth()->id())->exists();
+    return !! $this->favourites->where('user_id' , auth()->id())->count();
   }
 }

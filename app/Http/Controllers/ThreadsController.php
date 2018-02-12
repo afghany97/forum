@@ -50,7 +50,7 @@ class ThreadsController extends Controller
             return $threads;
 
         $threads = $threads->get();
-        
+
         // return view with threads
 
         return view('threads.index', compact('threads'));

@@ -21,9 +21,11 @@
 
                             {{csrf_field()}}
 
-                            <button type="submit" class="btn btn-primary" {{$Reply->isFavourited() ? 'disabled' : ''}}>{{$Reply->favourites_count}} 
+                            <button type="submit" class="btn btn-primary" {{$Reply->IsFavourited() ? 'disabled' : ''}}>
 
-                                {{str_plural('Favourite' , $Reply->favourites_count)}}</button>                        
+                                {{$Reply->favourites->count()}} {{str_plural('Favourite' , $Reply->favourites->count())}}
+
+                            </button>                        
 
                         </form>
 
