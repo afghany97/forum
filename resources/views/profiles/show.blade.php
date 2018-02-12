@@ -4,7 +4,12 @@
    
     <div class="container">
 
-        <div class="panel-heading">
+
+        <div class="row">
+            
+            <div class="col-md-8 col-md-offset-2">
+                
+                <div class="page-headr">
             
             <h1>
                 {{$profileUser->name}}
@@ -14,7 +19,6 @@
             </h1>
 
         </div>
-
 
         @foreach($threads as $thread)
 
@@ -53,5 +57,10 @@
         {{$threads->links()}}
 
     </div>
+
+            </div>    
+
+        </div>
+        
 
 @endsection
