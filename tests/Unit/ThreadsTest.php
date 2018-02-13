@@ -156,7 +156,9 @@ class ThreadsTest extends TestCase
         ->assertDontSee($threadnotbyuser->title);    
     }
 
-    public function authorised_user_can_delete_thread()
+    /**@test*/
+
+    public function test_if_authorised_user_can_delete_thread()
     {
         // create user and sign in
 
@@ -170,19 +172,35 @@ class ThreadsTest extends TestCase
 
         $this->delete($thread->path())
 
-            ->assertStatus(200)
-
             ->assertRedirect('/threads')
 
             ->assertDontSee($thread->title);
     }
 
-    public function guest_cannot_delete_threads()
+    /**@test*/
+    
+    public function test_if_guest_cannot_delete_threads()
     {
+        $this->expectException('Illuminate\Auth\AuthenticationException');
+
         $this->delete($this->thread->path())
 
             ->assertRedirect('/login');
     }
+
+    /**@test*/
+    
+    public function test_if_unauthorised_user_cannot_delete_threads()
+    {
+        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
+
+        $this->signIn();
+
+        $this->delete($this->thread->path())
+
+            ->assertSee('This action is unauthorized');
+    }
+
     // public function test_if_user_can_filter_threads_by_populair()
     // {
     //     // create thread and create 3 replies for this thread
