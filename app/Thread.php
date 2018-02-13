@@ -14,6 +14,8 @@ use App\Reply;
 
 class Thread extends Model
 {
+      use RecordsActivites;
+
       // unguard all fileds of replies table "able to fill"
 
    	protected $guarded = [];
@@ -41,7 +43,9 @@ class Thread extends Model
 
                $thread->replies()->delete();   
          });
+
       }
+     
 
       // create the relationship between threads and users table
 

@@ -12,7 +12,9 @@ use App\Thread;
 
 class Reply extends Model
 {
-	// unuard all fileds of replies table "able to fill"
+    use RecordsActivites;
+
+  	// unuard all fileds of replies table "able to fill"
 
     protected $guarded = [];
 
