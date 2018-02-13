@@ -47,6 +47,8 @@ class FavouriteController extends Controller
 
         $reply->favourite();
 
+        session()->flash('message' , 'The favourite added successfully');
+
         return back();
     }
 

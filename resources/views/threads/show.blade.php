@@ -18,10 +18,28 @@
                         </a>
         
                          Posted ...
-        
+                        
                         {{$thread->title}}
                     
                     </div>
+
+                    @can('delete',$thread)
+
+                        <div class="text-right">
+                            
+                            <form method="POST" action="{{$thread->path()}}">
+                                
+                                {{csrf_field()}}
+
+                                {{method_field('DELETE')}}
+
+                                <button type="submit" class="btn btn-link">Delete Thread</button>
+
+                            </form>
+
+                        </div>
+
+                    @endcan
                         
                     <div class="panel-body">
                             

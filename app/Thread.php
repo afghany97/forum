@@ -36,6 +36,11 @@ class Thread extends Model
          {
             $builder->with('User');
          });
+
+         static::deleting(function($thread){
+
+               $thread->replies()->delete();   
+         });
       }
 
       // create the relationship between threads and users table

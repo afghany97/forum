@@ -60,6 +60,8 @@ class RepliesController extends Controller
         ]);
 
         // return the previous page
+
+        session()->flash('message' , 'The reply created successfully');
         
         return back();
 

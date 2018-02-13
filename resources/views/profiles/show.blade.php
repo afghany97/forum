@@ -30,7 +30,7 @@
                         
                         {{$thread->User->name}}</a> posted :
 
-                        {{$thread->title}}
+                        <a href="{{$thread->path()}}"> {{$thread->title}} </a>
                         
                         <div class="text-right">
 

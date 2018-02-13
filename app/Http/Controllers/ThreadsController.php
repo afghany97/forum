@@ -17,7 +17,7 @@ class ThreadsController extends Controller
 
     public function __construct ()
     {
-        $this->middleware('auth')->only(['create' , 'store']);
+        $this->middleware('auth')->except(['index' , 'show']);
     }
 
     /**
@@ -91,6 +91,8 @@ class ThreadsController extends Controller
 
         $thread = Thread::addThread(request()->all());
 
+        session()->flash('message' , 'The thread created successfully');
+
         return redirect($thread->path());
     }
 
@@ -138,8 +140,14 @@ class ThreadsController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Thread $thread)
+    public function destroy($channel , Thread $thread)
     {
-        //
+        $this->authorize('delete' , $thread);
+
+        $thread->delete();
+
+        session()->flash('message' , 'The thread deleted successfully');
+
+        return redirect(route('threads'));
     }
 }
