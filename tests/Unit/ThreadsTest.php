@@ -201,6 +201,8 @@ class ThreadsTest extends TestCase
             ->assertSee('This action is unauthorized');
     }
 
+    /**@test*/
+
     // public function test_if_user_can_filter_threads_by_populair()
     // {
     //     // create thread and create 3 replies for this thread
@@ -224,6 +226,5 @@ class ThreadsTest extends TestCase
     //     $respone = $this->getJson('/threads?populair=1')->json();
 
     //     $this->assertEquals([3,2,0],array_column($respone, 'replies_count'));
-
     // }
 }

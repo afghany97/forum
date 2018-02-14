@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\User;
 
+use App\Activity;
+
 class ProfilesController extends Controller
 {
     /**
@@ -51,7 +53,11 @@ class ProfilesController extends Controller
         
         $threads = $profileUser->threads()->paginate(5);
 
-        return view('profiles.show', compact(['profileUser','threads']));
+        $activites = $user->activites()->latest()->with('subject')->get()->groupBY(function($activity){
+            return $activity->created_at->format('y-m-d');
+        });
+
+        return view('profiles.show', compact(['profileUser','activites']));
     }
 
     /**

@@ -9,58 +9,22 @@
             
             <div class="col-md-8 col-md-offset-2">
                 
-                <div class="page-headr">
-            
-            <h1>
-                {{$profileUser->name}}
+        @foreach($activites as $date => $records)
 
-                <small> Since {{$profileUser->created_at->diffForHumans()}} </small>
+        	<h1> {{$date}} </h1>
 
-            </h1>
+        	@foreach($records as $activity)
 
-        </div>
-
-        @foreach($threads as $thread)
-
-            <div class="panel panel-default">
-
-                <div class="panel-heading">
-
-                    <a href="{{route('profile',$profileUser)}}">
-                        
-                        {{$thread->User->name}}</a> posted :
-
-                        <a href="{{$thread->path()}}"> {{$thread->title}} </a>
-                        
-                        <div class="text-right">
-
-                            {{$thread->created_at->diffForHumans()}}
-                        
-                        </div>
-                </div>
-
-
-                <div class="panel-body">
-                            
-                    <div class="body">
-
-                        {{$thread->body}}
-
-                    </div>
-        
-                </div>
-
-            </div>
+            	@include("profiles.activites.{$activity->type}")
+        	
+        	@endforeach
 
         @endforeach
 
-        {{$threads->links()}}
-
-    </div>
-
-            </div>    
+            </div>
 
         </div>
-        
+
+    </div>
 
 @endsection

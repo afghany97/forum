@@ -29,6 +29,7 @@ trait RecordsActivites
 	public function recordActivity($event)
     {
     	if(auth()->guest()) return;
+    	
          $this->activites()->create([
 
          	'user_id' => auth()->id(),

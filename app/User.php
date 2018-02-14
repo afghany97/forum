@@ -32,6 +32,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    // public static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::addGlobalScope('activites',  function($user)
+    //     {
+    //         $user->with('activites');
+    //     });
+    // }
     // create the relationship between users and threads table
 
     public function Threads()
@@ -44,6 +53,11 @@ class User extends Authenticatable
     public function Replies()
     {
         return $this->hasMany(Reply::class);
+    }
+
+    public function activites()
+    {
+        return $this->hasMany(Activity::class);
     }
 
     // override getRouteKeyName to make routes fetch the model binding by column name not priamry key "defualt" 
