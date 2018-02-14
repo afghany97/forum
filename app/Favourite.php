@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Favourite extends Model
 {
+
     protected $guarded = [];
 
     public function favorited()
