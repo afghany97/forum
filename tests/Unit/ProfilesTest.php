@@ -35,13 +35,17 @@ class ProfilesTest extends TestCase
 
     public function test_if_user_threads_appears_in_his_profile()
     {
+        // create user and sign in
+
+        $this->signIn();
+
         // create thread belongs for specific user
 
-        $thread = create('App\Thread' , ['user_id' => $this->user->id]);
+        $thread = create('App\Thread' , ['user_id' => auth()->id()]);
 
         // send get request for user profile to test if his threads appears
         
-        $this->get('profile/' . $this->user->name)
+        $this->get('profile/' . auth()->user()->name)
 
             ->assertSee($thread->title)
 
