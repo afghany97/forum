@@ -8,15 +8,15 @@ class Activity extends Model
 {
    	protected $guarded = [];
 
-   	// public static function boot()
-   	// {
-   	// 	parent::boot();
+   	public static function boot()
+   	{
+   		parent::boot();
 
-   	// 	static::addGlobalScope('subject' , function($query)
-   	// 	{
-   	// 		$query->with('subject');
-   	// 	});
-   	// }
+   		static::addGlobalScope('subject' , function($query)
+   		{
+   			$query->with('subject');
+   		});
+   	}
 
    	public function subject()
    	{
@@ -35,8 +35,6 @@ class Activity extends Model
          return static::where('user_id' , $user->id)
         
             ->latest()
-           
-            ->with('subject')
            
             ->take($take)
            

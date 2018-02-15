@@ -75,11 +75,6 @@ class Thread extends Model
          return $this->morphMany(Favourite::class , 'favorited');
       }
       
-      public function subject()
-      {
-         return $this->morphTo();
-      }
-
    	public function path()
    	{
          // return the path of specific thread
