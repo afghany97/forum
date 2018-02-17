@@ -15,13 +15,18 @@ trait RecordsActivites
 				$model->recordActivity($activity);
 			});
 		}
+
+		static::deleting(function($model)
+		{
+			$model->activites()->delete();
+		});
 	}
 
 	public static function getActivites()
 	{
 		// return the activites 
 
-		return ['created','deleted'];
+		return ['created'];
 	}
 
 	// function to store the activity 
