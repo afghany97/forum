@@ -12,7 +12,7 @@ class RepliesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only(['store']);
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -107,8 +107,12 @@ class RepliesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Reply $reply)
     {
-        //
+        $this->authorize('delete' , $reply);
+        
+        $reply->delete();
+
+        return back();
     }
 }

@@ -41,5 +41,23 @@
 
                   
                 </div>
+                
+                @can('delete' , $Reply)
+                
+                <div class="panel-footer">
+                    
+                    <form action="POST" action="/replies/{{$Reply->id}}">
+                        
+                        {{csrf_field()}}
 
+                        {{method_field('DELETE')}}
+
+                        <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+
+                    </form>
+
+                </div>
+
+                @endcan
+            
             </div>
