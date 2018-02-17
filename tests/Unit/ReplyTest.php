@@ -95,4 +95,43 @@ class ReplyTest extends TestCase
    		
    		->assertSee($this->reply->body);
    }
+   
+   /**@test*/
+
+   public function test_guest_can_not_delete_repy()
+   {
+   		$this->expectException('Illuminate\Auth\AuthenticationException');
+
+   		$reply = create('App\Reply');
+
+   		$this->delete("/replies/{$reply->id}")
+   			->assertRedirect("/login");
+   }
+   
+   /**@test*/
+
+   public function test_unauthorised_user_can_not_delete_reply()
+   {	
+   		$this->expectException('Illuminate\Auth\Access\AuthorizationException');
+
+   		$reply = create('App\Reply');
+
+   		$this->signIn()
+
+			->delete("/replies/{$reply->id}")
+			
+			->assertStatus(403);
+   }
+
+   /**@test*/
+
+   public function test_authorised_user_can_delete_reply()
+   {
+		$this->signIn();
+
+		$reply = create("App\Reply" , ['user_id' => auth()->id()]);
+
+		$this->delete("/replies/{$reply->id}")
+			->assertStatus(302);
+	}
 }

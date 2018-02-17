@@ -46,7 +46,7 @@
                 
                 <div class="panel-footer">
                     
-                    <form action="POST" action="/replies/{{$Reply->id}}">
+                    <form method="POST" action="/replies/{{$Reply->id}}">
                         
                         {{csrf_field()}}
 

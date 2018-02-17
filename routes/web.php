@@ -35,9 +35,9 @@ Route::post('/threads','ThreadsController@store');
 
 Route::post('/threads/{channel}/{thread}/replies','RepliesController@store');
 
-Route::post('replies/{reply}/favourite' , 'FavouriteController@store');
-
 Route::delete('/replies/{reply}','RepliesController@destroy');
+
+Route::post('replies/{reply}/favourite' , 'FavouriteController@store');
 
 Route::post('threads/{thread}/favourite' , 'FavouriteController@store');
 
