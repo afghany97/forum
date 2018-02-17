@@ -5,7 +5,7 @@
 
         {{$activity->User->name}}</a> favorited to reply on this thread
 
-		<a href="{{$activity->subject->favorited->thread->path()}}">{{$activity->subject->favorited->thread->title}}</a>                  
+		<a href="{{$activity->subject->favorited->path()}}">{{$activity->subject->favorited->thread->title}}</a>                  
     @endslot
 
     @slot('body')

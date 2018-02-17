@@ -1,6 +1,6 @@
             <div class="panel panel-default">
 
-                <div class="panel-heading">
+                <div class="panel-heading" id="reply-{{$Reply->id}}">
 
                     <div class="level">
 
@@ -35,7 +35,7 @@
                 
                 </div> 
 
-                <div class="panel-body">
+                <div class="panel-body" >
 
                         {{$Reply->body}}
 
