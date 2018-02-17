@@ -9,7 +9,6 @@ trait ableToFavourite{
     return $this->morphMany(Favourite::class , 'favorited');
   }
 
-
   public function favourite()
   {
     // check if this user didn't favourite this reply

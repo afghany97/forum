@@ -6,6 +6,8 @@ use App\Favourite;
 
 use App\Reply;
 
+use App\Thread;
+
 use Illuminate\Http\Request;
 
 class FavouriteController extends Controller
@@ -41,11 +43,21 @@ class FavouriteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Reply $reply)
+    public function store(Reply $reply = null , Thread $thread = null)
     {
-        // favourite the reply
 
-        $reply->favourite();
+        if($reply == null){
+
+            // favourite the reply
+
+            $reply->favourite();
+        }        
+        else{
+
+            // favourite the thread
+
+            $thread->favourite();
+        }
 
         session()->flash('message' , 'The favourite added successfully');
 

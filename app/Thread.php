@@ -14,7 +14,7 @@ use App\Reply;
 
 class Thread extends Model
 {
-      use RecordsActivites;
+      use RecordsActivites , ableToFavourite;
 
       // unguard all fileds of replies table "able to fill"
 
@@ -46,7 +46,6 @@ class Thread extends Model
 
       }
      
-
       // create the relationship between threads and users table
 
    	public function User()
@@ -68,13 +67,6 @@ class Thread extends Model
    		return $this->hasMany(Reply::class);
    	}
 
-      // create the relationshop betwwen thread and favourites table
-
-      public function favourites()
-      {
-         return $this->morphMany(Favourite::class , 'favorited');
-      }
-      
    	public function path()
    	{
          // return the path of specific thread

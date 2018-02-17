@@ -47,7 +47,4 @@ class Reply extends Model
     	return $this->belongsTo(Thread::class);
 	}
 
-  // create the relationshop betwwen replies and favourites table
-
-  
 }
