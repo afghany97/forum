@@ -84,9 +84,9 @@ class RepliesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Reply $reply)
     {
-        //
+        return view('replies.update' , compact('reply'));
     }
 
     /**
@@ -96,9 +96,13 @@ class RepliesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Reply $reply)
     {
-        //
+        $this->authorize('update' , $reply);
+
+        $reply->update(request(['body']));
+
+        return redirect($reply->path());
     }
 
     /**

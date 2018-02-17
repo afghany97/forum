@@ -1,10 +1,10 @@
             <div class="panel panel-default">
 
-                <div class="panel-heading" id="reply-{{$Reply->id}}">
+                <div class="panel-heading level" id="reply-{{$Reply->id}}">
 
-                    <div class="level">
+                    <div>
 
-                            
+                        
                     <a href="{{route('profile' , $thread->User)}}"> 
 
                         {{$Reply->User->name}}
@@ -13,9 +13,9 @@
 
                     From {{$Reply->created_at->diffForHumans()}}
                         
-                        
+                    </div>
 
-                    <div>
+                    <div class="flex text-right">
 
                         <form method="POST" action="/replies/{{$Reply->id}}/favourite">
 
@@ -29,11 +29,11 @@
 
                         </form>
 
-                    </div>
-
-                    </div>
+                    </div> 
                 
-                </div> 
+                </div>
+
+                
 
                 <div class="panel-body" >
 
@@ -46,7 +46,7 @@
                 
                 <div class="panel-footer">
                     
-                    <form method="POST" action="/replies/{{$Reply->id}}">
+                    <form method="POST" action="/replies/{{$Reply->id}}" style="float: left;" class="mr-1">
                         
                         {{csrf_field()}}
 
@@ -55,9 +55,22 @@
                         <button type="submit" class="btn btn-danger btn-xs">Delete</button>
 
                     </form>
-
-                </div>
-
                 @endcan
-            
+
+                @can('update' , $Reply)
+
+                <form method="POST" action="/replies/{{$Reply->id}}">
+                    
+                    {{csrf_field()}}
+
+                    {{method_field('PATCH')}}
+
+                    <button type="submit" class="btn btn-xs">Update</button>
+
+                </form>
+        
+                </div>
+                
+                @endcan
+
             </div>

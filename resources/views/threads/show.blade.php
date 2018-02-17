@@ -9,7 +9,7 @@
         
                 <div class="panel panel-default">
         
-                    <div class="panel-heading">
+                    <div class="panel-heading level">
 
                         <a href="{{route('profile' , $thread->User)}}">
 
@@ -22,7 +22,7 @@
                         {{$thread->title}}
                     
 
-                        <div class="text-right" style="float:right;">
+                        <div class="text-right flex" style="float:right;">
 
                             <form method="POST" action="/threads/{{$thread->id}}/favourite">
 
