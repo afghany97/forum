@@ -98,14 +98,15 @@ class ReplyTest extends TestCase
    
    /**@test*/
 
-   public function test_guest_can_not_delete_repy()
+   public function test_guest_can_not_delete_reply()
    {
    		$this->expectException('Illuminate\Auth\AuthenticationException');
 
    		$reply = create('App\Reply');
 
    		$this->delete("/replies/{$reply->id}")
-   			->assertRedirect("/login");
+   			
+            ->assertRedirect("/login");
    }
    
    /**@test*/
@@ -132,6 +133,104 @@ class ReplyTest extends TestCase
 		$reply = create("App\Reply" , ['user_id' => auth()->id()]);
 
 		$this->delete("/replies/{$reply->id}")
-			->assertStatus(302);
+			
+         ->assertStatus(302);
 	}
+
+   /**@test*/
+
+   public function test_unauthorised_user_can_not_update_reply()
+   {
+      $this->expectException("Illuminate\Auth\Access\AuthorizationException");
+
+      $this->signIn();
+
+      $reply = create("App\Reply");
+
+      $replyBody = "dummy data";
+
+      $this->put("/replies/{$reply->id}" , ['body' => $replyBody])
+         
+         ->assertStatus(403);
+   }
+
+   /**@test*/
+
+   public function test_guest_can_not_update_reply()
+   {
+      $this->expectException('Illuminate\Auth\AuthenticationException');
+
+      $reply = create('App\Reply');
+
+      $replyBody = "dummy data";
+
+      $this->put("/replies/{$reply->id}" , ['body' => $replyBody])
+         
+         ->assertRedirect("/login");
+   }
+
+   /**@test*/
+
+   public function test_authorised_user_can_update_reply()
+   {
+
+      $this->signIn();
+
+      $reply = create("App\Reply" , ['user_id' => auth()->id()]);
+
+      $replyBody = "dummy data";
+
+      $this->put("/replies/{$reply->id}" , ['body' => $replyBody])
+         
+         ->assertStatus(302)
+
+         ->assertRedirect($reply->path());
+   }
+
+   /**@test*/
+
+   public function test_authorised_user_can_see_update_reply_form()
+   {
+      $this->signIn();
+
+      $reply = create("App\Reply" , ['user_id' => auth()->id()]);
+
+      $this->patch("/replies/{$reply->id}" )
+         
+         ->assertStatus(200)
+
+         ->assertSee($reply->body);
+   }
+
+   /**@test*/
+
+   public function test_unauthorised_user_can_not_see_update_reply_form()
+   {
+      $this->expectException("Illuminate\Auth\Access\AuthorizationException");
+
+      $this->signIn();
+
+      $reply = create("App\Reply");
+
+      $this->patch("/replies/{$reply->id}" )
+         
+         ->assertStatus(403)
+
+         ->assertDontSee($reply->body);
+   }
+
+    /**@test*/
+
+   public function test_guest_can_not_see_update_reply_form()
+   {
+      $this->expectException('Illuminate\Auth\AuthenticationException');
+      
+
+      $reply = create("App\Reply");
+
+      $this->patch("/replies/{$reply->id}" )
+         
+         ->assertRedirect('/login');
+   }
+
 }

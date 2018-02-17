@@ -86,6 +86,8 @@ class RepliesController extends Controller
      */
     public function edit(Reply $reply)
     {
+        $this->authorize('update' , $reply);
+        
         return view('replies.update' , compact('reply'));
     }
 
