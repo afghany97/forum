@@ -43,24 +43,24 @@ class FavouriteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Reply $reply = null , Thread $thread = null)
+    public function store(Thread $thread = null ,Reply $reply = null)
     {
+        if(Favourite::gotFirstWord(request()->path()) == 'replies'){
 
-        if($reply == null){
-
-            // favourite the reply
+            // favourite reply
 
             $reply->favourite();
-        }        
+
+            session()->flash('message' , 'The favourite reply added successfully');
+        }
         else{
 
-            // favourite the thread
+            // favourite thread
 
             $thread->favourite();
+
+            session()->flash('message' , 'The favourite thread added successfully');
         }
-
-        session()->flash('message' , 'The favourite added successfully');
-
         return back();
     }
 
