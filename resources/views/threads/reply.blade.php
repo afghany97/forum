@@ -15,21 +15,25 @@
                         
                     </div>
 
-                    <div class="flex text-right">
+                    @if(auth()->check())
 
-                        <form method="POST" action="/replies/{{$Reply->id}}/favourite">
+                        <div class="flex text-right">
 
-                            {{csrf_field()}}
+                            <form method="POST" action="/replies/{{$Reply->id}}/favourite">
 
-                            <button type="submit" class="btn btn-primary btn-xs" {{$Reply->IsFavourited() ? 'disabled' : ''}}>
+                                {{csrf_field()}}
 
-                                {{$Reply->favourites->count()}} {{str_plural('Favourite' , $Reply->favourites->count())}}
+                                <button type="submit" class="btn btn-primary btn-xs" {{$Reply->IsFavourited() ? 'disabled' : ''}}>
 
-                            </button>                        
+                                    {{$Reply->favourites->count()}} {{str_plural('Favourite' , $Reply->favourites->count())}}
 
-                        </form>
+                                </button>                        
 
-                    </div> 
+                            </form>
+
+                        </div> 
+
+                    @endif
                 
                 </div>
 
