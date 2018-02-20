@@ -9,7 +9,7 @@ class ThreadsFilters extends Filters
 {
 	// accepted filters
 
-	protected $filters = ['by' , 'populair'];
+	protected $filters = ['by' , 'populair' , 'unanswered'];
 
 	
 	protected function by($username)
@@ -23,17 +23,27 @@ class ThreadsFilters extends Filters
 		return $this->bulider->where('user_id' , $user->id);
 	}
 
-	protected function populair($username)
+	protected function populair($populair)
 	{
-		// remove the orders for the incoming query
+		if($populair)
+		{
+			// remove the orders for the incoming query
+	
+			$this->bulider->getQuery()->orders = [];
+	
+			// return the query after add filter on it
+			
+			return $this->bulider->orderBy('replies_count' , 'desc');
+		}
+		
+	}
 
-		$this->bulider->getQuery()->orders = [];
-
-		// return the query after add filter on it
-		
-		return $this->bulider->orderBy('replies_count' , 'desc');
-		
-		
+	protected function unanswered($unanswered)
+	{
+		if($unanswered)
+		{
+			return $this->bulider->where('replies_count' , 0);
+		}
 	}
 }
  ?>

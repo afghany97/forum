@@ -20,23 +20,26 @@
                          Posted ...
                         
                         {{$thread->title}}
-                    
+                        
+                        @if(auth()->check())
 
-                        <div class="text-right flex" style="float:right;">
+                            <div class="text-right flex" style="float:right;">
 
-                            <form method="POST" action="/threads/{{$thread->id}}/favourite">
+                                <form method="POST" action="/threads/{{$thread->id}}/favourite">
 
-                                {{csrf_field()}}
+                                    {{csrf_field()}}
 
-                                <button type="submit" class="btn btn-primary btn-xs" {{$thread->IsFavourited() ? 'disabled' : ''}}>
+                                    <button type="submit" class="btn btn-primary btn-xs" {{$thread->IsFavourited() ? 'disabled' : ''}}>
 
-                                    {{$thread->favourites->count()}} {{str_plural('Favourite' , $thread->favourites->count())}}
+                                        {{$thread->favourites->count()}} {{str_plural('Favourite' , $thread->favourites->count())}}
 
-                                </button>                        
+                                    </button>                        
 
-                            </form>
+                                </form>
 
-                        </div>
+                            </div>
+                        
+                        @endif
 
                     </div>
                         

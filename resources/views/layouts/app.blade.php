@@ -51,6 +51,8 @@
                                 <a class="dropdown-item" href="{{ route('threads') }}">All Threads</a>
                                 
                                 <a class="dropdown-item" href="/threads?populair=1">Populair Threads</a>
+                                
+                                <a class="dropdown-item" href="/threads?unanswered=1">Unanswered Threads</a>
 
                                 @if(auth()->checK())
 

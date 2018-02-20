@@ -31,6 +31,16 @@ class Reply extends Model
       {
         $builder->with('favourites');
       });
+
+      static::created(function($reply)
+      {
+        $reply->thread->increment('replies_count');
+      });
+
+      static::deleted(function($reply)
+      {
+        $reply->thread->decrement('replies_count');
+      });
     }
 
 	// create the relationship between replies and users table
