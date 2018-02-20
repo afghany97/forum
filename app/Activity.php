@@ -8,15 +8,7 @@ class Activity extends Model
 {
    	protected $guarded = [];
 
-   	public static function boot()
-   	{
-   		parent::boot();
-
-   		static::addGlobalScope('subject' , function($query)
-   		{
-   			$query->with('subject');
-   		});
-   	}
+      protected $with = ['User'];
 
    	public function subject()
    	{

@@ -201,6 +201,36 @@ class ThreadsTest extends TestCase
             ->assertSee('This action is unauthorized');
     }
 
+    // subscribes tests
+
+    /**@test*/
+
+    public function test_if_thread_can_be_subscribe()
+    {
+        $thread = create('App\Thread');
+
+        $this->signIn();
+
+        $thread->subscribe();
+
+        $this->assertEquals(1,$thread->subscribes->where('user_id',auth()->id())->count());
+    }
+
+    /**@test*/
+
+    public function test_if_user_can_unsubscribe_thread()
+    {
+        $thread = create('App\Thread');
+
+        $this->signIn();
+
+        $thread->subscribe();
+
+        $thread->unsubscribe();
+
+        $this->assertCount(0 , $thread->subscribes);
+    }
+
     /**@test*/
 
     // public function test_if_user_can_filter_threads_by_populair()

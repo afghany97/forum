@@ -40,7 +40,6 @@ class Thread extends Model
          });
 
       }
-     
       // create the relationship between threads and users table
 
    	public function User()
@@ -108,6 +107,30 @@ class Thread extends Model
          // msh 3arf aktb eh bas zay ma 7adrtko shayfen :"D 
 
          return $filters->apply($query);
+      }
+
+      public function subscribe($userId = null)
+      {
+         $this->subscribes()
+         
+         ->create([
+         
+            'user_id' => $userId ?: auth()->id()
+         ]);
+      }
+
+      public function unsubscribe($userId = null)
+      {
+         $this->subscribes()
+
+         ->where('user_id' , $userId ?: auth()->id())
+
+         ->delete();
+      }
+
+      public function subscribes()
+      {
+         return $this->hasMany('App\subscribe');
       }
 
 }
