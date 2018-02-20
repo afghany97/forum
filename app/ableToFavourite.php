@@ -4,6 +4,17 @@ namespace App;
 
 trait ableToFavourite{
 
+
+  protected static function bootableToFavourite()
+  {
+      static::deleting(function($model){
+
+        $model->favourites->each->delete();
+        
+      });
+
+  }
+
   public function favourites()
   {
     return $this->morphMany(Favourite::class , 'favorited');

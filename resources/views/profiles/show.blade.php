@@ -9,7 +9,7 @@
             
             <div class="col-md-8 col-md-offset-2">
                 
-        @foreach($activites as $date => $records)
+        @forelse($activites as $date => $records)
 
         	<h1> {{$date}} </h1>
 
@@ -19,7 +19,11 @@
         	
         	@endforeach
 
-        @endforeach
+        @empty
+
+            <p>There is no activites for this user yet.</p>
+
+        @endforelse
 
             </div>
 

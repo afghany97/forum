@@ -33,7 +33,9 @@ trait RecordsActivites
 
 	public function recordActivity($event)
     {
-    	if(auth()->guest()) return;
+    	if(auth()->guest())
+
+    		return;
     	
          $this->activites()->create([
 
@@ -49,7 +51,6 @@ trait RecordsActivites
     {
     	return $this->morphMany('App\Activity','subject');
     }
-
 
 	public function getActivtyType($event)
     {
