@@ -205,7 +205,7 @@ class ThreadsTest extends TestCase
 
     /**@test*/
 
-    public function test_if_thread_can_be_subscribe()
+    public function test_if_user_can_subscribe_thread()
     {
         $thread = create('App\Thread');
 
@@ -232,6 +232,30 @@ class ThreadsTest extends TestCase
     }
 
     /**@test*/
+
+    public function test_if_user_can_subscribe_thread_form()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $this->post($thread->path() . '/subscribe');
+
+        $this->assertCount(1 , $thread->subscribes);
+    }
+
+    /**@test*/
+
+    public function test_if_user_can_unsubscribe_thread_form()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $this->delete($thread->path() . '/subscribe');
+
+        $this->assertCount(0 , $thread->subscribes);
+    }
 
     // public function test_if_user_can_filter_threads_by_populair()
     // {

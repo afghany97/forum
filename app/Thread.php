@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\User;
 
+use App\Notifications\ThreadUpdated;
+
 use App\Channel;
 
 use App\Favourite;
@@ -19,6 +21,8 @@ class Thread extends Model
       // unguard all fileds of replies table "able to fill"
 
    	protected $guarded = [];
+
+      protected $appends = ['isSubscribed'];
 
       public static function boot()
       {
@@ -75,13 +79,25 @@ class Thread extends Model
 
          // return instance of the added reply
          
-         return $this->Replies()->create([
+         $reply = $this->Replies()->create([
 
             'body' => $data['body'],
             
             'user_id' => $data['user_id']
          
          ]);
+
+         $this->subscribes
+
+                  ->filter(function($subscribe)use ($reply){
+      
+                     return $subscribe->user_id != $reply->user_id;
+
+                  })
+
+                  ->each->notify($reply);
+
+         return $reply;
       }
 
       public static function addThread(array $data)
@@ -117,6 +133,8 @@ class Thread extends Model
          
             'user_id' => $userId ?: auth()->id()
          ]);
+
+         return $this;
       }
 
       public function unsubscribe($userId = null)
@@ -131,5 +149,10 @@ class Thread extends Model
       public function subscribes()
       {
          return $this->hasMany('App\subscribe');
+      }
+
+      public function getIsSubscribedAttribute()
+      {
+         return $this->subscribes()->where('user_id' , auth()->id())->exists();
       }
 }

@@ -118,6 +118,8 @@
 
             </div>
 
+            @include('threads.subscribe')
+            
         </div>
         
     </div>

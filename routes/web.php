@@ -46,3 +46,12 @@ Route::post('replies/{reply}/favourite' , 'FavouriteController@store');
 Route::post('threads/{thread}/favourite' , 'FavouriteController@store');
 
 Route::get('/profile/{user}' , 'ProfilesController@show')->name('profile');
+
+Route::post('/threads/{channel}/{thread}/subscribe','SubscribesController@store');
+
+Route::delete('/threads/{channel}/{thread}/subscribe','SubscribesController@destroy');
+
+Route::delete('/profiles/{user}/notifications/{notification}','NotificationsController@destroy');
+
+Route::get('/profiles/{user}/notifications','NotificationsController@index');
+
