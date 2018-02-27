@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\User;
 
+use App\Events\ThreadHasNewReply;
+
 use App\Notifications\ThreadUpdated;
 
 use App\Channel;
@@ -87,15 +89,7 @@ class Thread extends Model
          
          ]);
 
-         $this->subscribes
-
-                  ->filter(function($subscribe)use ($reply){
-      
-                     return $subscribe->user_id != $reply->user_id;
-
-                  })
-
-                  ->each->notify($reply);
+         event(new ThreadHasNewReply($this,$reply));
 
          return $reply;
       }
