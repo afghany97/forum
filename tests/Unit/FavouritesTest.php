@@ -12,33 +12,72 @@ class FavouritesTest extends TestCase
 
 	use DatabaseTransactions;
 
-    public function setup()
-    {
-        // call setUp function from parent class to be sure it's executed
-
-        parent::setUp();
-
-        // create a new thread
-
-    	$this->thread = create(\App\Thread::class);
-    }
 
     /**@test*/
 
-    // public function test_login_user_can_favourite_any_reply()
-    // {
-    // 	// create user and sign in
+    public function test_login_user_can_favourite_any_reply()
+    {
+    	// create user and sign in
 
-    // 	$this->signIn();
+    	$this->signIn();
 
-    // 	// create new reply
+    	// create new reply
 
-    // 	$reply = create('App\Reply');
+    	$reply = create('App\Reply');
 
-    // 	// send post request to test if the favourite record into database
+    	// send post request to test if the favourite record into database
 
-    // 	$this->post('/replies/' . $reply->id . '/favourite')
+    	$this->post('/replies/' . $reply->id . '/favourite');
 
-    // 		->assertCount(1 , $reply->favourites->count());
-    // }
+		$this->assertCount(1 , $reply->favourites);
+    }
+
+    /** @test */
+
+    public function unlogin_user_can_not_favourite_any_reply()
+    {
+        $this->expectException('Illuminate\Auth\AuthenticationException');
+
+        $reply = create('App\Reply');
+
+        // send post request to test if the favourite record into database
+
+        $this->post('/replies/' . $reply->id . '/favourite');
+
+        $this->assertCount(1 , $reply->favourites);
+    }
+
+    /** @test */
+
+    public function login_user_can_favourite_any_thread($value='')
+    {
+        // create user and sign in
+
+        $this->signIn();
+
+        // create new thread
+
+        $thread = create('App\Thread');
+
+        // send post request to test if the favourite record into database
+
+        $this->post('/threads/' . $thread->id . '/favourite');
+
+        $this->assertCount(1 , $thread->favourites);
+    }
+
+     /** @test */
+
+    public function unlogin_user_can_not_favourite_any_thread()
+    {
+        $this->expectException('Illuminate\Auth\AuthenticationException');
+
+        $thread = create('App\Thread');
+
+        // send post request to test if the favourite record into database
+
+        $this->post('/replies/' . $thread->id . '/favourite');
+
+        $this->assertCount(1 , $thread->favourites);
+    }
 }
