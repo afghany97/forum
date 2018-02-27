@@ -19,12 +19,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        // pass the channels var for all views
+        view()->composer('*' ,function($view)
+        {
+            if(auth()->check())
 
-        // view()->composer('*' ,function($view)
-        // {
-        //     $view->with('channels',Channel::all()); 
-        // });
+                $view->with('unreadNotifications',auth()->user()->unreadNotifications); 
+        });
+
+        // pass the channels var for all views
 
         view()->share('channels' , Channel::all());
     }

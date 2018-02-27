@@ -45,7 +45,7 @@ class ProfilesTest extends TestCase
 
         // send get request for user profile to test if his threads appears
         
-        $this->get('profile/' . auth()->user()->name)
+        $this->get('profiles/' . auth()->user()->name)
 
             ->assertSee($thread->title)
 

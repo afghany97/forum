@@ -69,4 +69,3 @@ $factory->define(App\Channel::class, function (Faker\Generator $faker) {
         'name' => $faker->word
     ];
 });
-

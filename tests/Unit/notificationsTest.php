@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class notificationsTest extends TestCase
 {
 
-	use DatabaseTransactions;
+    use DatabaseTransactions;
 
     /**@test*/
 
@@ -30,7 +30,7 @@ class notificationsTest extends TestCase
     		'body' => 'dummy reply data'
     	]);
     	
-    	$this->assertCount(0 , $user->notifications);
+    	$this->assertCount(0 , $user->fresh()->notifications);
 
     	$thread->addReply([
 
@@ -70,7 +70,7 @@ class notificationsTest extends TestCase
 
      /** @test */
 
-     public function user_can_fetch_unread_notifications()
+     public function user_can_fetch_all_notifications()
      {
      	$this->signIn();
 
@@ -87,7 +87,6 @@ class notificationsTest extends TestCase
 
     	$this->get("/profiles/{$user->name}/notifications");
 
-    	$this->assertCount(1,$user->unreadNotifications);
-     	
+    	$this->assertCount(1,$user->notifications);
      }
 }
