@@ -64,7 +64,6 @@ class RepliesController extends Controller
         session()->flash('message' , 'The reply created successfully');
         
         return back();
-
     }
 
     /**

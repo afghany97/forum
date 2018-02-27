@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return 'name';
     }
+
+    public function getVistedThreadCasheKey($thread)
+    {
+        return sprintf("visted.%s.thread.%s",$this->id , $thread->id);
+    }
 }

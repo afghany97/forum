@@ -14,8 +14,17 @@
                         <div class="panel-heading">
 
                           <a href="{{$thread->path()}}">
+
+
+                            @if($thread->hasUpdatedFor())
                                    
-                                <h4>{{$thread->title}}</h4>
+                                <strong>{{$thread->title}}</strong>
+
+                            @else
+
+                                {{$thread->title}}
+
+                            @endif
 
                             </a>
 

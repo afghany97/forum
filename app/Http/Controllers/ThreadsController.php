@@ -12,6 +12,8 @@ use App\filters\ThreadsFilters;
 
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
+
 class ThreadsController extends Controller
 {
 
@@ -105,7 +107,12 @@ class ThreadsController extends Controller
     public function show($channel , Thread $thread)
     {
 
+        if(auth()->check())
+
+            cache()->forever(auth()->user()->getVistedThreadCasheKey($thread) , Carbon::now());
+
         // return view with specific thread
+
         $replies = $thread->replies()->paginate(5);
 
         return view('threads.show',compact(['thread' , 'replies']));

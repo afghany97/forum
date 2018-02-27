@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use App\Notification\ThreadUpdated;
+
 class ReplyTest extends TestCase
 {
 	// use DatabaseTransactions to delete all data "thread and reply" after test  
@@ -57,6 +59,8 @@ class ReplyTest extends TestCase
 
 		$this->assertEquals($this->thread->id,$reply->Thread->id);
 	}
+
+   /** @test */
 
    public function test_if_unlogin_user_can_submit_add_reply_form()
    {

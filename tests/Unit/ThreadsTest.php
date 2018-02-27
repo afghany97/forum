@@ -257,6 +257,44 @@ class ThreadsTest extends TestCase
         $this->assertCount(0 , $thread->subscribes);
     }
 
+
+    /** @test */
+
+    public function test_if_login_user_got_update_for_new_threads()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $this->assertTrue($thread->hasUpdatedFor());
+
+        $this->get('/threads/' . $thread->Channel->name . '/' . $thread->id);
+
+        $this->get('/threads/');
+
+        $this->assertFalse($thread->hasUpdatedFor());
+    }
+
+    /** @test */
+
+    public function test_if_login_user_got_update_after_add_new_reply()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $thread->addReply([
+
+            'body' =>  'dummy data',
+
+            'user_id' => create('App\User')->id
+        ]);
+
+        $this->assertTrue($thread->hasUpdatedFor());
+    }
+
+    /** @test */
+
     // public function test_if_user_can_filter_threads_by_populair()
     // {
     //     // create thread and create 3 replies for this thread
@@ -277,7 +315,7 @@ class ThreadsTest extends TestCase
 
     //     // get request for threads filtered by Popularity
 
-    //     $respone = $this->getJson('/threads?populair=1')->json();
+    //     $respone = $this->getJson("/threads?populair=1")->json();
 
     //     $this->assertEquals([3,2,0],array_column($respone, 'replies_count'));
     // }
