@@ -4,7 +4,7 @@
 
 	    {{csrf_field()}}
 	    
-	    <textarea class="form-control" placeholder="leave a reply..." id="body" name="body" rows="4"></textarea>
+	    <textarea class="form-control" placeholder="leave a reply..." id="body" name="body" rows="4">{{old('body')}}</textarea>
 
 	    <button type="submit" class="btn btn-defualt">Submit</button>
 

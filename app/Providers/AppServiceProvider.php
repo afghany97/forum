@@ -29,7 +29,8 @@ class AppServiceProvider extends ServiceProvider
         // pass the channels var for all views
 
         view()->share('channels' , Channel::all());
-
+       
+        Validator()->extend('spamDetect' , 'App\Rules\SpamDetect@passes');
     }
 
     /**

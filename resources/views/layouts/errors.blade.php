@@ -1,5 +1,7 @@
 @if(count($errors))
 	
+	<hr>	
+	
 	<div class="form-group">
 		
 		<ul class="alert alert-danger">

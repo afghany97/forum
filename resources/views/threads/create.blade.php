@@ -37,8 +37,7 @@
 		
 			<label for="exampleInputPassword1">thread body</label>
 		
-			<textarea name = "body" type="text" class="form-control" id="exampleInputPassword1" placeholder="post body" required>{{old('body')}}
-			</textarea>
+			<textarea name = "body" type="text" class="form-control" id="exampleInputPassword1" placeholder="post body" required>{{old('body')}}</textarea>
 		
 		</div>
 		

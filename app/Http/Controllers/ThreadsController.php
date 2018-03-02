@@ -14,8 +14,6 @@ use Illuminate\Http\Request;
 
 use Carbon\Carbon;
 
-use App\spam\spam;
-
 class ThreadsController extends Controller
 {
 
@@ -78,22 +76,19 @@ class ThreadsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request , spam $spam)
+    public function store(Request $request)
     {
 
         // validate the request data 
 
         $this->validate(request(),[
             
-            'title' => 'required',
+            'title' => 'required|spamDetect',
 
-            'body' => 'required',
+            'body' => 'required|spamDetect',
 
             'channel_id' => 'required|exists:channels,id'
         ]);
-
-        $spam->detect(request('body'));
-        
 
         $thread = Thread::addThread(request()->all());
 

@@ -8,8 +8,6 @@ use App\Thread;
 
 use App\Reply;
 
-use App\spam\spam;
-
 class RepliesController extends Controller
 {
     public function __construct()
@@ -42,24 +40,15 @@ class RepliesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($channel , Thread $thread , spam $spam)
+    public function store($channel , Thread $thread)
     {
          // validate the request data 
 
         $this->validate(request(),[
 
-            'body' => 'required'
+            'body' => 'required|spamDetect'
 
         ]);
-
-        try {
-        
-            $spam->detect(request('body'));
-            
-        } catch (\Exception $e) {
-            
-            return view('errors.spam', compact('e'));
-        }
 
         // call addReply method and send the param's
 
@@ -108,18 +97,16 @@ class RepliesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Reply $reply , spam $spam)
+    public function update(Reply $reply)
     {
         $this->authorize('update' , $reply);
 
         $this->validate(request(),[
 
-            'body' => 'required'
+            'body' => 'required|spamDetect'
 
         ]);
-
-        $spam->detect(request('body'));
-
+        
         $reply->update(request(['body']));
 
         return redirect($reply->path());
