@@ -1,80 +1,31 @@
-            <div class="panel panel-default">
+<div class="panel panel-default">
 
-                <div class="panel-heading level" id="reply-{{$Reply->id}}">
+    <div class="panel-heading level" id="reply-{{$Reply->id}}">
 
-                    <div>
+        <div>
+            
+        <a href="{{route('profile' , $thread->User)}}"> 
 
-                        
-                    <a href="{{route('profile' , $thread->User)}}"> 
+            {{$Reply->User->name}}
 
-                        {{$Reply->User->name}}
+        </a>
 
-                    </a>
+        From {{$Reply->created_at->diffForHumans()}}
+            
+        </div>
 
-                    From {{$Reply->created_at->diffForHumans()}}
-                        
-                    </div>
+        @include('replies.favourite')
+    
+    </div>
 
-                    @if(auth()->check())
+    <div class="panel-body" >
 
-                        <div class="flex text-right">
+            {{$Reply->body}}
+      
+    </div>
+    
+    @include('replies.delete')
 
-                            <form method="POST" action="/replies/{{$Reply->id}}/favourite">
+    @include('replies.updateForm')
 
-                                {{csrf_field()}}
-
-                                <button type="submit" class="btn btn-primary btn-xs" {{$Reply->IsFavourited() ? 'disabled' : ''}}>
-
-                                    {{$Reply->favourites->count()}} {{str_plural('Favourite' , $Reply->favourites->count())}}
-
-                                </button>                        
-
-                            </form>
-
-                        </div> 
-
-                    @endif
-                
-                </div>
-
-                
-
-                <div class="panel-body" >
-
-                        {{$Reply->body}}
-
-                  
-                </div>
-                
-                @can('delete' , $Reply)
-                
-                <div class="panel-footer">
-                    
-                    <form method="POST" action="/replies/{{$Reply->id}}" style="float: left;" class="mr-1">
-                        
-                        {{csrf_field()}}
-
-                        {{method_field('DELETE')}}
-
-                        <button type="submit" class="btn btn-danger btn-xs">Delete</button>
-
-                    </form>
-                @endcan
-
-                @can('update' , $Reply)
-
-                <form method="POST" action="/replies/{{$Reply->id}}">
-                    
-                    {{csrf_field()}}
-
-                    {{method_field('PATCH')}}
-
-                    <button type="submit" class="btn btn-xs">Update</button>
-
-                </form>
-        
-                </div>
-                
-                @endcan
-
-            </div>
+</div>
