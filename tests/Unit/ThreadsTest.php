@@ -88,7 +88,7 @@ class ThreadsTest extends TestCase
     {
         // create user and sign in 
 
-        $this->signIn(create(\App\User::class));
+        $this->signIn();
 
         // make a instance of thread class
 
