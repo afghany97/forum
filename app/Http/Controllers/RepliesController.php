@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Gate;
+
 use App\Thread;
 
 use App\Reply;
@@ -42,6 +44,10 @@ class RepliesController extends Controller
      */
     public function store($channel , Thread $thread)
     {
+        if(Gate::denies('create' , new Reply))
+        {   
+            return response('you are replies too much , take a break :) .' , 422);
+        }
          // validate the request data 
 
         $this->validate(request(),[

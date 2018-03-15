@@ -83,21 +83,21 @@ class ReplyTest extends TestCase
 
    public function test_if_login_user_can_submit_add_reply_form()
    {
-   		// create user and sign in 
+      // create user and sign in 
 
-        $this->signIn(create(\App\User::class));
+      $this->signIn();
 
-   		// send post request with reply data to store it at database
+      // send post request with reply data to store it at database
 
-   		$this->post($this->thread->path() . "/replies", $this->reply->toArray());
+      $this->post($this->thread->path() . "/replies", $this->reply->toArray());
 
-   		// send get request for render thread to test if the reply added successfully
-   		
-   		$this->get($this->thread->path())
+      // send get request for render thread to test if the reply added successfully
+      
+      $this->get($this->thread->path())
 
-   		->assertStatus(200)
-   		
-   		->assertSee($this->reply->body);
+      ->assertStatus(200)
+      
+      ->assertSee($this->reply->body);
    }
    
    /**@test*/
@@ -237,4 +237,18 @@ class ReplyTest extends TestCase
          ->assertRedirect('/login');
    }
 
+   /**@test*/
+
+   public function test_user_may_not_add_more_than_one_reply_per_minute()
+   {
+      $this->signIn();
+      
+      $this->post($this->thread->path() . "/replies", $this->reply->toArray())
+      
+            ->assertStatus(302);
+
+      $this->post($this->thread->path() . "/replies", $this->reply->toArray())
+      
+            ->assertStatus(422);
+   }
 }

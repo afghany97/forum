@@ -59,6 +59,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Activity::class);
     }
+    
+    public function lastReply()
+    {
+      return $this->hasOne(Reply::class)->latest();
+    }
 
     // override getRouteKeyName to make routes fetch the model binding by column name not priamry key "defualt" 
 

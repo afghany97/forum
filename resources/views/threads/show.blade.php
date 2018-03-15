@@ -10,7 +10,7 @@
 
     @foreach($replies as $Reply)
 
-        @include('threads.reply')
+        @include('replies.reply')
 
     @endforeach
 

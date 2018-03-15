@@ -10,6 +10,8 @@ use App\Favourite;
 
 use App\Thread;
 
+use Carbon\Carbon;
+
 class Reply extends Model
 {
     use RecordsActivites , ableToFavourite;
@@ -55,8 +57,12 @@ class Reply extends Model
     public function Thread()
     {
     	return $this->belongsTo(Thread::class);
-	}
+	  }
 
+  public function justPublished()
+  {
+    return $this->created_at->gt(Carbon::now()->subMinute());
+  }
   public function path()
   {
     return $this->thread->path() . "#reply-{$this->id}";
