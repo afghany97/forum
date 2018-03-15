@@ -251,4 +251,35 @@ class ReplyTest extends TestCase
       
             ->assertStatus(429);
    }
+
+   /**@test*/
+
+   public function test_notify_all_mentioned_users_in_reply_body()
+   {
+      $muhammad = create('App\User',['name' => 'muhammad']);
+
+      $ahmed = create('App\User',['name' => 'ahmed']);
+
+      $this->signIn($muhammad);
+
+      $reply = make('App\Reply',['body'=> 'test mention @ahmed']);
+      
+      $this->post($this->thread->path() . "/replies", $reply->toArray());
+
+      $this->assertCount(1,$ahmed->notifications);
+
+   }
+
+   /**@test*/
+
+   public function test_fetch_all_mention_users_in_reply_body()
+   {
+      $this->signIn();
+
+      $reply = create('App\Reply' , ['body' => '@firstuser want talk to @seconduser']);
+
+      $this->post($this->thread->path() . "/replies", $reply->toArray());
+
+      $this->assertEquals(['firstuser' , 'seconduser'] , $reply->mentionedUsers());
+   }
 }
