@@ -90,23 +90,19 @@ class ThreadsTest extends TestCase
 
         $this->signIn();
 
-        // make a instance of thread class
-
-        $thread = make(\App\Thread::class);
-
         // send post request with thread data to test if it would be added to database successfully
 
-        $respone = $this->post('/threads' , $thread->toArray());
+        $respone = $this->post('/threads' , $this->thread->toArray());
 
         // send get request to test if the thread appeared to thread page 
 
-        $this->get($respone->headers->get('location'))
+        $this->get($this->thread->path())
 
         ->assertStatus(200)
 
-        ->assertSee($thread->title) // test if the title of new thread in thread page
+        ->assertSee($this->thread->title) // test if the title of new thread in thread page
 
-        ->assertSee($thread->body); // test if the body of new thread in thread page
+        ->assertSee($this->thread->body); // test if the body of new thread in thread page
 
     }
 

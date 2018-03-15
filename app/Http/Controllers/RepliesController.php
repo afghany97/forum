@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\ReplyRequestForm;
 
 use App\Thread;
 
@@ -42,20 +42,8 @@ class RepliesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($channel , Thread $thread)
+    public function store($channel , Thread $thread , ReplyRequestForm $form)
     {
-        if(Gate::denies('create' , new Reply))
-        {   
-            return response('you are replies too much , take a break :) .' , 422);
-        }
-         // validate the request data 
-
-        $this->validate(request(),[
-
-            'body' => 'required|spamDetect'
-
-        ]);
-
         // call addReply method and send the param's
 
         $thread->addReply([

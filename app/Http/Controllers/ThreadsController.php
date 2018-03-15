@@ -12,6 +12,8 @@ use App\filters\ThreadsFilters;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests\ThreadsRequestForm;
+
 use Carbon\Carbon;
 
 class ThreadsController extends Controller
@@ -76,20 +78,8 @@ class ThreadsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ThreadsRequestForm $form)
     {
-
-        // validate the request data 
-
-        $this->validate(request(),[
-            
-            'title' => 'required|spamDetect',
-
-            'body' => 'required|spamDetect',
-
-            'channel_id' => 'required|exists:channels,id'
-        ]);
-
         $thread = Thread::addThread(request()->all());
 
         session()->flash('message' , 'The thread created successfully');

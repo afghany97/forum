@@ -249,6 +249,6 @@ class ReplyTest extends TestCase
 
       $this->post($this->thread->path() . "/replies", $this->reply->toArray())
       
-            ->assertStatus(422);
+            ->assertStatus(429);
    }
 }

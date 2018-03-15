@@ -44,8 +44,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof ReplyFrequently)
+        {
+            return response('you are replies too much , take a break :)' , 429);
+        }
+
         if(app()->environment() === 'testing') throw new $exception;
-        
+
         return parent::render($request, $exception);
     }
 
