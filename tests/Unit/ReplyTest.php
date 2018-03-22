@@ -282,4 +282,15 @@ class ReplyTest extends TestCase
 
       $this->assertEquals(['firstuser' , 'seconduser'] , $reply->mentionedUsers());
    }
+
+   /**@test*/
+
+   public function test_mention_user_have_tag_in_reply_body()
+   {
+      $this->signIn();
+
+      $reply = create('App\Reply' , ['body' => 'hello @foobar']);
+                 
+      $this->assertEquals('hello <a href="/profiles/foobar">@foobar</a>' , $reply->body);
+   }
 }
