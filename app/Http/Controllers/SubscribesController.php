@@ -41,7 +41,11 @@ class SubscribesController extends Controller
      */
     public function store($channelName ,Thread $thread)
     {
+        // subscribe to thread
+
         $thread->subscribe();
+
+        // redirect to thread path
 
         return redirect($thread->path());
     }
@@ -88,7 +92,11 @@ class SubscribesController extends Controller
      */
     public function destroy($channelNmae , Thread $thread)
     {
+        // unsubscribe the thread
+
         $thread->unsubscribe();
+        
+        // redirect to thread path
 
         return redirect($thread->path());
     }

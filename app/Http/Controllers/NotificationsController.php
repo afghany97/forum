@@ -15,7 +15,11 @@ class NotificationsController extends Controller
      */
     public function index()
     {
+        // fetch the notifications for authenticated user
+
         $notifications = auth()->user()->notifications;
+
+        // return view with notifications
 
         return view('notifications.index' , compact('notifications'));
     }
@@ -83,10 +87,16 @@ class NotificationsController extends Controller
      */
     public function destroy(User $user , $notificationId)
     {
+        // check if the user_id given in prameter equals for authenticated user_id
+
         if($user->id === auth()->id())
             
+            // fetch the notification by notification_id and mark it as read
+
             $user->notifications()->findOrFail($notificationId)->markAsRead();
 
+        // redirect to previous page
+        
         return redirect(back());
     }
 }

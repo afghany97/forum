@@ -26,11 +26,15 @@ class NofityAllThreadSubscribers
      */
     public function handle(ThreadHasNewReply $event)
     {
-         $event->thread->subscribes
+        $event->thread->subscribes
 
-          ->where('user_id' , '!=' , $event->reply->user_id)
+        // find all subscribers except authenticated user
 
-          ->each->notify($event->reply);
+        ->where('user_id' , '!=' , $event->reply->user_id)
+        
+        // notify users
+        
+        ->each->notify($event->reply);
 
     }
 }

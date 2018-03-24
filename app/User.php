@@ -41,6 +41,7 @@ class User extends Authenticatable
     //         $user->with('activites');
     //     });
     // }
+    
     // create the relationship between users and threads table
 
     public function Threads()
@@ -55,6 +56,8 @@ class User extends Authenticatable
         return $this->hasMany(Reply::class);
     }
 
+    // create the relationship between users and activites table
+
     public function activites()
     {
         return $this->hasMany(Activity::class);
@@ -62,18 +65,20 @@ class User extends Authenticatable
     
     public function lastReply()
     {
-      return $this->hasOne(Reply::class)->latest();
+        // return the last reply for user
+
+        return $this->hasOne(Reply::class)->latest();
     }
 
-    // override getRouteKeyName to make routes fetch the model binding by column name not priamry key "defualt" 
-
-    public function getRouteKeyName()
+    public function getRouteKeyName() // override getRouteKeyName to make routes fetch the model binding by column name not priamry key "defualt" 
     {
         return 'name';
     }
 
     public function getVistedThreadCasheKey($thread)
     {
+        // return the key to save @ cashe to mark visted thread by each user , format of key visted ['user_id'] thread ['thread_id']
+        
         return sprintf("visted.%s.thread.%s",$this->id , $thread->id);
     }
 }

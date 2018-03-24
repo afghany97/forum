@@ -53,9 +53,11 @@ class RepliesController extends Controller
             'user_id' => auth()->id()
         ]);
 
-        // return the previous page
+        // repear flash message
 
         session()->flash('message' , 'The reply created successfully');
+        
+        // return the previous page
         
         return back();
     }
@@ -78,9 +80,13 @@ class RepliesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Reply $reply)
-    {
+    {   
+        // check if user can edit this reply
+
         $this->authorize('update' , $reply);
         
+        // return view with reply object
+
         return view('replies.update' , compact('reply'));
     }
 
@@ -93,7 +99,11 @@ class RepliesController extends Controller
      */
     public function update(Reply $reply)
     {
+        // check if user can edit this reply
+        
         $this->authorize('update' , $reply);
+
+        // validate the request data
 
         $this->validate(request(),[
 
@@ -101,7 +111,11 @@ class RepliesController extends Controller
 
         ]);
         
+        // update the reply data upon given request data
+
         $reply->update(request(['body']));
+
+        // redirect to reply path
 
         return redirect($reply->path());
     }
@@ -114,10 +128,16 @@ class RepliesController extends Controller
      */
     public function destroy(Reply $reply)
     {
+        // check if user can delete this reply
+        
         $this->authorize('delete' , $reply);
         
+        // delete the reply
+
         $reply->delete();
 
+        // redirect to preivous page
+        
         return back();
     }
 }

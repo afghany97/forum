@@ -87,7 +87,7 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
-    'spam_detect'           => 'The :attribute contain spam.',
+    'spam_detect'          => 'The :attribute contain spam.',
 
     /*
     |--------------------------------------------------------------------------

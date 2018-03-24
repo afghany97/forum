@@ -20,9 +20,11 @@ class Thread extends Model
 {
       use RecordsActivites , ableToFavourite;
 
-      // unguard all fileds of replies table "able to fill"
+      // unguard all fileds of threads table "able to fill"
 
    	protected $guarded = [];
+
+      // append isSubscribed attribute to thread object
 
       protected $appends = ['isSubscribed'];
 
@@ -46,23 +48,18 @@ class Thread extends Model
          });
 
       }
-      // create the relationship between threads and users table
 
-   	public function User()
+   	public function User() // create the relationship between threads and users table
    	{
    		return $this->belongsTo(User::class);
    	}
 
-      // create the relationship between threads and channels table
-
-      public function Channel()
+      public function Channel() // create the relationship between threads and channels table
       {
          return $this->belongsTo(Channel::class);
       }
-      
-      // create the relationship between threads and replies table
 
-   	public function Replies()
+   	public function Replies() // create the relationship between threads and replies table
    	{
    		return $this->hasMany(Reply::class);
    	}
@@ -75,26 +72,28 @@ class Thread extends Model
 
    	}
 
-      public function addReply(array $data)
+      public function addReply(array $data) // add reply for thread
       {
-         // expect array of data "user id and body of reply"
+          // expect array of data "user_id and body of reply"
 
-         // return instance of the added reply
-         
-         $reply = $this->Replies()->create([
+          $reply = $this->Replies()->create([
 
-            'body' => $data['body'],
+          'body' => $data['body'],
             
-            'user_id' => $data['user_id']
-         
-         ]);
+          'user_id' => $data['user_id']
+            
+          ]);
 
-         event(new ThreadHasNewReply($this,$reply));
+          // call the ThreadHasNewReply event to execute the listeners
 
-         return $reply;
+          event(new ThreadHasNewReply($this,$reply));
+          
+          // return instance of the added reply
+
+          return $reply;
       }
 
-      public static function addThread(array $data)
+      public static function addThread(array $data) // create thread
       {
          // expect array of data "thread title and body"
 
@@ -119,7 +118,7 @@ class Thread extends Model
          return $filters->apply($query);
       }  
 
-      public function subscribe($userId = null)
+      public function subscribe($userId = null) // subscribe to thread
       {
          $this->subscribes()
          
@@ -127,11 +126,13 @@ class Thread extends Model
          
             'user_id' => $userId ?: auth()->id()
          ]);
-
+         
+         // return object of thread 
+         
          return $this;
       }
 
-      public function unsubscribe($userId = null)
+      public function unsubscribe($userId = null )// unsubscribe to thread
       {
          $this->subscribes()
 
@@ -140,22 +141,28 @@ class Thread extends Model
          ->delete();
       }
 
-      public function subscribes()
+      public function subscribes() // create the relationship between subscribes and thread table
       {
          return $this->hasMany('App\subscribe');
       }
 
-      public function getIsSubscribedAttribute()
+      public function getIsSubscribedAttribute() // set the IsSubscribed accessor
       {
+         // return bool value if this thread subscribed by authenticated user
+
          return $this->subscribes()->where('user_id' , auth()->id())->exists();
       }
 
-      public function hasUpdatedFor()
+      public function hasUpdatedFor() // check if the thread have updates for authenticated user
       {
+         // check if there login user
+
          if(auth()->check()){
                
             $user = auth()->user();
 
+            // return bool value if thread has update for authenticated user by using timestamp
+            
             return $this->updated_at > cache($user->getVistedThreadCasheKey($this));
          }
       }

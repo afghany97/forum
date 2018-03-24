@@ -45,40 +45,48 @@ class Reply extends Model
       });
     }
 
-	// create the relationship between replies and users table
-
-   public function User()
+   public function User() // create the relationship between replies and users table
    {
        return $this->belongsTo(User::class);
    }
 
-	// create the relationship between replies and threads table
-
-    public function Thread()
+    public function Thread() // create the relationship between replies and threads table
     {
     	return $this->belongsTo(Thread::class);
 	  }
 
-  public function justPublished()
+  public function justPublished() 
   {
+    // return bool value if the reply created more than 1 min ago
+
     return $this->created_at->gt(Carbon::now()->subMinute());
   }
-  public function path()
+
+  public function path() 
   {
+    // return the path of specific reply
+
     return $this->thread->path() . "#reply-{$this->id}";
   }
 
-  public function mentionedUsers()
+  public function mentionedUsers() 
   {
+    // find the mentioned users
+
     preg_match_all('/\@([^\s\.]+)/',$this->body,$matches);
     
+    // return the mentioned users
+
     return $matches[1];
 
   }
 
-  public function setBodyAttribute($body)
+  public function setBodyAttribute($body) // set body accessors
   {
-    $this->attributes['body'] = preg_replace('/\@([^\s\.]+)/','<a href="/profiles/$1">$0</a>',$body);
-  }
 
+    $this->attributes['body'] =
+    
+     preg_replace('/\@([^\s\.]+)/','<a href="/profiles/$1">$0</a>',$body); // find the mentioned user name and replace it to a tag 'link to user profile'
+  }
+  
 }

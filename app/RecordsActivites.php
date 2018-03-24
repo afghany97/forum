@@ -29,9 +29,7 @@ trait RecordsActivites
 		return ['created'];
 	}
 
-	// function to store the activity 
-
-	public function recordActivity($event)
+	public function recordActivity($event) // function to store the activity 
     {
     	if(auth()->guest())
 
@@ -47,7 +45,7 @@ trait RecordsActivites
 
     }
 
-    public function activites()
+    public function activites() // create relation with activites table
     {
     	return $this->morphMany('App\Activity','subject');
     }

@@ -80,9 +80,15 @@ class ThreadsController extends Controller
      */
     public function store(ThreadsRequestForm $form)
     {
+        // create new thread 
+
         $thread = Thread::addThread(request()->all());
 
+        // repear flash message
+
         session()->flash('message' , 'The thread created successfully');
+
+        // redirect to thread path
 
         return redirect($thread->path());
     }
@@ -95,14 +101,19 @@ class ThreadsController extends Controller
      */
     public function show($channel , Thread $thread)
     {
+        // check if user authenticated
 
         if(auth()->check())
+            
+            // save timestamp when user vist the thread in cache
 
             cache()->forever(auth()->user()->getVistedThreadCasheKey($thread) , Carbon::now());
 
-        // return view with specific thread
+        // fetch the replies belongs to this thread with pagination
 
         $replies = $thread->replies()->paginate(5);
+
+        // return view with specific thread and replies
 
         return view('threads.show',compact(['thread' , 'replies']));
     }
@@ -138,12 +149,20 @@ class ThreadsController extends Controller
      */
     public function destroy($channel , Thread $thread)
     {
+        // check if user can delete this thread
+
         $this->authorize('delete' , $thread);
+        
+        // delete thread
 
         $thread->delete();
 
+        // repear flash message
+
         session()->flash('message' , 'The thread deleted successfully');
 
+        // redirect to threads page
+        
         return redirect(route('threads'));
     }
 }

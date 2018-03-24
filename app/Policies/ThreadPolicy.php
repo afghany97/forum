@@ -54,6 +54,8 @@ class ThreadPolicy
      */
     public function delete(User $user, Thread $thread)
     {
+        // check if authenticated user the owner of thread "can delete it"
+        
         return $user->id == $thread->user_id;
     }
 }

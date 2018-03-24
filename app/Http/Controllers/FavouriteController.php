@@ -45,19 +45,25 @@ class FavouriteController extends Controller
      */
     public function store(Thread $thread = null ,Reply $reply = null)
     {
+        // check if the request want to favouirte reply
+
         if(Favourite::gotFirstWord(request()->path()) == 'replies'){
 
-            // favourite reply
+            // favourite reply end point "replies/{Reply->id}/favourite"
 
             $reply->favourite();
+
+            // repear the flash message
 
             session()->flash('message' , 'The favourite reply added successfully');
         }
         else{
 
-            // favourite thread
+            // favourite thread end point "threads/{thread->id}/favourite"
 
             $thread->favourite();
+
+            // repear the flash message
 
             session()->flash('message' , 'The favourite thread added successfully');
         }

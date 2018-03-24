@@ -56,8 +56,12 @@ class ProfilesController extends Controller
     public function show(User $user)
     {
         $profileUser = $user;
-        
+
+        // fetch the activities for given user 
+
         $activites = Activity::feeds($user);
+        
+        // return view with activites and user object
 
         return view('profiles.show', compact(['profileUser','activites']));
     }

@@ -17,11 +17,15 @@ class ReplyRequestForm extends FormRequest
      */
     public function authorize()
     {
+        // check if allow to user create new reply
+
         return ! Gate::denies('create' , new \App\Reply);
     }
 
-    public function failedAuthorization()
+    public function failedAuthorization() // override failedAuthorization method
     {
+        // throw reply frequently exception if authorize failed
+
         throw new ReplyFrequently('you are replies too much , take a break :)');
     }
 

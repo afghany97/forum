@@ -6,33 +6,39 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
+    // unguard all fileds of activites table "able to fill"
+
    	protected $guarded = [];
 
-      protected $with = ['User'];
+    // load the user relationship with each avtivity object
 
-   	public function subject()
+    protected $with = ['User'];
+
+   	public function subject() // fetch the activity object
    	{
    		return $this->morphTo();
    	}
 
-      // create the replationship between activites and user tables
-
-   	public function User()
+   	public function User() // create the replationship between activites and user tables
    	{
    		return $this->belongsTo(User::class);
    	}
 
-      public static function feeds($user , $take = 50)
+      public static function feeds($user , $take = 50) // fetch the user activity feeds
       {
-         return static::where('user_id' , $user->id)
+        // accept 2 prams ' user requierd , take optional' 
+
+        // return the user feeds
+
+        return static::where('user_id' , $user->id)
         
-            ->latest()
+            ->latest() // in descending order
            
-            ->take($take)
+            ->take($take) // only take "number" of records
            
-            ->get()
+            ->get() // fetch the records
            
-            ->groupBY(function($activity){
+            ->groupBY(function($activity){ // group by date in this format "year - month - day"
 
                return $activity->created_at->format('y-m-d');
            

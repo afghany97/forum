@@ -39,5 +39,3 @@ abstract class Filters
 	}
 	
 }
-
- ?>

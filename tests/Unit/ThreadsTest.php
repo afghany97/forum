@@ -177,9 +177,15 @@ class ThreadsTest extends TestCase
     
     public function test_if_guest_cannot_delete_threads()
     {
+        // this test expect AuthenticationException
+
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
+        // send delete request to delete thread end point
+
         $this->delete($this->thread->path())
+            
+            // expect redirect to login page
 
             ->assertRedirect('/login');
     }
@@ -188,11 +194,19 @@ class ThreadsTest extends TestCase
     
     public function test_if_unauthorised_user_cannot_delete_threads()
     {
+        // this test expect AuthorizationException
+        
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
+
+        // create user and sign in
 
         $this->signIn();
 
+        // send delete request to delete thread end point
+
         $this->delete($this->thread->path())
+
+            // expect see This action is unauthorized 
 
             ->assertSee('This action is unauthorized');
     }
@@ -203,11 +217,19 @@ class ThreadsTest extends TestCase
 
     public function test_if_user_can_subscribe_thread()
     {
+        // create thread
+
         $thread = create('App\Thread');
+
+        // create user and sign in
 
         $this->signIn();
 
+        // subscribe thread by authenticated user
+
         $thread->subscribe();
+
+        // expect authenticated user subscribes equals first param 
 
         $this->assertEquals(1,$thread->subscribes->where('user_id',auth()->id())->count());
     }
@@ -216,13 +238,23 @@ class ThreadsTest extends TestCase
 
     public function test_if_user_can_unsubscribe_thread()
     {
+        // create thread
+
         $thread = create('App\Thread');
+
+        // create user and sign in
 
         $this->signIn();
 
+        // subscribe thread by authenticated user
+        
         $thread->subscribe();
 
+        // unsubscribe thread by authenticated user
+
         $thread->unsubscribe();
+
+        // expect authenticated user subscribes equals 0 
 
         $this->assertCount(0 , $thread->subscribes);
     }
@@ -231,11 +263,19 @@ class ThreadsTest extends TestCase
 
     public function test_if_user_can_subscribe_thread_form()
     {
+        // create user and sign in
+
         $this->signIn();
+
+        // create thread
 
         $thread = create('App\Thread');
 
+        // send post request to thread subscribe end point
+
         $this->post($thread->path() . '/subscribe');
+
+        // expect thread subscribes equal 1
 
         $this->assertCount(1 , $thread->subscribes);
     }
@@ -244,12 +284,20 @@ class ThreadsTest extends TestCase
 
     public function test_if_user_can_unsubscribe_thread_form()
     {
+        // create user and sign in
+
         $this->signIn();
+
+        // create thread
 
         $thread = create('App\Thread');
 
+        // send delete request to thread subscribe end point
+
         $this->delete($thread->path() . '/subscribe');
 
+        // expect thread subscribes equal 0
+        
         $this->assertCount(0 , $thread->subscribes);
     }
 
@@ -258,16 +306,28 @@ class ThreadsTest extends TestCase
 
     public function test_if_login_user_got_update_for_new_threads()
     {
+        // create user and sign in
+        
         $this->signIn();
 
+        // create thread
+        
         $thread = create('App\Thread');
 
+        // check if user didn't vist this thread  "has updated for authenticated user"
+        
         $this->assertTrue($thread->hasUpdatedFor());
+
+        // send get request to thread end point "vist the thread by authenticated user"
 
         $this->get('/threads/' . $thread->Channel->name . '/' . $thread->id);
 
+        // send get request to all threads end point
+    
         $this->get('/threads/');
 
+        // check if user vist this thread  "don't have updated for authenticated user"
+        
         $this->assertFalse($thread->hasUpdatedFor());
     }
 
@@ -275,9 +335,15 @@ class ThreadsTest extends TestCase
 
     public function test_if_login_user_got_update_after_add_new_reply()
     {
+        // create user and sign in
+        
         $this->signIn();
 
+        // create thread
+
         $thread = create('App\Thread');
+
+        // add reply belogn to other user
 
         $thread->addReply([
 
@@ -286,6 +352,8 @@ class ThreadsTest extends TestCase
             'user_id' => create('App\User')->id
         ]);
 
+        // expcet thread has updates for authenticated user
+         
         $this->assertTrue($thread->hasUpdatedFor());
     }
 

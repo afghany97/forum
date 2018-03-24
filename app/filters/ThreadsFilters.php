@@ -40,10 +40,11 @@ class ThreadsFilters extends Filters
 
 	protected function unanswered($unanswered)
 	{
-		if($unanswered)
+		if($unanswered) 
 		{
+			// return the query after add filter on it
+			
 			return $this->bulider->where('replies_count' , 0);
 		}
 	}
 }
- ?>

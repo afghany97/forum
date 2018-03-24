@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Unit;
 
 use Tests\TestCase;
@@ -14,283 +13,399 @@ class ReplyTest extends TestCase
 {
 	// use DatabaseTransactions to delete all data "thread and reply" after test  
 
-	use DatabaseTransactions;
+      use DatabaseTransactions;
 
-	public function setUp()
-	{
+      public function setUp()
+      {
 		// call setUp function from parent class to be sure it's executed
 
-		parent::setUp();
+            parent::setUp();
 
 		// create a new thread
 
-		$this->thread = create(\App\Thread::class);
+            $this->thread = create(\App\Thread::class);
 
 		// create a new reply
 
-		$this->reply = create(\App\Reply::class);
-	}
+            $this->reply = create(\App\Reply::class);
+      }
 
-	public function test_if_user_can_see_replies()
-	{
+      public function test_if_user_can_see_replies()
+      {
    		// send get request for render thread to test if the user can browse the replies
 
-		$this->get($this->reply->Thread->path())
+            $this->get($this->reply->Thread->path())
 
-		->assertStatus(200)
-		
-		->assertSee($this->reply->body);
-		
-	}
+                  ->assertStatus(200)
 
-	public function test_add_reply()
-	{
+                  ->assertSee($this->reply->body);
+
+      }
+
+      public function test_add_reply()
+      {
 		// call addReply method 	
 
-		$reply = $this->thread->addReply([
-		
-			'body' => 'test',
-		
-			'user_id' => 999
-		
-		]);
+            $reply = $this->thread->addReply([
+
+                  'body' => 'test',
+
+                  'user_id' => 999
+
+            ]);
 
 		// test if the reply add successfully
 
-		$this->assertEquals($this->thread->id,$reply->Thread->id);
-	}
+            $this->assertEquals($this->thread->id, $reply->Thread->id);
+      }
 
-   /** @test */
+      /** @test */
 
-   public function test_if_unlogin_user_can_submit_add_reply_form()
-   {
+      public function test_if_unlogin_user_can_submit_add_reply_form()
+      {
    		// expect exception returned from this test 
-        
-        $this->expectException('Illuminate\Auth\AuthenticationException');
+
+            $this->expectException('Illuminate\Auth\AuthenticationException');
 
    		// send post request with reply data to store it at database
 
-   		$this->post($this->thread->path() . "/replies", $this->reply->toArray());
+            $this->post($this->thread->path() . "/replies", $this->reply->toArray());
 
    		// send get request for render thread to test if the reply added successfully
-   		
-   		$this->get($this->thread->path())
 
-   		->assertStatus(200)
-   		
-   		->assertSee($this->reply->body);
-   }
+            $this->get($this->thread->path())
 
-   public function test_if_login_user_can_submit_add_reply_form()
-   {
-      // create user and sign in 
+                  ->assertStatus(200)
 
-      $this->signIn();
+                  ->assertSee($this->reply->body);
+      }
 
-      // send post request with reply data to store it at database
+      public function test_if_login_user_can_submit_add_reply_form()
+      {
+            // create user and sign in 
 
-      $this->post($this->thread->path() . "/replies", $this->reply->toArray());
+            $this->signIn();
 
-      // send get request for render thread to test if the reply added successfully
-      
-      $this->get($this->thread->path())
+            // send post request with reply data to store it at database
 
-      ->assertStatus(200)
-      
-      ->assertSee($this->reply->body);
-   }
-   
-   /**@test*/
+            $this->post($this->thread->path() . "/replies", $this->reply->toArray());
 
-   public function test_guest_can_not_delete_reply()
-   {
-   		$this->expectException('Illuminate\Auth\AuthenticationException');
+            // send get request for render thread to test if the reply added successfully
 
-   		$reply = create('App\Reply');
+            $this->get($this->thread->path())
 
-   		$this->delete("/replies/{$reply->id}")
-   			
-            ->assertRedirect("/login");
-   }
-   
-   /**@test*/
+                  ->assertStatus(200)
 
-   public function test_unauthorised_user_can_not_delete_reply()
-   {	
-   		$this->expectException('Illuminate\Auth\Access\AuthorizationException');
+                  ->assertSee($this->reply->body);
+      }
 
-   		$reply = create('App\Reply');
+      /**@test*/
 
-   		$this->signIn()
+      public function test_guest_can_not_delete_reply()
+      {
+            // this test expect AuthenticationException
 
-			->delete("/replies/{$reply->id}")
-			
-			->assertStatus(403);
-   }
+            $this->expectException('Illuminate\Auth\AuthenticationException');
 
-   /**@test*/
+            // create reply
 
-   public function test_authorised_user_can_delete_reply()
-   {
-		$this->signIn();
+            $reply = create('App\Reply');
 
-		$reply = create("App\Reply" , ['user_id' => auth()->id()]);
+            // send delete request to delete reply end point
 
-		$this->delete("/replies/{$reply->id}")
-			
-         ->assertStatus(302);
-	}
+            $this->delete("/replies/{$reply->id}")
 
-   /**@test*/
+                  ->assertRedirect("/login");
+      }
 
-   public function test_unauthorised_user_can_not_update_reply()
-   {
-      $this->expectException("Illuminate\Auth\Access\AuthorizationException");
+      /**@test*/
 
-      $this->signIn();
+      public function test_unauthorised_user_can_not_delete_reply()
+      {
+            // this test expect AuthorizationException
 
-      $reply = create("App\Reply");
+            $this->expectException('Illuminate\Auth\Access\AuthorizationException');
 
-      $replyBody = "dummy data";
+            // create reply
 
-      $this->put("/replies/{$reply->id}" , ['body' => $replyBody])
-         
-         ->assertStatus(403);
-   }
+            $reply = create('App\Reply');
 
-   /**@test*/
+            // create user and sign in 
 
-   public function test_guest_can_not_update_reply()
-   {
-      $this->expectException('Illuminate\Auth\AuthenticationException');
+            $this->signIn()
 
-      $reply = create('App\Reply');
+                  // send delete request to delete reply end point
 
-      $replyBody = "dummy data";
+->delete("/replies/{$reply->id}")
 
-      $this->put("/replies/{$reply->id}" , ['body' => $replyBody])
-         
-         ->assertRedirect("/login");
-   }
+                  // expect response status 403
 
-   /**@test*/
+->assertStatus(403);
+      }
 
-   public function test_authorised_user_can_update_reply()
-   {
+      /**@test*/
 
-      $this->signIn();
+      public function test_authorised_user_can_delete_reply()
+      {
+            // create user and sign in 
 
-      $reply = create("App\Reply" , ['user_id' => auth()->id()]);
+            $this->signIn();
 
-      $replyBody = "dummy data";
+            // create reply belongs to authenticated user
 
-      $this->put("/replies/{$reply->id}" , ['body' => $replyBody])
-         
-         ->assertStatus(302)
+            $reply = create("App\Reply", ['user_id' => auth()->id()]);
 
-         ->assertRedirect($reply->path());
-   }
+            // send delete request to delete reply end point
 
-   /**@test*/
+            $this->delete("/replies/{$reply->id}")
 
-   public function test_authorised_user_can_see_update_reply_form()
-   {
-      $this->signIn();
+                  // expect response status 302
 
-      $reply = create("App\Reply" , ['user_id' => auth()->id()]);
+                  ->assertStatus(302);
+      }
 
-      $this->patch("/replies/{$reply->id}" )
-         
-         ->assertStatus(200)
+      /**@test*/
 
-         ->assertSee($reply->body);
-   }
+      public function test_unauthorised_user_can_not_update_reply()
+      {
+            // this test expect AuthorizationException
 
-   /**@test*/
+            $this->expectException("Illuminate\Auth\Access\AuthorizationException");
 
-   public function test_unauthorised_user_can_not_see_update_reply_form()
-   {
-      $this->expectException("Illuminate\Auth\Access\AuthorizationException");
+            // create user and sign in
 
-      $this->signIn();
+            $this->signIn();
 
-      $reply = create("App\Reply");
+            // create reply
 
-      $this->patch("/replies/{$reply->id}" )
-         
-         ->assertStatus(403)
+            $reply = create("App\Reply");
 
-         ->assertDontSee($reply->body);
-   }
+            $replyBody = "dummy data";
+           
+            // send put request to update reply end point with reply body data
 
-    /**@test*/
+            $this->put("/replies/{$reply->id}", ['body' => $replyBody])
 
-   public function test_guest_can_not_see_update_reply_form()
-   {
-      $this->expectException('Illuminate\Auth\AuthenticationException');
-      
+                  // expect response status 403
 
-      $reply = create("App\Reply");
+->assertStatus(403);
+      }
 
-      $this->patch("/replies/{$reply->id}" )
-         
-         ->assertRedirect('/login');
-   }
+      /**@test*/
 
-   /**@test*/
+      public function test_guest_can_not_update_reply()
+      {
+            // this test expect AuthenticationException
 
-   public function test_user_may_not_add_more_than_one_reply_per_minute()
-   {
-      $this->signIn();
-      
-      $this->post($this->thread->path() . "/replies", $this->reply->toArray())
-      
-            ->assertStatus(302);
+            $this->expectException('Illuminate\Auth\AuthenticationException');
 
-      $this->post($this->thread->path() . "/replies", $this->reply->toArray())
-      
-            ->assertStatus(429);
-   }
+            // create reply
 
-   /**@test*/
+            $reply = create('App\Reply');
 
-   public function test_notify_all_mentioned_users_in_reply_body()
-   {
-      $muhammad = create('App\User',['name' => 'muhammad']);
+            $replyBody = "dummy data";
 
-      $ahmed = create('App\User',['name' => 'ahmed']);
+            // send put request to update reply end point with reply body data
 
-      $this->signIn($muhammad);
+            $this->put("/replies/{$reply->id}", ['body' => $replyBody])
 
-      $reply = make('App\Reply',['body'=> 'test mention @ahmed']);
-      
-      $this->post($this->thread->path() . "/replies", $reply->toArray());
+                  // expect redirect to login page
 
-      $this->assertCount(1,$ahmed->notifications);
+->assertRedirect("/login");
+      }
 
-   }
+      /**@test*/
 
-   /**@test*/
+      public function test_authorised_user_can_update_reply()
+      {
+            // create user and sign in
 
-   public function test_fetch_all_mention_users_in_reply_body()
-   {
-      $this->signIn();
+            $this->signIn();
 
-      $reply = create('App\Reply' , ['body' => '@firstuser want talk to @seconduser']);
+            // create reply belogn to authenticated user
 
-      $this->post($this->thread->path() . "/replies", $reply->toArray());
+            $reply = create("App\Reply", ['user_id' => auth()->id()]);
 
-      $this->assertEquals(['firstuser' , 'seconduser'] , $reply->mentionedUsers());
-   }
+            $replyBody = "dummy data";
 
-   /**@test*/
+            // send put request to update reply end point with reply body data
 
-   public function test_mention_user_have_tag_in_reply_body()
-   {
-      $this->signIn();
+            $this->put("/replies/{$reply->id}", ['body' => $replyBody])
 
-      $reply = create('App\Reply' , ['body' => 'hello @foobar']);
+                  // expcet response status code 302
+
+                  ->assertStatus(302)
+                  
+                  // expcet redirect to reply path
+
+                  ->assertRedirect($reply->path());
+      }
+
+      /**@test*/
+
+      public function test_authorised_user_can_see_update_reply_form()
+      {
+            // create user and sign in
+
+            $this->signIn();
+
+            // create reply belogn to authenticated user
+
+            $reply = create("App\Reply", ['user_id' => auth()->id()]);
+
+            // send patch request to update reply form end point
+
+            $this->patch("/replies/{$reply->id}")
+
+                  // expcet response status code 200
+
+                  ->assertStatus(200)
+
+                  // expect see reply body
+
+                  ->assertSee($reply->body);
+      }
+
+      /**@test*/
+
+      public function test_unauthorised_user_can_not_see_update_reply_form()
+      {
+            // this test expect AuthorizationException
+
+            $this->expectException("Illuminate\Auth\Access\AuthorizationException");
+
+            // create user and sign in
+
+            $this->signIn();
+
+            // create reply
+            
+            $reply = create("App\Reply");
+            
+            // send patch request to update reply form end point
+
+            $this->patch("/replies/{$reply->id}")
+
+                  // expect response status 403
+
+                  ->assertStatus(403)
+
+                  // expect dont see reply body
+
+                  ->assertDontSee($reply->body);
+      }
+
+      /**@test*/
+
+      public function test_guest_can_not_see_update_reply_form()
+      {
+            // this test expect AuthenticationException
+            
+            $this->expectException('Illuminate\Auth\AuthenticationException');
+
+            // create reply
+
+            $reply = create("App\Reply");
+
+            // send patch request to reply update end point
+
+            $this->patch("/replies/{$reply->id}")
+
+                  // expect redirect to login page
+
+                  ->assertRedirect('/login');
+      }
+
+      /**@test*/
+
+      public function test_user_may_not_add_more_than_one_reply_per_minute()
+      {
+            // create user and sign in
+
+            $this->signIn();
+
+            // send post request to create reply end point
+
+            $this->post($this->thread->path() . "/replies", $this->reply->toArray())
                  
-      $this->assertEquals('hello <a href="/profiles/foobar">@foobar</a>' , $reply->body);
-   }
+                  // expect response status 302
+
+                  ->assertStatus(302);
+
+            // send post request to create reply end point
+
+            $this->post($this->thread->path() . "/replies", $this->reply->toArray())
+
+                  // expect response status 429
+
+                  ->assertStatus(429);
+      }
+
+      /**@test*/
+
+      public function test_notify_all_mentioned_users_in_reply_body()
+      {
+            // create user
+
+            $muhammad = create('App\User', ['name' => 'muhammad']);
+
+            // create user
+
+            $ahmed = create('App\User', ['name' => 'ahmed']);
+            
+            // sign in user with name "muhammad"
+
+            $this->signIn($muhammad);
+
+            // make instance of reply with override body
+
+            $reply = make('App\Reply', ['body' => 'test mention @ahmed']);
+
+            // send post request to create reply end point
+            
+            $this->post($this->thread->path() . "/replies", $reply->toArray());
+
+            // expcet user with name "ahmed" recive notification
+
+            $this->assertCount(1, $ahmed->notifications);
+
+      }
+
+      /**@test*/
+
+      public function test_fetch_all_mention_users_in_reply_body()
+      {
+            // create user and sign in
+
+            $this->signIn();
+
+            // create rely with override body
+
+            $reply = create('App\Reply', ['body' => '@firstuser want talk to @seconduser']);
+
+            // send post request to create reply end point
+
+            $this->post($this->thread->path() . "/replies", $reply->toArray());
+
+            // expcet result of mentionedUsers method to be like first param
+
+            $this->assertEquals(['firstuser', 'seconduser'], $reply->mentionedUsers());
+      }
+
+      /**@test*/
+
+      public function test_mention_user_have_tag_in_reply_body()
+      {
+            // create user and sign in
+
+            $this->signIn();
+
+            // create reply with override the body
+
+            $reply = create('App\Reply', ['body' => 'hello @foobar']);
+
+            // expcet the body of reply to be like first param
+             
+            $this->assertEquals('hello <a href="/profiles/foobar">@foobar</a>', $reply->body);
+      }
 }

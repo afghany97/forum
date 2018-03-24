@@ -39,16 +39,16 @@ class ProfilesTest extends TestCase
 
         $this->signIn();
 
-        // create thread belongs for specific user
+        // create thread belongs to authenticated user
 
         $thread = create('App\Thread' , ['user_id' => auth()->id()]);
 
-        // send get request for user profile to test if his threads appears
+        // send get request for user profile 
         
         $this->get('profiles/' . auth()->user()->name)
 
-            ->assertSee($thread->title)
+            ->assertSee($thread->title) // check if the thread title appears in response
 
-            ->assertSee($thread->body);
+            ->assertSee($thread->body); // check if the thread body appears in response
     }
 }
