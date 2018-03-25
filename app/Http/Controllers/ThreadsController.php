@@ -53,7 +53,7 @@ class ThreadsController extends Controller
 
             return $threads;
 
-        $threads = $threads->get();
+        $threads = $threads->paginate(10);
 
         // return view with threads
 

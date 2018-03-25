@@ -51,6 +51,8 @@
                     <h1>There is no threads</h1>
 
                @endforelse
+             
+                {{$threads->links()}}
             
             </div>
         
