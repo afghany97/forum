@@ -4,8 +4,29 @@
    
     <div class="container">
 
-
         <div class="row">
+
+            <h1>{{$profileUser->name}}</h1>
+
+            <div>
+
+                <img src="/storage/{{$profileUser->avatar_path}}" alt="{{$profileUser->name}}" class="avatar mb-10">
+
+            </div>
+            
+            @can('create' , $profileUser)
+
+                <form method="POST" action="{{route('avatar',$profileUser)}}" enctype="multipart/form-data">
+                    
+                    {{ csrf_field() }}
+
+                    <input type="file" name="avatar" class="mb-10">
+
+                    <button type="submit" class="btn btn-primary" >Add Avatar</button>
+
+                </form>
+
+            @endcan
             
             <div class="col-md-8 col-md-offset-2">
                 

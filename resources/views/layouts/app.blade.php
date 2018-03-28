@@ -144,10 +144,15 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <style type="text/css">
-        .level {display: flex; align-items: center;}
-        .flex {flex: 1;}
-        .mr-1 { margin-right: 1em;  }
-    </style>
+    {{--<style type="text/css">--}}
+        {{--.level {display: flex; align-items: center;}--}}
+        {{--.flex {flex: 1;}.mr-1 { margin-right: 1em;  }--}}
+        {{--.avatar{border-radius: 50%; width:100px; height: 100px;}--}}
+        {{--.smallAvatar {border-radius: 50% ; width: 25px ; height: 25px}--}}
+        {{--.mb-1{margin-bottom: 1px}--}}
+        {{--.mb-5{margin-bottom: 5px}--}}
+        {{--.mb-10{margin-bottom: 10px}--}}
+        {{--.mr-5{margin-right: 5px}--}}
+    {{--</style>--}}
 </body>
 </html>

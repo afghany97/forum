@@ -8,14 +8,16 @@
         
                     <div class="panel-heading level">
 
-                        <a href="{{route('profile' , $thread->User)}}">
+                        <a href="{{route('profile' , $thread->User)}}" class="mr-1">
 
-                            {{$thread->User->name}}
+                            <img src="/storage/{{$thread->User->avatar_path}}" alt="{{$thread->User->name}}" class="smallAvatar mr-5">
+                            
+                            {{$thread->User->name }}
                          
                         </a>
-        
-                         Posted ...
-                        
+
+                         published ...
+
                         {{$thread->title}}
                         
                         @include('threads.favourite')

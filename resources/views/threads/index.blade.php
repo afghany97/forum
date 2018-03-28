@@ -15,7 +15,6 @@
 
                           <a href="{{$thread->path()}}">
 
-
                             @if($thread->hasUpdatedFor())
                                    
                                 <strong>{{$thread->title}}</strong>
@@ -25,6 +24,18 @@
                                 {{$thread->title}}
 
                             @endif
+
+                                <hr>
+
+                          </a>
+
+                            by :
+
+                            <img src="/storage/{{$thread->user->avatar_path}}" alt="{{$thread->user->name}}" class="smallAvatar mr-5">
+
+                            <a href="{{route('profile',$thread->user)}}">
+
+                                {{$thread->user->name}}
 
                             </a>
 
