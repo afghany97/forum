@@ -69,3 +69,14 @@ $factory->define(App\Channel::class, function (Faker\Generator $faker) {
         'name' => $faker->word
     ];
 });
+
+// define new factory for threads_vistoers table
+
+$factory->define(App\ThreadsVistores::class, function (Faker\Generator $faker) {
+
+    return [
+        'thread_id' => factory('App\Thread')->create()->id,
+
+        'vistoer_ip' => $faker->ipv4
+    ];
+});

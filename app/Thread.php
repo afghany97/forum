@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 use App\User;
@@ -166,4 +167,21 @@ class Thread extends Model
             return $this->updated_at > cache($user->getVistedThreadCasheKey($this));
          }
       }
+
+    public function read()
+    {
+        // check if user authenticated
+
+        if(auth()->check())
+
+            // save timestamp when user vist the thread in cache
+
+            cache()->forever(auth()->user()->getVistedThreadCasheKey($this) , Carbon::now());
+
+        if(! ThreadsVistores::isVisted($this->id,request()->ip()))
+
+            // increment thread views
+
+            ThreadsVistores::incremnt($this->id,request()->ip());
+    }
 }

@@ -6,6 +6,8 @@ use App\Thread;
 
 use App\Channel;
 
+use App\ThreadsVistores;
+
 use App\User;
 
 use App\filters\ThreadsFilters;
@@ -55,9 +57,11 @@ class ThreadsController extends Controller
 
         $threads = $threads->paginate(10);
 
+        $trending = ThreadsVistores::fetchTopTrendingThreads();
+
         // return view with threads
 
-        return view('threads.index', compact('threads'));
+        return view('threads.index', compact('threads' , 'trending'));
     }
 
     /**
@@ -101,13 +105,9 @@ class ThreadsController extends Controller
      */
     public function show($channel , Thread $thread)
     {
-        // check if user authenticated
+        // mark thread as read
 
-        if(auth()->check())
-            
-            // save timestamp when user vist the thread in cache
-
-            cache()->forever(auth()->user()->getVistedThreadCasheKey($thread) , Carbon::now());
+        $thread->read();
 
         // fetch the replies belongs to this thread with pagination
 
@@ -164,5 +164,10 @@ class ThreadsController extends Controller
         // redirect to threads page
         
         return redirect(route('threads'));
+    }
+
+    function  test (){
+
+        return request()->ip();
     }
 }

@@ -5,7 +5,7 @@
     
         <div class="row">
     
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-8">
 
                  @forelse($threads as $thread)
     
@@ -66,8 +66,44 @@
                 {{$threads->links()}}
             
             </div>
-        
-        </div>
+
+            <div class="col-md-4">
+
+                <div class="panel panel-default">
+
+                    <div class="panel panel-heading">
+
+                        <strong>Trending</strong>
+
+                    </div>
+
+                    <div class="panel-body">
+
+                        <ul class="list-group">
+
+                            @foreach($trending as $thread)
+
+                                <li class="list-group-item">
+
+                                    <a href="{{App\Thread::find($thread->id)->path()}}">
+
+                                        {{App\Thread::find($thread->id)->title}}
+
+                                    </a>
+
+                                    visted : {{$thread->trend}} times
+
+                                </li>
+
+                            @endforeach
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
 
     </div>
 

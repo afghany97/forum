@@ -56,3 +56,5 @@ Route::delete('/profiles/{user}/notifications/{notification}','NotificationsCont
 Route::get('/profiles/{user}/notifications','NotificationsController@index');
 
 Route::post('/users/{user}/avatar','AvatarsController@store')->middleware('auth')->name('avatar');
+
+Route::get('/test' , 'ThreadsController@test');
