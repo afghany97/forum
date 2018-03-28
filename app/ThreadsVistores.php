@@ -15,7 +15,7 @@ class ThreadsVistores extends Model
         return static::all()->toArray();
     }
 
-    public static function incremnt($thread_id,$vistorIp)
+    public static function incremnt($thread_id, $vistorIp)
     {
         if(! in_array($vistorIp,static::getVistoers()))
 
