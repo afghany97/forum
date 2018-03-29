@@ -54,6 +54,12 @@
                             <strong>{{$thread->replies_count}} {{str_plural('reply', $thread->replies_count)}}</strong>
                             
                         </div>
+
+                        <div class="panel-footer">
+
+                             {{count(App\ThreadsVistores::ThreadVists($thread))}} vists
+
+                        </div>
              
                     </div>
 
@@ -81,13 +87,19 @@
 
                         <ul class="list-group">
 
-                            @foreach($trending as $thread)
+                            @forelse($trending as $thread)
 
                                 <li class="list-group-item">
 
-                                    <a href="{{App\Thread::find($thread->id)->path()}}">
+                                    @php
 
-                                        {{App\Thread::find($thread->id)->title}}
+                                        $trendThread = App\Thread::find($thread->id);
+
+                                    @endphp
+
+                                    <a href="{{$trendThread->path()}}">
+
+                                        {{$trendThread->title}}
 
                                     </a>
 
@@ -95,7 +107,11 @@
 
                                 </li>
 
-                            @endforeach
+                            @empty
+
+                                <strong>There is no trending threads right now</strong>
+
+                            @endforelse
 
                         </ul>
 

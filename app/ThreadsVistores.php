@@ -42,4 +42,16 @@ class ThreadsVistores extends Model
     {
         return !! static::where([['thread_id' , $thread_id] , ['vistoer_ip' , $ip]])->count();
     }
+
+    public static function ThreadVists($thread)
+    {
+        return static::selectRaw("COUNT(*) as trend , thread_id as id")
+
+            ->where('thread_id' , $thread->id)
+
+            ->groupBy("thread_id")
+
+            ->get();
+        
+    }
 }
