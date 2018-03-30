@@ -48,6 +48,10 @@ class Handler extends ExceptionHandler
         {
             return response('you are replies too much , take a break :)' , 429);
         }
+        if($exception instanceof inValidConfirmationToken)
+        {
+            return response('invalid token..' , 406);
+        }
 
         if(app()->environment() === 'testing') throw new $exception;
 
