@@ -48,6 +48,17 @@ class Handler extends ExceptionHandler
         {
             return response('you are replies too much , take a break :)' , 429);
         }
+
+        if($exception instanceof CantConfirmEmailWithOutLogin)
+        {
+            return response('you should login first befor try to confirm your email.' , 401);
+        }
+
+        if($exception instanceof CantConfirmOtherUserEmail)
+        {
+            return response("you can't confirm other user email." , 401);
+        }
+
         if($exception instanceof inValidConfirmationToken)
         {
             return response('invalid token..' , 406);
