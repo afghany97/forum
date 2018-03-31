@@ -14,101 +14,105 @@ class ThreadsTest extends TestCase
 
 	use DatabaseTransactions;
 
-    public function setup()
-    {
-        // call setUp function from parent class to be sure it's executed
-
-        parent::setUp();
-
-        // create a new thread
-
-    	$this->thread = create(\App\Thread::class);
-        
-    }
 
     public function test_if_user_can_see_one_thread()
     {
+        // create thread
+
+        $thread = create('App\Thread');
+
         // send get request to specific thread path to test if user can browse specific thread
 
-    	$this->get($this->thread->path())
+    	$this->get($thread->path())
 
         ->assertStatus(200)
 
-        ->assertSee($this->thread->title);
+        ->assertSee($thread->title);
     }
 
     public function test_if_user_can_see_all_threads()
     {
+        // create thread
+
+        $thread = create('App\Thread');
+
         // send get request to threads path to test if user can browse all threads
 
     	$this->get('/threads/')
 
         ->assertStatus(200)
 
-        ->assertSee($this->thread->title);
+        ->assertSee($thread->title);
     }
 
 
     public function test_if_thread_have_replies()
     {
+        // create thread
+
+        $thread = create('App\Thread');
+
         // test if the thread have replies by test if the return of replies method on thread model instance of collection
 
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection' , $this->thread->Replies);
-
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection' , $thread->Replies);
     }
 
     public function test_if_thread_have_owner()
     {
+        // create thread
+
+        $thread = create('App\Thread');
+
         // test if the thread have owner by test if the return of user method on thread model instance of User model
 
-        $this->assertInstanceOf('App\User' , $this->thread->User);
+        $this->assertInstanceOf('App\User' , $thread->User);
     }
 
-    public function test_if_unloogin_user_can_add_thread()
+    public function test_if_un_login_user_can_not_add_thread()
     {
+        // create thread
+
+        $thread = create('App\Thread');
+
         // expect exception returned from this test 
         
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
-
         // send post request with thread data to test if it would be added to database successfully
 
-        $this->post('/threads' , $this->thread->toArray());
-
-        // send get request to test if the thread appeared to thread page 
-
-        $this->get($this->$thread->path())
-
-        ->assertSee($this->thread->title) // test if the title of new thread in thread page
-
-        ->assertSee($this->thread->body); // test if the body of new thread i
+        $this->post('/threads' , $thread->toArray());
     }
 
-    public function test_if_login_user_can_add_thread()
+    public function test_if_login_user_and_confirmed_can_add_thread()
     {
-        // create user and sign in 
+        // create user and sign in and confirm
 
-        $this->signIn();
+        $this->signIn($user = create('App\User'))->confirm($user);
+
+        $thread = create('App\Thread');
+
+        // check if user confirmed
+
+        $this->assertTrue($user->fresh()->confirmed);
 
         // send post request with thread data to test if it would be added to database successfully
 
-        $respone = $this->post('/threads' , $this->thread->toArray());
+        $this->post('/threads',$thread->toArray());
 
-        // send get request to test if the thread appeared to thread page 
+        // send get request to test if the thread appeared to thread page
 
-        $this->get($this->thread->path())
+        $this->get($thread->path())
 
         ->assertStatus(200)
 
-        ->assertSee($this->thread->title) // test if the title of new thread in thread page
+        ->assertSee($thread->title) // test if the title of new thread in thread page
 
-        ->assertSee($this->thread->body); // test if the body of new thread in thread page
-
+        ->assertSee($thread->body); // test if the body of new thread in thread page
     }
 
     public function test_if_user_can_see_threads_for_each_channel()
     {
-        // create new channl
+        // create new channel
 
         $channel = create('App\Channel');
 
@@ -116,9 +120,9 @@ class ThreadsTest extends TestCase
 
         $threadInChannel = create('App\Thread' , ['channel_id' => $channel->id]);
 
-        // create new thread out of previous channel 
+        // create new thread out of previous channel
 
-        $threadOutChannel = $this->thread;
+        $threadOutChannel = create('App\Thread');
 
         // send get request for channel page to test if the the threads that belong to the channel appeared
 
@@ -177,13 +181,17 @@ class ThreadsTest extends TestCase
     
     public function test_if_guest_cannot_delete_threads()
     {
+        // create thread
+
+        $thread = create('App\Thread');
+
         // this test expect AuthenticationException
 
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
         // send delete request to delete thread end point
 
-        $this->delete($this->thread->path())
+        $this->delete($thread->path())
             
             // expect redirect to login page
 
@@ -194,6 +202,10 @@ class ThreadsTest extends TestCase
     
     public function test_if_unauthorised_user_cannot_delete_threads()
     {
+        // create thread
+
+        $thread = create('App\Thread');
+
         // this test expect AuthorizationException
         
         $this->expectException('Illuminate\Auth\Access\AuthorizationException');
@@ -204,7 +216,7 @@ class ThreadsTest extends TestCase
 
         // send delete request to delete thread end point
 
-        $this->delete($this->thread->path())
+        $this->delete($thread->path())
 
             // expect see This action is unauthorized 
 
@@ -363,19 +375,19 @@ class ThreadsTest extends TestCase
     // {
     //     // create thread and create 3 replies for this thread
 
-    //     $threadswith3replies = create('App\Thread'); 
+    //     $threadswith3replies = create('App\Thread');
 
     //     create('App\Reply',['thread_id' =>$threadswith3replies->id] , 3);
         
     //     // create thread and create 2 replies for this thread
 
-    //     $threadswith2replies = create('App\Thread'); 
+    //     $threadswith2replies = create('App\Thread');
         
     //     create('App\Reply',['thread_id' =>$threadswith2replies->id] , 2);
 
     //     // create thread witout replies
 
-    //     $threadswithnoreplies = $this->thread; 
+    //     $threadswithnoreplies = $thread;
 
     //     // get request for threads filtered by Popularity
 

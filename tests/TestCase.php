@@ -18,4 +18,13 @@ abstract class TestCase extends BaseTestCase
 
     	return $this;
     }
+
+    protected function confirm($user = null)
+    {
+        $user = $user ?: create(\App\User::class);
+
+        $this->get('/register/confirm/'.$user->confirmation_token);
+
+        return $this;
+    }
 }

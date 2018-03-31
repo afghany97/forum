@@ -57,7 +57,9 @@
 
                         <div class="panel-footer">
 
-                             {{count(App\ThreadsVistores::ThreadVists($thread))}} vists
+                            {{--                             {{count(App\ThreadsVistores::ThreadVists($thread))}} vists--}}
+
+                            {{count(cache(App\ThreadsVistores::cacheKey($thread->id)))}} vists
 
                         </div>
              
@@ -93,7 +95,7 @@
 
                                     @php
 
-                                        $trendThread = App\Thread::find($thread->id);
+                                        $trendThread = App\Thread::find($thread['id']);
 
                                     @endphp
 
@@ -103,7 +105,7 @@
 
                                     </a>
 
-                                    visted : {{$thread->trend}} times
+                                    visted : {{$thread['trend']}} times
 
                                 </li>
 
