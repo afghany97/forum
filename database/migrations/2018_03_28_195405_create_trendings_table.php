@@ -20,6 +20,8 @@ class CreateTrendingsTable extends Migration
             $table->increments('id');
             $table->integer('thread_id');
             $table->ipAddress('vistoer_ip');
+            $table->string('thread_title');
+            $table->string('thread_path');
             $table->unique(['thread_id' , 'vistoer_ip']);
             $table->timestamps();
         });

@@ -93,15 +93,10 @@
 
                                     <li class="list-group-item">
 
-                                        @php
 
-                                            $trendThread = App\Thread::find($thread['id']);
+                                        <a href="{{$thread['path']}}">
 
-                                        @endphp
-
-                                        <a href="{{$trendThread->path()}}">
-
-                                            {{$trendThread->title}}
+                                            {{$thread['title']}}
 
                                         </a>
 

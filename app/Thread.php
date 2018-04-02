@@ -182,6 +182,6 @@ class Thread extends Model
 
             // increment thread views
 
-            ThreadsVistores::incremnt($this->id,request()->ip());
+            ThreadsVistores::incremnt($this,request()->ip());
     }
 }

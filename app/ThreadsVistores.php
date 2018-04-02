@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class ThreadsVistores extends Model
 {
@@ -17,49 +18,35 @@ class ThreadsVistores extends Model
         return static::all()->toArray();
     }
 
-    public static function incremnt($thread_id, $vistorIp)
+    public static function incremnt($thread, $vistorIp)
     {
         if (!in_array($vistorIp, static::getVistoers()))
 
-            static::create([
+           self::create([
 
-                'thread_id' => $thread_id,
+                'thread_id' => $thread->id,
 
-                'vistoer_ip' => $vistorIp
+                'vistoer_ip' => $vistorIp,
+
+               'thread_title' => $thread->title,
+
+               'thread_path' => $thread->path()
             ]);
     }
 
     public static function fetchTopTrendingThreads($take = 5)
     {
-        return static::sort(static::selectRaw("COUNT(*) as trend , thread_id as id")
+        return static::selectRaw("COUNT(*) as trend , thread_title as title , thread_path as path")
 
-            ->groupBy("thread_id")
+            ->groupBy(['thread_id','thread_title','thread_path'])
 
-            ->orderByRaw("'trend' DESC")
+            ->orderByRaw("trend DESC")
 
             ->take($take)
 
-            ->get()->toArray());
-    }
+            ->get()
 
-    private static function sort($array)
-    {
-        for ($i = 0; $i < count($array) - 2; $i++) {
-
-            for ($j = 0; $j < count($array) - 2 - $i; $j++) {
-
-                if ($array[$j]['trend'] < $array[$j + 1]['trend']) {
-
-                    $temp = $array[$j];
-
-                    $array[$j] = $array[$j + 1];
-
-                    $array[$j + 1] = $temp;
-                }
-            }
-        }
-
-        return $array;
+            ->toArray();
     }
 
     public static function isVisted($thread_id, $ip)
