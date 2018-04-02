@@ -31,11 +31,7 @@ class ThreadsVistores extends Model
 
     public static function fetchTopTrendingThreads($take = 5)
     {
-        if(cache(static::trendingCacheKey()))
-
-            return cache(static::trendingCacheKey());
-
-        $topTrendingThreads = static::sort(static::selectRaw("COUNT(*) as trend , thread_id as id")
+        return static::sort(static::selectRaw("COUNT(*) as trend , thread_id as id")
 
             ->groupBy("thread_id")
 
@@ -44,10 +40,6 @@ class ThreadsVistores extends Model
             ->take($take)
 
             ->get()->toArray());
-
-        self::saveTrendingThreadsToCache($topTrendingThreads);
-
-        return $topTrendingThreads;
     }
 
     private static function sort($array)
@@ -77,40 +69,27 @@ class ThreadsVistores extends Model
 
     public static function ThreadVists($thread)
     {
-        if(cache(static::vistsCacheKey($thread->id)))
+        if(cache(static::cacheKey($thread->id)))
         {
-            return cache(static::vistsCacheKey($thread->id));
+            return cache(static::cacheKey($thread->id));
         }
         $threadVists = static::selectRaw("COUNT(*) as trend , thread_id as id")
             ->where('thread_id', $thread->id)
             ->groupBy("thread_id")
             ->get();
 
-        self::saveThreadsVistsToCache($thread, $threadVists);
+        self::saveToCache($thread, $threadVists);
 
         return $threadVists;
     }
 
-    private static function trendingCacheKey()
-    {
-        return "trendingThreads";
-    }
-
-    private static function vistsCacheKey($thread_id)
+    private static function cacheKey($thread_id)
     {
         return sprintf("thread-%s-vistis", $thread_id);
     }
 
-    private static function saveThreadsVistsToCache($thread, $threadVists)
+    private static function saveToCache($thread, $threadVists)
     {
-        count($threadVists) ? cache::put(static::vistsCacheKey($thread->id), $threadVists[0]->trend, Carbon::now()->addMinute(30)) : cache::put(static::vistsCacheKey($thread->id), 0, Carbon::now()->addMinute(30));
-    }
-
-    /**
-     * @param $topTrendingThreads
-     */
-    private static function saveTrendingThreadsToCache($topTrendingThreads)
-    {
-        count($topTrendingThreads) ? cache::put(static::trendingCacheKey(), $topTrendingThreads, Carbon::now()->addMinute(10)) : cache::put(static::trendingCacheKey(), 0, Carbon::now()->addMinute(10));
+        count($threadVists) ? cache::put(static::cacheKey($thread->id), $threadVists[0]->trend, Carbon::now()->addMinute(30)) : cache::put(static::cacheKey($thread->id), 0, Carbon::now()->addMinute(30));
     }
 }
