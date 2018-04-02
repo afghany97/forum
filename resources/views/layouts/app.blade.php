@@ -59,7 +59,13 @@
 
                                 @if(auth()->checK())
 
-                                    <a class="dropdown-item" href="/threads?by={{auth()->user()->name}}">My Threads</a>
+                                    @php
+
+                                        $authUser= auth()->user();
+
+                                    @endphp
+
+                                    <a class="dropdown-item" href="/threads?by={{$authUser->name}}">My Threads</a>
                             
                                 @endif
 
@@ -87,12 +93,10 @@
 
                         </li>
                             
-                            
-
                         @if(auth()->check())
 
                             <li><a href="\threads\create">New Thread</a></li>
-                            
+
                         @endif
 
                     </ul>
@@ -109,16 +113,16 @@
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ $authUser->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
 
                                     <li>
 
-                                        <a href="{{route('profile' , auth()->user())}}">My Profile
+                                        <a href="{{route('profile' , $authUser)}}">My Profile
 
-                                            @if(Auth::user()->confirmed)
+                                            @if($authUser->confirmed)
 
                                                 <i class="fas fa-check"></i>
 
