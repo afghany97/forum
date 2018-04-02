@@ -110,8 +110,30 @@ class FavouriteController extends Controller
      * @param  \App\Favourite  $favourite
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Favourite $favourite)
+    public function destroy(Thread $thread = null ,Reply $reply = null)
     {
-        //
+        // check if the request want to favouirte reply
+
+        if(Favourite::gotFirstWord(request()->path()) == 'replies'){
+
+            // unfavourite reply end point "replies/{Reply->id}/favourite"
+
+            $reply->unfavourite();
+
+            // repear the flash message
+
+            session()->flash('message' , 'The reply unfavourite successfully');
+        }
+        else{
+
+            // unfavourite thread end point "threads/{thread->id}/favourite"
+
+            $thread->unfavourite();
+
+            // repear the flash message
+
+            session()->flash('message' , 'The thread unfavourite successfully');
+        }
+        return back();
     }
 }

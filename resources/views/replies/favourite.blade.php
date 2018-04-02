@@ -1,19 +1,46 @@
 @if(auth()->check())
 
-            <div class="flex text-right">
+    @if($Reply->IsFavourited())
 
-                <form method="POST" action="/replies/{{$Reply->id}}/favourite">
+        <div class="flex text-right">
 
-                    {{csrf_field()}}
+            <form method="POST" action="/replies/{{$Reply->id}}/unfavourite">
 
-                    <button type="submit" class="btn btn-primary btn-xs" {{$Reply->IsFavourited() ? 'disabled' : ''}}>
+                {{csrf_field()}}
 
-                        {{$Reply->favourites->count()}} {{str_plural('Favourite' , $Reply->favourites->count())}}
+                {{method_field("DELETE")}}
+                <button type="submit" class="btn btn-primary btn-xs">
 
-                    </button>                        
+                    {{$Reply->favourites->count()}}
 
-                </form>
+                    <i class="far fa-heart"></i>
 
-            </div> 
+                </button>
 
-        @endif
+            </form>
+
+        </div>
+
+    @else
+
+        <div class="flex text-right">
+
+            <form method="POST" action="/replies/{{$Reply->id}}/favourite">
+
+                {{csrf_field()}}
+
+                <button type="submit" class="btn btn-default btn-xs">
+
+                    {{$Reply->favourites->count()}}
+
+                    <i class="fas fa-heart"></i>
+
+                </button>
+
+            </form>
+
+        </div>
+
+    @endif
+
+@endif

@@ -23,6 +23,10 @@ Auth::routes();
 
 Route::get('/threads','ThreadsController@index')->name('threads');
 
+Route::delete('replies/{reply}/unfavourite' , 'FavouriteController@destroy');
+
+Route::delete('/threads/{thread}/unfavourite' , 'FavouriteController@destroy');
+
 Route::get('/threads/create' , 'ThreadsController@create');
 
 Route::get('/threads/{channel}','ThreadsController@index');

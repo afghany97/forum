@@ -1,18 +1,40 @@
 @if(auth()->check())
 
+    @if($thread->IsFavourited())
+
+        <div class="text-right flex" style="float:right;">
+
+            <form method="POST" action="/threads/{{$thread->id}}/unfavourite">
+
+                {{csrf_field()}}
+
+                {{method_field('DELETE')}}
+
+                <button type="submit" class="btn btn-primary btn-xs">
+
+                    {{$thread->favourites->count()}}
+
+                    <i class="far fa-heart"></i>
+
+                </button>
+
+            </form>
+
+        </div>
+
+    @else
+
     <div class="text-right flex" style="float:right;">
 
         <form method="POST" action="/threads/{{$thread->id}}/favourite">
 
             {{csrf_field()}}
 
-            <button type="submit" class="btn btn-primary btn-xs" {{$thread->IsFavourited() ? 'disabled' : ''}}>
+            <button type="submit" class="btn btn-default btn-xs">
 
                 {{$thread->favourites->count()}}
 
                 <i class="fas fa-heart"></i>
-
-                {{--<i class="far fa-heart"></i>-- for un like}}
 
 {{--                {{str_plural('Favourite' , $thread->favourites->count())}}--}}
 
@@ -21,5 +43,7 @@
         </form>
 
     </div>
-                        
+
+    @endif
+
 @endif
