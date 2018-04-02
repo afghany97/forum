@@ -8,15 +8,14 @@ use App\Channel;
 
 use App\ThreadsVistores;
 
-use App\User;
-
 use App\filters\ThreadsFilters;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests\ThreadsRequestForm;
 
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 
 class ThreadsController extends Controller
 {
@@ -164,10 +163,5 @@ class ThreadsController extends Controller
         // redirect to threads page
         
         return redirect(route('threads'));
-    }
-
-    function  test (){
-
-        return request()->ip();
     }
 }

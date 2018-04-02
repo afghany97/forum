@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class ThreadsVistores extends Model
 {
@@ -10,7 +12,7 @@ class ThreadsVistores extends Model
 
     protected $guarded = [];
 
-    public static function getVistoers()
+    private static function getVistoers()
     {
         return static::all()->toArray();
     }
@@ -25,13 +27,6 @@ class ThreadsVistores extends Model
 
                 'vistoer_ip' => $vistorIp
             ]);
-
-        $threadVists = static::selectRaw("COUNT(*) as trend , thread_id as id")
-            ->where('thread_id', $thread_id)
-            ->groupBy("thread_id")
-            ->get();
-
-        cache()->forever(static::cacheKey($thread_id), $threadVists[0]->trend);
     }
 
     public static function fetchTopTrendingThreads($take = 5)
@@ -49,9 +44,9 @@ class ThreadsVistores extends Model
 
     private static function sort($array)
     {
-        for ($i = 0; $i < count($array) - 1 - 1; $i++) {
+        for ($i = 0; $i < count($array) - 2; $i++) {
 
-            for ($j = 0; $j < count($array) - 1 - 1 - $i; $j++) {
+            for ($j = 0; $j < count($array) - 2 - $i; $j++) {
 
                 if ($array[$j]['trend'] < $array[$j + 1]['trend']) {
 
@@ -69,19 +64,32 @@ class ThreadsVistores extends Model
 
     public static function isVisted($thread_id, $ip)
     {
-        return !!static::where([['thread_id', $thread_id], ['vistoer_ip', $ip]])->count();
+        return !! static::where([['thread_id', $thread_id], ['vistoer_ip', $ip]])->count();
     }
 
     public static function ThreadVists($thread)
     {
-        return static::selectRaw("COUNT(*) as trend , thread_id as id")
+        if(cache(static::cacheKey($thread->id)))
+        {
+            return cache(static::cacheKey($thread->id));
+        }
+        $threadVists = static::selectRaw("COUNT(*) as trend , thread_id as id")
             ->where('thread_id', $thread->id)
             ->groupBy("thread_id")
             ->get();
+
+        self::saveToCache($thread, $threadVists);
+
+        return $threadVists;
     }
 
-    public static function cacheKey($thread_id)
+    private static function cacheKey($thread_id)
     {
         return sprintf("thread-%s-vistis", $thread_id);
+    }
+
+    private static function saveToCache($thread, $threadVists)
+    {
+        count($threadVists) ? cache::put(static::cacheKey($thread->id), $threadVists[0]->trend, Carbon::now()->addMinute(30)) : cache::put(static::cacheKey($thread->id), 0, Carbon::now()->addMinute(30));
     }
 }

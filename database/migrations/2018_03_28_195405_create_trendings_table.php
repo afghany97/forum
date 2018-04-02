@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,6 +14,8 @@ class CreateTrendingsTable extends Migration
      */
     public function up()
     {
+        Artisan::call('cache:clear');
+
         Schema::create('trendings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('thread_id');

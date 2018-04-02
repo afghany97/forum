@@ -57,9 +57,7 @@
 
                         <div class="panel-footer">
 
-                            {{--                             {{count(App\ThreadsVistores::ThreadVists($thread))}} vists--}}
-
-                            {{count(cache(App\ThreadsVistores::cacheKey($thread->id)))}} vists
+                             {{count(App\ThreadsVistores::ThreadVists($thread))}} vists
 
                         </div>
              
@@ -75,53 +73,57 @@
             
             </div>
 
-            <div class="col-md-4">
+            @if(count($trending))
 
-                <div class="panel panel-default">
+                <div class="col-md-4">
 
-                    <div class="panel panel-heading">
+                    <div class="panel panel-default">
 
-                        <strong>Trending</strong>
+                        <div class="panel panel-heading">
 
-                    </div>
+                            <strong>Trending</strong>
 
-                    <div class="panel-body">
+                        </div>
 
-                        <ul class="list-group">
+                        <div class="panel-body">
 
-                            @forelse($trending as $thread)
+                            <ul class="list-group">
 
-                                <li class="list-group-item">
+                                @forelse($trending as $thread)
 
-                                    @php
+                                    <li class="list-group-item">
 
-                                        $trendThread = App\Thread::find($thread['id']);
+                                        @php
 
-                                    @endphp
+                                            $trendThread = App\Thread::find($thread['id']);
 
-                                    <a href="{{$trendThread->path()}}">
+                                        @endphp
 
-                                        {{$trendThread->title}}
+                                        <a href="{{$trendThread->path()}}">
 
-                                    </a>
+                                            {{$trendThread->title}}
 
-                                    visted : {{$thread['trend']}} times
+                                        </a>
 
-                                </li>
+                                        visted : {{$thread['trend']}} times
 
-                            @empty
+                                    </li>
 
-                                <strong>There is no trending threads right now</strong>
+                                @empty
 
-                            @endforelse
+                                    <strong>There is no trending threads right now</strong>
 
-                        </ul>
+                                @endforelse
+
+                            </ul>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
+            @endif
 
     </div>
 

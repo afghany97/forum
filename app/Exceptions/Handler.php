@@ -64,7 +64,9 @@ class Handler extends ExceptionHandler
             return response('invalid token..' , 406);
         }
 
-        if(app()->environment() === 'testing') throw new $exception;
+        if(app()->environment() === 'testing')
+
+            throw new $exception;
 
         return parent::render($request, $exception);
     }

@@ -12,6 +12,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('fonts/font-awesome.min.css') }}" rel="stylesheet">
+    {{--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">--}}
+
 </head>
 <body>
     <div id="app">
@@ -110,7 +113,25 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{route('profile' , auth()->user())}}">My Profile</a></li>
+
+                                    <li>
+
+                                        <a href="{{route('profile' , auth()->user())}}">My Profile
+
+                                            @if(Auth::user()->confirmed)
+
+                                                <i class="fas fa-check"></i>
+
+                                            @else
+
+                                                <i class="fas fa-times"></i>
+
+                                            @endif
+
+                                        </a>
+
+                                    </li>
+
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

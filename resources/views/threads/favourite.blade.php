@@ -8,7 +8,13 @@
 
             <button type="submit" class="btn btn-primary btn-xs" {{$thread->IsFavourited() ? 'disabled' : ''}}>
 
-                {{$thread->favourites->count()}} {{str_plural('Favourite' , $thread->favourites->count())}}
+                {{$thread->favourites->count()}}
+
+                <i class="fas fa-heart"></i>
+
+                {{--<i class="far fa-heart"></i>-- for un like}}
+
+{{--                {{str_plural('Favourite' , $thread->favourites->count())}}--}}
 
             </button>                        
 

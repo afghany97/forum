@@ -2,7 +2,8 @@
                                     
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         
-        <span class="glyphicon glyphicon-bell"></span>
+        <i class="fas fa-bell"></i>
+
     </a>
 
     <ul class="dropdown-menu" role="menu">

@@ -1,6 +1,6 @@
 @if($thread->isSubscribed)
 
-                <div>
+                <div class="text-center">
                         
                     <form method="POST" action="{{$thread->path() . '/subscribe'}}">
                             
@@ -16,7 +16,7 @@
 
             @else
             
-                <div>
+                <div class="text-center">
                         
                     <form method="POST" action="{{$thread->path() . '/subscribe'}}">
                             
