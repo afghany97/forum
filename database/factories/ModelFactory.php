@@ -19,11 +19,11 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
+        'name' => $name =  $faker->name,
+        'email' => $email = $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
-        'confirmation_token' => str_random(25),
+        'confirmation_token' => str_limit(md5($email.$name ),25,''),
         'confirmed' => false
     ];
 });
