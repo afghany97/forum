@@ -6,7 +6,7 @@
         
     @include('threads.body')
 
-    @include('threads.delete')
+    @include('threads.deleteAndUpdate')
 
     @foreach($replies as $Reply)
 

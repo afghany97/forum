@@ -123,9 +123,9 @@ class ThreadsController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function edit(Thread $thread)
+    public function edit(Channel $channel , Thread $thread)
     {
-        //
+        return view('threads.edit',compact('channel','thread'));
     }
 
     /**
@@ -135,9 +135,26 @@ class ThreadsController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Thread $thread)
+    public function update(Channel $channel, Thread $thread , ThreadsRequestForm $form)
     {
-        //
+        // update thread
+
+        $thread->update([
+
+            'title' => request('title'),
+
+            'body' => request('body'),
+
+            'channel_id' => request('channel_id')
+        ]);
+
+        // repear flash message
+
+        session()->flash('message' , 'The thread updated successfully');
+
+        // redirect to thread page
+
+        return redirect($thread->path());
     }
 
     /**
