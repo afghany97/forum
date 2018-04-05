@@ -21,8 +21,11 @@ class EventServiceProvider extends ServiceProvider
         Registered::class =>[
             'App\Listeners\sentConfirmationMail',
 
+        ],
+        'App\Events\ThreadHasUpdated' => [
+            'App\Listeners\NofityAllThreadSubscribersII',
         ]
-    ];
+        ];
 
     /**
      * Register any events for your application.

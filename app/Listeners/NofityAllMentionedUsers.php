@@ -4,12 +4,6 @@ namespace App\Listeners;
 
 use App\Events\ThreadHasNewReply;
 
-use App\Listeners\NofityAllMentionedUsers;
-
-use Illuminate\Queue\InteractsWithQueue;
-
-use Illuminate\Contracts\Queue\ShouldQueue;
-
 use App\User;
 
 use App\Notifications\YouAreMentioned;

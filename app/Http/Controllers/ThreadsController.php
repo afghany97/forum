@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ThreadHasUpdated;
 use App\Thread;
 
 use App\Channel;
@@ -147,6 +148,8 @@ class ThreadsController extends Controller
 
             'channel_id' => request('channel_id')
         ]);
+
+        event(new ThreadHasUpdated($thread));
 
         // repear flash message
 

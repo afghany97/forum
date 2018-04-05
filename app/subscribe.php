@@ -4,6 +4,7 @@ namespace App;
 
 use App\Notifications\ThreadUpdated;
 
+use App\Notifications\ThreadUpdatedII;
 use Illuminate\Database\Eloquent\Model;
 
 class subscribe extends Model
@@ -17,8 +18,14 @@ class subscribe extends Model
     	return $this->belongsTo(User::class);
     }
 
-    public function notify($reply) // notfiy subscribe user
+    public function notifyThreadHasNewReply($reply) // notfiy subscribe user
     {
 	    $this->user->notify(new ThreadUpdated($reply->thread , $reply));
     }
+
+    public function notifyThreadHasUpdated($thread) // notfiy subscribe user
+    {
+        $this->user->notify(new ThreadUpdatedII($thread));
+    }
+
 }

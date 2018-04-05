@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\ThreadHasNewReply;
+use App\Events\ThreadHasUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NofityAllThreadSubscribers
+class NofityAllThreadSubscribersII
 {
     /**
      * Create the event listener.
@@ -21,20 +21,19 @@ class NofityAllThreadSubscribers
     /**
      * Handle the event.
      *
-     * @param  ThreadHasNewReply  $event
+     * @param  ThreadHasUpdated  $event
      * @return void
      */
-    public function handle(ThreadHasNewReply $event)
+    public function handle(ThreadHasUpdated $event)
     {
         $event->thread->subscribes
 
-        // find all subscribers except authenticated user
+            // find all subscribers except authenticated user
 
-        ->where('user_id' , '!=' , $event->reply->user_id)
-        
-        // notify users
-        
-        ->each->notifyThreadHasNewReply($event->reply);
+            ->where('user_id' , '!=' , $event->thread->user_id)
 
+            // notify users
+
+            ->each->notifyThreadHasUpdated($event->thread);
     }
 }

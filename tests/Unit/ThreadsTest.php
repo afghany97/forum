@@ -371,6 +371,46 @@ class ThreadsTest extends TestCase
 
     /** @test */
 
+    public function notify_all_subscribers_after_update_thread()
+    {
+        // create user "ahmed" and sign in
+
+        $this->signIn($ahmed = create('App\User',['name' => 'ahmed']));
+
+        // create user "mo" and sign in and confirm
+
+        $this->signIn($mo = create('App\User',['name'=>'muhammad']))->confirm($mo);
+
+        // create channel
+
+        $channel = create('App\Channel');
+
+        // create thread by mo
+
+        $thread = create('App\Thread',['user_id' => $mo->id , 'channel_id' => $channel->id]);
+
+        // let ahmed subscribe mo thread
+
+        $thread->subscribe($ahmed->id);
+
+        // check ahmed notifications
+
+        $this->assertCount(0,$ahmed->notifications);
+
+        // let mo update his thread
+
+        $this->put("/threads/{$channel->name}/{$thread->id}/update",[
+            'channel_id' => create($channel = 'App\Channel')->id,
+            'title' => 'update',
+            'body' => 'update'
+        ]);
+
+        // check ahmed notifications
+
+        $this->assertCount(1,$ahmed->fresh()->notifications);
+    }
+    /** @test */
+
     // public function test_if_user_can_filter_threads_by_populair()
     // {
     //     // create thread and create 3 replies for this thread
