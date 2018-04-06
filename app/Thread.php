@@ -48,6 +48,10 @@ class Thread extends Model
                $thread->replies->each->delete();   
          });
 
+         static::created(function ($thread){
+
+             $thread->update(['slug' => $thread->title]);
+         });
       }
 
    	public function User() // create the relationship between threads and users table
@@ -69,7 +73,7 @@ class Thread extends Model
    	{
          // return the path of specific thread
 
-         return '/threads/' . $this->Channel->name . '/' .  $this->id;
+         return '/threads/' . $this->Channel->name . '/' .  $this->slug;
 
    	}
 
@@ -183,5 +187,15 @@ class Thread extends Model
             // increment thread views
 
             ThreadsVistores::incremnt($this,request()->ip());
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] =  str_slug($value) . '-' . $this->id;
     }
 }

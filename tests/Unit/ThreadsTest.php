@@ -332,7 +332,7 @@ class ThreadsTest extends TestCase
 
         // send get request to thread end point "vist the thread by authenticated user"
 
-        $this->get('/threads/' . $thread->Channel->name . '/' . $thread->id);
+        $this->get('/threads/' . $thread->Channel->name . '/' . $thread->slug);
 
         // send get request to all threads end point
     
@@ -399,7 +399,7 @@ class ThreadsTest extends TestCase
 
         // let mo update his thread
 
-        $this->put("/threads/{$channel->name}/{$thread->id}/update",[
+        $this->put("/threads/{$channel->name}/{$thread->slug}/update",[
             'channel_id' => create($channel = 'App\Channel')->id,
             'title' => 'update',
             'body' => 'update'
@@ -408,6 +408,33 @@ class ThreadsTest extends TestCase
         // check ahmed notifications
 
         $this->assertCount(1,$ahmed->fresh()->notifications);
+    }
+    
+    /** @test */
+
+    public function each_thread_have_unique_slug()
+    {
+        $firstThread = create('App\Thread',['title' => 'same title']);
+
+        $secondThread = create('App\Thread',['title' => 'same title']);
+
+        $this->assertNotEquals($firstThread->slug , $secondThread->slug);
+    }
+    
+    /** @test */
+
+    public function thread_with_title_end_with_number_should_generete_unique_slug()
+    {
+        $firstThread = create('App\Thread',['title' => 'same title 1']);
+
+        $secondThread = create('App\Thread',['title' => 'same title 2']);
+
+        $this->assertEquals('same-title-1-' . $firstThread->id , $firstThread->slug);
+
+        $this->assertEquals('same-title-2-' . $secondThread->id , $secondThread->slug);
+
+        $this->assertNotEquals($firstThread->slug , $secondThread->slug);
+
     }
     /** @test */
 
