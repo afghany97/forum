@@ -1,4 +1,4 @@
-@if(auth()->check() && auth()->user()->confirmed)
+@if(auth()->check() && $authUser->confirmed)
 
     <form action="{{$thread->path() . '/replies'}}" method="POST">
 
@@ -10,7 +10,7 @@
 
 	</form>
 
-@elseif(auth()->check() && !auth()->user()->confirmed)
+@elseif(auth()->check() && !$authUser->confirmed)
 
     <p class="text-center">
 

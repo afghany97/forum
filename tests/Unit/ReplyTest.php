@@ -408,4 +408,22 @@ class ReplyTest extends TestCase
 
         $this->assertEquals('hello <a href="/profiles/foobar">@foobar</a>', $reply->body);
     }
+    
+    /** @test */
+
+    public function know_if_reply_is_best()
+    {
+        $this->signIn($user = create('App\User'))->confirm($user);
+
+        $thread = create('App\Thread',['user_id' => auth()->id()]);
+
+        $reply = create('App\Reply',['user_id' => auth()->id() , 'thread_id' => $thread->id]);
+
+        $this->assertFalse($reply->isBest);
+
+        $this->post("/replies/{$reply->id}/best");
+
+        $this->assertTrue($reply->fresh()->isBest);
+        
+    }
 }

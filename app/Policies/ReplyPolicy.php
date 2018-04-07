@@ -48,6 +48,6 @@ class ReplyPolicy
 
         // return bool value if the last reply for user was published befor 1 min ago 
 
-        return ! $lastReply->justPublished() && $user->confrimed;
+        return ! $lastReply->justPublished() && $user->confirmed;
     }
 }

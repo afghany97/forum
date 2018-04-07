@@ -1,9 +1,8 @@
 @can('delete' , $Reply)
-    
-    <div class="panel-footer">
-        
-        <form method="POST" action="/replies/{{$Reply->id}}" style="float: left;" class="mr-1">
-            
+
+
+        <form method="POST" action="/replies/{{$Reply->id}}" class="mr-1 fl">
+
             {{csrf_field()}}
 
             {{method_field('DELETE')}}
@@ -12,5 +11,4 @@
 
         </form>
 
-    
 @endcan

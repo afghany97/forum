@@ -198,4 +198,9 @@ class Thread extends Model
     {
         $this->attributes['slug'] =  str_slug($value) . '-' . $this->id;
     }
+
+    public function markReplyAsBest(Reply $reply)
+    {
+        $this->update(['best_reply_id' =>  $reply->id]);
+    }
 }

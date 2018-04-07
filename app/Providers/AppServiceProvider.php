@@ -25,11 +25,20 @@ class AppServiceProvider extends ServiceProvider
         {
             // check if there authenticated user
 
-            if(auth()->check())
+            if(auth()->check()){
+
+                // fetch authenticated user
+
+                $authUser = auth()->user();
 
                 // pass unreadNotifications for all views
 
-                $view->with('unreadNotifications',auth()->user()->unreadNotifications); 
+                $view->with('unreadNotifications',$authUser->unreadNotifications);
+
+                // pass authenticated user for all views
+
+                $view->with('authUser' , $authUser);
+            }
         });
 
         // pass the channels for all views
