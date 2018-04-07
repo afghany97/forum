@@ -140,4 +140,13 @@ class RepliesController extends Controller
         
         return back();
     }
+
+    public function bestReply(Reply $reply)
+    {
+        $this->authorize('update',$reply->thread);
+
+        $reply->thread->markReplyAsBest($reply);
+
+        return redirect($reply->path());
+    }
 }

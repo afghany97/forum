@@ -68,3 +68,5 @@ Route::post('/users/{user}/avatar','AvatarsController@store')->middleware('auth'
 Route::get('/test' , 'ThreadsController@test');
 
 Route::get('/register/confirm/{token}','UsersControllers@index');
+
+Route::post('/replies/{reply}/best','RepliesController@bestReply');

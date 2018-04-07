@@ -20,12 +20,18 @@
 
     <div class="panel-body" >
 
-            {{$Reply->body}}
+            {{$Reply->body  }}
       
     </div>
-    
-    @include('replies.delete')
 
-    @include('replies.updateForm')
+    <div class="panel-footer level">
+
+        @include('replies.delete')
+
+        @include('replies.updateForm')
+
+        @include('replies.MarkAsBest')
+
+    </div>
 
 </div>

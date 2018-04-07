@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ThreadHasUpdated;
+use App\Reply;
 use App\Thread;
 
 use App\Channel;
@@ -113,9 +114,13 @@ class ThreadsController extends Controller
 
         $replies = $thread->replies()->paginate(5);
 
+        // fetch first reply
+
+        $bestReply = (new \App\Reply)->find($thread->best_reply_id);
+
         // return view with specific thread and replies
 
-        return view('threads.show',compact(['thread' , 'replies']));
+        return view('threads.show',compact(['thread' , 'replies' , 'bestReply']));
     }
 
     /**

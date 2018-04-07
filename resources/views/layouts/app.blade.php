@@ -59,12 +59,6 @@
 
                                 @if(auth()->checK())
 
-                                    @php
-
-                                        $authUser= auth()->user();
-
-                                    @endphp
-
                                     <a class="dropdown-item" href="/threads?by={{$authUser->name}}">My Threads</a>
                             
                                 @endif
