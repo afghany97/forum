@@ -5,6 +5,7 @@
       <strong>this thread was locked by a supervisor</strong>
 
     </p>
+
 @elseif(auth()->check() && $authUser->confirmed)
 
     <form action="{{$thread->path() . '/replies'}}" method="POST">
