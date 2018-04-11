@@ -27,6 +27,8 @@ Route::any('/threads/{channel}/{thread}/edit','ThreadsController@edit');
 
 Route::put('/threads/{channel}/{thread}/update','ThreadsController@update');
 
+Route::put('/threads/{thread}/lock','LockThreadControllers@update');
+
 Route::delete('replies/{reply}/unfavourite' , 'FavouriteController@destroy');
 
 Route::delete('/threads/{thread}/unfavourite' , 'FavouriteController@destroy');

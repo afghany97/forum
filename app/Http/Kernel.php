@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\must_be_supervisor;
 use App\Http\Middleware\shouldConfirmYourEmail;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -58,6 +59,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'shoudConfirmYourEmail'=>shouldConfirmYourEmail::class,
+        'supervisor'=> must_be_supervisor::class,
 
     ];
 }

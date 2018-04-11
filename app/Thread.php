@@ -19,174 +19,173 @@ use App\Reply;
 
 class Thread extends Model
 {
-      use RecordsActivites , ableToFavourite;
+    use RecordsActivites, ableToFavourite;
 
-      // unguard all fileds of threads table "able to fill"
+    // unguard all fileds of threads table "able to fill"
 
-   	protected $guarded = [];
+    protected $guarded = [];
 
-      // append isSubscribed attribute to thread object
+    // append isSubscribed attribute to thread object
 
-      protected $appends = ['isSubscribed'];
+    protected $appends = ['isSubscribed'];
 
-      public static function boot()
-      {
-         parent::boot();
+    protected $casts = [
+      'is_locked' => 'boolean'
+    ];
 
-         static::addGlobalScope('channel' , function($builder)
-         {
+    public static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('channel', function ($builder) {
             $builder->with('Channel');
-         });
+        });
 
-         static::addGlobalScope('User', function($builder)
-         {
+        static::addGlobalScope('User', function ($builder) {
             $builder->with('User');
-         });
+        });
 
-         static::deleting(function($thread){
+        static::deleting(function ($thread) {
 
-               $thread->replies->each->delete();   
-         });
+            $thread->replies->each->delete();
+        });
 
-         static::created(function ($thread){
+        static::created(function ($thread) {
 
-             $thread->update(['slug' => $thread->title]);
-         });
-      }
+            $thread->update(['slug' => $thread->title]);
+        });
+    }
 
-   	public function User() // create the relationship between threads and users table
-   	{
-   		return $this->belongsTo(User::class);
-   	}
+    public function User() // create the relationship between threads and users table
+    {
+        return $this->belongsTo(User::class);
+    }
 
-      public function Channel() // create the relationship between threads and channels table
-      {
-         return $this->belongsTo(Channel::class);
-      }
+    public function Channel() // create the relationship between threads and channels table
+    {
+        return $this->belongsTo(Channel::class);
+    }
 
-   	public function Replies() // create the relationship between threads and replies table
-   	{
-   		return $this->hasMany(Reply::class);
-   	}
+    public function Replies() // create the relationship between threads and replies table
+    {
+        return $this->hasMany(Reply::class);
+    }
 
-   	public function path()
-   	{
-         // return the path of specific thread
+    public function path()
+    {
+        // return the path of specific thread
 
-         return '/threads/' . $this->Channel->name . '/' .  $this->slug;
+        return '/threads/' . $this->Channel->name . '/' . $this->slug;
 
-   	}
+    }
 
-      public function addReply(array $data) // add reply for thread
-      {
-          // expect array of data "user_id and body of reply"
+    public function addReply(array $data) // add reply for thread
+    {
+        // expect array of data "user_id and body of reply"
 
-          $reply = $this->Replies()->create([
+        $reply = $this->Replies()->create([
 
-          'body' => $data['body'],
-            
-          'user_id' => $data['user_id']
-            
-          ]);
+            'body' => $data['body'],
 
-          // call the ThreadHasNewReply event to execute the listeners
+            'user_id' => $data['user_id']
 
-          event(new ThreadHasNewReply($this,$reply));
-          
-          // return instance of the added reply
+        ]);
 
-          return $reply;
-      }
+        // call the ThreadHasNewReply event to execute the listeners
 
-      public static function addThread(array $data) // create thread
-      {
-         // expect array of data "thread title and body"
+        event(new ThreadHasNewReply($this, $reply));
 
-         // return instance of the added Thread
+        // return instance of the added reply
 
-         return static::create([
+        return $reply;
+    }
+
+    public static function addThread(array $data) // create thread
+    {
+        // expect array of data "thread title and body"
+
+        // return instance of the added Thread
+
+        return static::create([
 
             'channel_id' => $data['channel_id'],
-            
+
             'user_id' => auth()->id(),
 
             'title' => $data['title'],
 
             'body' => $data['body']
-         ]);
-      }
+        ]);
+    }
 
-      public function scopeFilter($query,$filters)
-      {
-         // msh 3arf aktb eh bas zay ma 7adrtko shayfen :"D 
+    public function scopeFilter($query, $filters)
+    {
+        // msh 3arf aktb eh bas zay ma 7adrtko shayfen :"D
 
-         return $filters->apply($query);
-      }  
+        return $filters->apply($query);
+    }
 
-      public function subscribe($userId = null) // subscribe to thread
-      {
-         $this->subscribes()
-         
-         ->create([
-         
-            'user_id' => $userId ?: auth()->id()
-         ]);
-         
-         // return object of thread 
-         
-         return $this;
-      }
+    public function subscribe($userId = null) // subscribe to thread
+    {
+        $this->subscribes()
+            ->create([
 
-      public function unsubscribe($userId = null )// unsubscribe to thread
-      {
-         $this->subscribes()
+                'user_id' => $userId ?: auth()->id()
+            ]);
 
-         ->where('user_id' , $userId ?: auth()->id())
+        // return object of thread
 
-         ->delete();
-      }
+        return $this;
+    }
 
-      public function subscribes() // create the relationship between subscribes and thread table
-      {
-         return $this->hasMany('App\subscribe');
-      }
+    public function unsubscribe($userId = null)// unsubscribe to thread
+    {
+        $this->subscribes()
+            ->where('user_id', $userId ?: auth()->id())
+            ->delete();
+    }
 
-      public function getIsSubscribedAttribute() // set the IsSubscribed accessor
-      {
-         // return bool value if this thread subscribed by authenticated user
+    public function subscribes() // create the relationship between subscribes and thread table
+    {
+        return $this->hasMany('App\subscribe');
+    }
 
-         return $this->subscribes()->where('user_id' , auth()->id())->exists();
-      }
+    public function getIsSubscribedAttribute() // set the IsSubscribed accessor
+    {
+        // return bool value if this thread subscribed by authenticated user
 
-      public function hasUpdatedFor() // check if the thread have updates for authenticated user
-      {
-         // check if there login user
+        return $this->subscribes()->where('user_id', auth()->id())->exists();
+    }
 
-         if(auth()->check()){
-               
+    public function hasUpdatedFor() // check if the thread have updates for authenticated user
+    {
+        // check if there login user
+
+        if (auth()->check()) {
+
             $user = auth()->user();
 
             // return bool value if thread has update for authenticated user by using timestamp
-            
+
             return $this->updated_at > cache($user->getVistedThreadCasheKey($this));
-         }
-      }
+        }
+    }
 
     public function read()
     {
         // check if user authenticated
 
-        if(auth()->check())
+        if (auth()->check())
 
             // save timestamp when user vist the thread in cache
 
-            cache()->forever(auth()->user()->getVistedThreadCasheKey($this) , Carbon::now());
+            cache()->forever(auth()->user()->getVistedThreadCasheKey($this), Carbon::now());
 
-        if(! ThreadsVistores::isVisted($this->id,request()->ip()))
+        if (!ThreadsVistores::isVisted($this->id, request()->ip()))
 
             // increment thread views
 
-            ThreadsVistores::incremnt($this,request()->ip());
+            ThreadsVistores::incremnt($this, request()->ip());
     }
 
     public function getRouteKeyName()
@@ -196,11 +195,16 @@ class Thread extends Model
 
     public function setSlugAttribute($value)
     {
-        $this->attributes['slug'] =  str_slug($value) . '-' . $this->id;
+        $this->attributes['slug'] = str_slug($value) . '-' . $this->id;
     }
 
     public function markReplyAsBest(Reply $reply)
     {
-        $this->update(['best_reply_id' =>  $reply->id]);
+        $this->update(['best_reply_id' => $reply->id]);
+    }
+
+    public function lockToggle()
+    {
+        $this->update(['is_locked' => ! $this->is_locked]);
     }
 }

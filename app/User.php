@@ -24,7 +24,8 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-      'confirmed' => 'boolean'
+      'confirmed' => 'boolean',
+       'is_supervisor' => 'boolean'
     ];
     /**
      * The attributes that should be hidden for arrays.

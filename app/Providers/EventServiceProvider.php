@@ -24,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\ThreadHasUpdated' => [
             'App\Listeners\NofityAllThreadSubscribersII',
+        ],
+        'App\Events\ThreadLocked' => [
+            'App\Listeners\NofityThreadOwner',
         ]
         ];
 

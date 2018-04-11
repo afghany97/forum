@@ -16,8 +16,11 @@
     </div>
 
     @include('threads.subscribe')
-            
-        </div>
+
+    @include('threads.lock')
+
+
+    </div>
         
     </div>
 

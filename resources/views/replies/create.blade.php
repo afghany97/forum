@@ -1,4 +1,11 @@
-@if(auth()->check() && $authUser->confirmed)
+@if( auth()->check() && $thread->is_locked && $authUser->confirmed)
+
+    <p class="text-center">
+
+      <strong>this thread was locked by a supervisor</strong>
+
+    </p>
+@elseif(auth()->check() && $authUser->confirmed)
 
     <form action="{{$thread->path() . '/replies'}}" method="POST">
 
