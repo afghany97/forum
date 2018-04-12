@@ -26,6 +26,8 @@ class NofityThreadOwner
      */
     public function handle(ThreadLocked $event)
     {
+        // notify the thread owner when his thread locked by supervisor
+
         $event->thread->user->notify(new \App\Notifications\ThreadLocked($event->thread));
     }
 }

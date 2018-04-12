@@ -414,9 +414,15 @@ class ThreadsTest extends TestCase
 
     public function each_thread_have_unique_slug()
     {
+        // create threads with override the title
+
         $firstThread = create('App\Thread',['title' => 'same title']);
 
+        // create threads with override the title 'same title'
+
         $secondThread = create('App\Thread',['title' => 'same title']);
+
+        // check if the slug of each thread unique
 
         $this->assertNotEquals($firstThread->slug , $secondThread->slug);
     }
@@ -425,7 +431,11 @@ class ThreadsTest extends TestCase
 
     public function thread_with_title_end_with_number_should_generete_unique_slug()
     {
+        // create thread his title end with number
+
         $firstThread = create('App\Thread',['title' => 'same title 1']);
+
+        // create thread his title end with number
 
         $secondThread = create('App\Thread',['title' => 'same title 2']);
 

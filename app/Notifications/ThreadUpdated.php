@@ -12,10 +12,12 @@ class ThreadUpdated extends Notification
     use Queueable;
 
     protected $thread , $reply;
+
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $thread
+     * @param $reply
      */
     public function __construct($thread , $reply)
     {

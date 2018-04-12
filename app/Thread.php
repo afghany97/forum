@@ -3,19 +3,10 @@
 namespace App;
 
 use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Model;
 
-use App\User;
-
 use App\Events\ThreadHasNewReply;
-
-use App\Notifications\ThreadUpdated;
-
-use App\Channel;
-
-use App\Favourite;
-
-use App\Reply;
 
 class Thread extends Model
 {
@@ -128,6 +119,7 @@ class Thread extends Model
     public function subscribe($userId = null) // subscribe to thread
     {
         $this->subscribes()
+
             ->create([
 
                 'user_id' => $userId ?: auth()->id()
@@ -141,7 +133,9 @@ class Thread extends Model
     public function unsubscribe($userId = null)// unsubscribe to thread
     {
         $this->subscribes()
+
             ->where('user_id', $userId ?: auth()->id())
+
             ->delete();
     }
 
@@ -188,22 +182,22 @@ class Thread extends Model
             ThreadsVistores::incremnt($this, request()->ip());
     }
 
-    public function getRouteKeyName()
+    public function getRouteKeyName() // override getRouteKeyName to make routes fetch the model binding by column slug not primary key "defualt"
     {
         return 'slug';
     }
 
-    public function setSlugAttribute($value)
+    public function setSlugAttribute($value) // set the slug attribute
     {
         $this->attributes['slug'] = str_slug($value) . '-' . $this->id;
     }
 
-    public function markReplyAsBest(Reply $reply)
+    public function markReplyAsBest(Reply $reply) // mark the reply as the best reply for this thread
     {
         $this->update(['best_reply_id' => $reply->id]);
     }
 
-    public function lockToggle()
+    public function lockToggle() // switch betwen "lock or unlock" the thread
     {
         $this->update(['is_locked' => ! $this->is_locked]);
     }

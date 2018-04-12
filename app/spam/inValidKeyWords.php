@@ -15,9 +15,15 @@ class inValidKeyWords
 
 	public function detect($body)
 	{
+	    // iterate for each word in keywords array
+
 		foreach ($this->keyWords as $keyword) {
 
+		    // check if word in body of given string
+
 			if(strripos($body, $keyword) !== false){
+
+			    // throw exception
 
 				throw new Exception("spam detected , invalid word");
 			}

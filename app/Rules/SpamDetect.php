@@ -11,7 +11,7 @@ class SpamDetect
 	{
 		try {
 
-			// check if the value contians any spam "throw exception if contians"
+			// check if the value contains any spam "throw exception if contains"
 
 			return ! resolve(spam::class)->detect($value);
 		

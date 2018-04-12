@@ -21,15 +21,11 @@ class Favourite extends Model
 
     public static function gotLastWord($string) // return the last word of given string 
     {
-    	$array = explode('\\', $string);
-
-    	return array_values(array_slice($array, -1))[0];
+        return array_values(array_slice(explode('\\', $string), -1))[0];
     }
 
     public static function gotFirstWord($string) // return the first word of given string
     {
-        $array = explode('/', $string);
-
-        return $array[0];
+        return explode('/', $string)[0];
     }
 }

@@ -19,12 +19,12 @@ class subscribe extends Model
     	return $this->belongsTo(User::class);
     }
 
-    public function notifyThreadHasNewReply($reply) // notfiy subscribe user
+    public function notifyThreadHasNewReply($reply)
     {
 	    $this->user->notify(new ThreadUpdated($reply->thread , $reply));
     }
 
-    public function notifyThreadHasUpdated($thread) // notfiy subscribe user
+    public function notifyThreadHasUpdated($thread)
     {
         $this->user->notify(new ThreadUpdatedII($thread));
     }

@@ -16,7 +16,7 @@ class ThreadLockedForSubscribes extends Notification
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $thread
      */
     public function __construct($thread)
     {

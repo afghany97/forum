@@ -18,6 +18,8 @@ trait RecordsActivites
 
 		static::deleting(function($model)
 		{
+		    // delete the related activites for deleted model
+
 			$model->activites()->delete();
 		});
 	}
@@ -31,10 +33,14 @@ trait RecordsActivites
 
 	public function recordActivity($event) // function to store the activity 
     {
+        // check if there is not authenticated user
+
     	if(auth()->guest())
 
     		return;
-    	
+
+    	// store the activity
+
          $this->activites()->create([
 
          	'user_id' => auth()->id(),

@@ -18,6 +18,7 @@ class NofityThreadSubscribers
      */
     public function handle(ThreadLocked $event)
     {
+        // notify thread subscribes when supervisor lock subscribed thread
         $event->thread->subscribes
 
             ->each->notifyThreadHasLocked($event->thread);

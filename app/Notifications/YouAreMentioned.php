@@ -11,7 +11,11 @@ class YouAreMentioned extends Notification
     use Queueable;
 
     public $reply;
-    
+
+    /**
+     * YouAreMentioned constructor.
+     * @param $reply
+     */
     public function __construct($reply)
     {
         $this->reply = $reply;

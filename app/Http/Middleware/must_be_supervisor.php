@@ -15,6 +15,8 @@ class must_be_supervisor
      */
     public function handle($request, Closure $next)
     {
+        // check if there authenticated user and supervisor
+
         if(auth()->check() && auth()->user()->is_supervisor)
 
             return $next($request);

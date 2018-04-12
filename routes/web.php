@@ -23,7 +23,8 @@ Auth::routes();
 
 Route::get('/threads','ThreadsController@index')->name('threads');
 
-Route::any('/threads/{channel}/{thread}/edit','ThreadsController@edit');
+//Route::any('/threads/{channel}/{thread}/edit','ThreadsController@edit');
+Route::match(['patch','get' , 'put'],'/threads/{channel}/{thread}/edit','ThreadsController@edit');
 
 Route::put('/threads/{channel}/{thread}/update','ThreadsController@update');
 

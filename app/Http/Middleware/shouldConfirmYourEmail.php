@@ -15,6 +15,8 @@ class shouldConfirmYourEmail
      */
     public function handle($request, Closure $next)
     {
+        // check if user not confirmed
+
         if(! $request->user()->confirmed)
         {
             return back()->with('message','you should confirm your account first.');

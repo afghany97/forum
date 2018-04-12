@@ -24,9 +24,12 @@ trait ableToFavourite{
 
   public function favourite()
   {
-    // check if this user didn't favourite this reply
+    // check if this user didn't favourite this object
+
     if(! $this->favourites()->where('user_id' , auth()->id())->exists())
-      
+
+        // favourite the object
+
       $this->favourites()->create(['user_id' => auth()->id()]);
   }
 

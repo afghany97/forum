@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Thread;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -13,7 +12,11 @@ class ThreadLocked
 
     public $thread;
 
-    public function __construct(Thread $thread)
+    /**
+     * ThreadLocked constructor.
+     * @param $thread
+     */
+    public function __construct($thread)
     {
         $this->thread = $thread;
     }

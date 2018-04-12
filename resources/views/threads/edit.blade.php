@@ -4,7 +4,7 @@
 
     <div class="container">
 
-        <form method="POST" action="/threads/{{$thread->channel->name}}/{{$thread->id}}/update">
+        <form method="POST" action="{{$thread->path()}}/update">
 
             {{ csrf_field() }}
 

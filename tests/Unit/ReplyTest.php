@@ -413,15 +413,27 @@ class ReplyTest extends TestCase
 
     public function know_if_reply_is_best()
     {
+        // create user and sign in and confirm
+
         $this->signIn($user = create('App\User'))->confirm($user);
+
+        // create thread belongs to authenticated user
 
         $thread = create('App\Thread',['user_id' => auth()->id()]);
 
+        // create reply belongs to thread and authenticated user
+
         $reply = create('App\Reply',['user_id' => auth()->id() , 'thread_id' => $thread->id]);
+
+        // check if reply no best reply for thread
 
         $this->assertFalse($reply->isBest);
 
+        // send post request to mark reply as best for thread
+
         $this->post("/replies/{$reply->id}/best");
+
+        // check if reply marked as the best
 
         $this->assertTrue($reply->fresh()->isBest);
         

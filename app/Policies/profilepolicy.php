@@ -9,7 +9,12 @@ class profilepolicy
 {
     use HandlesAuthorization;
 
-   public function create(User $user , User $ownerUser)
+    /**
+     * @param User $user
+     * @param User $ownerUser
+     * @return bool
+     */
+    public function create(User $user , User $ownerUser)
    {
        return $user->id === $ownerUser->id;
    }
