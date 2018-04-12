@@ -12,23 +12,6 @@
 
             <div class="form-group">
 
-                <select name="channel_id" class="form-control" required>
-
-                    <option value="{{old('channel_id')? old('channel_id')  : $channel->id}}" selected>{{old('channel_name')? old('channel_name')  : $channel->name}}</option>
-
-                    @foreach($channels as $channel)
-
-                        <option value="{{$channel->id}}" >{{$channel->name}}</option>
-
-                    @endforeach
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
                 <label for="exampleInputEmail1">thread title</label>
 
                 <input name = "title" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="post title" value="{{old('title')? old('title')  : $thread->title }}" required>

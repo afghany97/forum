@@ -141,8 +141,17 @@ class ThreadsController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function update(Channel $channel, Thread $thread , ThreadsRequestForm $form)
+    public function update(Channel $channel, Thread $thread)
     {
+        // validate the request data
+
+        $this->validate(request(),[
+
+            'title' => 'required|spamDetect',
+
+            'body' => 'required|spamDetect'
+        ]);
+
         // update thread
 
         $thread->update([
@@ -151,8 +160,16 @@ class ThreadsController extends Controller
 
             'body' => request('body'),
 
-            'channel_id' => request('channel_id')
+            'slug' => request('title')
         ]);
+
+        // fetch thread from trending table if exists
+
+        if($trendThread = ThreadsVistores::where('thread_id' , $thread->id)->first())
+
+            // update the thread title in trending table
+
+            $trendThread->update(['thread_title' => request('title')]);
 
         event(new ThreadHasUpdated($thread));
 
