@@ -23,7 +23,6 @@ Auth::routes();
 
 Route::get('/threads','ThreadsController@index')->name('threads');
 
-//Route::any('/threads/{channel}/{thread}/edit','ThreadsController@edit');
 Route::match(['patch','get' , 'put'],'/threads/{channel}/{thread}/edit','ThreadsController@edit');
 
 Route::put('/threads/{channel}/{thread}/update','ThreadsController@update');
@@ -73,3 +72,11 @@ Route::get('/test' , 'ThreadsController@test');
 Route::get('/register/confirm/{token}','UsersControllers@index');
 
 Route::post('/replies/{reply}/best','RepliesController@bestReply');
+
+Route::get('/admin/control' , 'AdminsController@index');
+
+Route::get('/admin/control/users' , 'AdminsController@showUsers');
+
+Route::get('/admin/control/threads' , 'AdminsController@showThreads');
+
+Route::post('/users/{user}/supervisor' , 'SupervisorController@store');

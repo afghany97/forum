@@ -8,6 +8,18 @@
 
             <h1>{{$profileUser->name}}</h1>
 
+            @if($profileUser->is_supervisor)
+
+                <h4>Supervisor</h4>
+
+            @endif
+
+            @if($profileUser->is_admin)
+
+                <h4>administrator</h4>
+
+            @endif
+
             <div>
 
                 <img src="/storage/{{$profileUser->avatar_path}}" alt="{{$profileUser->name}}" class="avatar mb-10">

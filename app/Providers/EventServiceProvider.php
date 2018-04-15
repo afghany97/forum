@@ -28,6 +28,11 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ThreadLocked' => [
             'App\Listeners\NofityThreadOwner',
             'App\Listeners\NofityThreadSubscribers',
+        ],
+
+         'App\Events\ThreadDeleted' => [
+            'App\Listeners\NofityThreadOwnerI',
+            'App\Listeners\NofityThreadSubscribersI',
         ]
         ];
 

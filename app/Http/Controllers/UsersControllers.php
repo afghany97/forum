@@ -43,7 +43,7 @@ class UsersControllers extends Controller
 
         // check if authenticated user not the owner of the confirmation token
 
-        if(auth()->id() != $user->id)
+        if((auth()->id() != $user->id) && ! auth()->user()->is_admin)
 
             // throw exception
 

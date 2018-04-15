@@ -2,26 +2,30 @@
 
 @section('content')
 
-	@forelse($notifications as $notification)
+    @forelse($notifications as $notification)
 
-	    <div class="container">
+        <div class="container">
 
-		   <div class="panel panel-default">
-	        
-	            <div class="panel-heading">
+            <div class="panel panel-default">
 
-	        		<a href="{{$notification->data['link']}}">{{$notification->data['message']}}</a>
-	            
-	            </div>
-	            
-	        </div>
+                <div class="panel-heading">
 
-	    </div>
+                    <a href="{{$notification->data['link']}}">{{$notification->data['message']}}</a>
 
-	@empty
+                </div>
 
-		<p>There is no notifications</p>
+            </div>
 
-	@endforelse
+        </div>
+
+    @empty
+
+        <div class="container">
+
+            <strong>There is no notifications</strong>
+
+        </div>
+
+    @endforelse
 
 @endsection

@@ -19,6 +19,6 @@ class LockThreadControllers extends Controller
 
         event(new ThreadLocked($thread));
 
-        return redirect($thread->path());
+        return back();
     }
 }

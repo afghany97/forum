@@ -7,15 +7,16 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ThreadLocked extends Notification
+class ThreadDeletedForOwner extends Notification
 {
     use Queueable;
+
     public $thread;
 
     /**
      * Create a new notification instance.
      *
-     * @param $thread
+     * @return void
      */
     public function __construct($thread)
     {
@@ -34,12 +35,17 @@ class ThreadLocked extends Notification
         return ['database'];
     }
 
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->thread->is_locked ? "your thread locked by supervisor or administrator" : "your thread un-locked by supervisor or administrator" ,
-
-            'link' => $this->thread->path()
+            'message' => "your thread " . $this->thread->title . " was delete by admin.",
+            'link' => route('profile',auth()->user())
         ];
     }
 }

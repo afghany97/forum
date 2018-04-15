@@ -2,7 +2,7 @@
 
     <p class="text-center">
 
-      <strong>this thread was locked by a supervisor</strong>
+      <strong>this thread was locked by a supervisor or administrator</strong>
 
     </p>
 

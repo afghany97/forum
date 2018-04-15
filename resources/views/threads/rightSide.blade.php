@@ -1,27 +1,30 @@
- </div>
- </div>
+</div>
+</div>
 
-    <div class="col-md-4">
-        
-        <p>
+<div class="col-md-4">
 
-            This thread was published from {{$thread->created_at->diffForHumans()}}
+    <p>
 
-            by <a href="{{route('profile' , $thread->User)}}"> {{$thread->User->name}} </a> and currently has {{$thread->replies_count}} 
+        This thread was published from {{$thread->created_at->diffForHumans()}}
 
-            {{str_plural('comment',$thread->replies_count)}}
+        by <a href="{{route('profile' , $thread->User)}}"> {{$thread->User->name}} </a> and currently
+        has {{$thread->replies_count}}
 
-        </p>
+        {{str_plural('comment',$thread->replies_count)}}
 
-    </div>
+    </p>
 
-    @include('threads.subscribe')
+</div>
 
-    @include('threads.lock')
+@include('threads.subscribe')
 
+@if((auth()->check() && $authUser->is_supervisor) || $authUser->is_admin)
 
-    </div>
-        
-    </div>
+@include('threads.lock')
+
+@endif
+</div>
+
+</div>
 
 </div>  

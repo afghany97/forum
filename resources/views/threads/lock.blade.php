@@ -1,30 +1,27 @@
-@if(auth()->check() && $authUser->is_supervisor)
+@if($thread->is_locked)
 
-    @if($thread->is_locked)
+    <form action="/threads/{{ $thread->slug }}/lock" method="post">
 
-        <form action="/threads/{{ $thread->slug }}/lock" method="post">
+        {{csrf_field()}}
 
-            {{csrf_field()}}
+        {{method_field('put')}}
 
-            {{method_field('put')}}
+        <button type="submit" class="btn btn-default"> unlock</button>
 
-            <button type="submit" class="btn btn-default"> unlock</button>
+    </form>
 
-        </form>
+@else
 
-    @else
+    <form action="/threads/{{ $thread->slug }}/lock" method="post">
 
-        <form action="/threads/{{ $thread->slug }}/lock" method="post">
+        {{csrf_field()}}
 
-            {{csrf_field()}}
+        {{method_field('put')}}
 
-            {{method_field('put')}}
+        <button type="submit" class="btn btn-danger">lcok</button>
 
-            <button type="submit" class="btn btn-danger">lcok</button>
+    </form>
 
-        </form>
-
-
-    @endif
 
 @endif
+

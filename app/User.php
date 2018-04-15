@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar_path' , 'confirmed' , 'confirmation_token'
+        'name', 'email', 'password', 'avatar_path' , 'confirmed' , 'confirmation_token' , 'is_supervisor'
     ];
 
     protected $casts = [
@@ -75,5 +75,10 @@ class User extends Authenticatable
         // return the key to save @ cashe to mark visited thread by each user , format of key visted ['user_id'] thread ['thread_id']
         
         return sprintf("visted.%s.thread.%s",$this->id , $thread->id);
+    }
+
+    public function supervisorToggle()
+    {
+       $this->update(['is_supervisor' => ! $this->is_supervisor]);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class must_be_supervisor
+class must_be_admin
 {
     /**
      * Handle an incoming request.
@@ -15,14 +15,13 @@ class must_be_supervisor
      */
     public function handle($request, Closure $next)
     {
-        // check if there authenticated user and supervisor
+        // check if there authenticated user and admin
 
-        if((auth()->check() && auth()->user()->is_supervisor) || auth()->user()->is_admin)
+        if(auth()->check() && auth()->user()->is_admin)
 
             return $next($request);
 
         return response('action not allowed' , 401);
-
 
     }
 }

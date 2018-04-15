@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ThreadDeleted;
 use App\Events\ThreadHasUpdated;
 use App\Reply;
 use App\Thread;
@@ -22,9 +23,9 @@ use Illuminate\Support\Facades\Cache;
 class ThreadsController extends Controller
 {
 
-    public function __construct ()
+    public function __construct()
     {
-        $this->middleware('auth')->except(['index' , 'show']);
+        $this->middleware('auth')->except(['index', 'show']);
     }
 
     /**
@@ -32,8 +33,8 @@ class ThreadsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
-    public function index(Channel $channel , ThreadsFilters $filters)
+
+    public function index(Channel $channel, ThreadsFilters $filters)
     {
         // fetch all threads in descending order with filter them for asking filters
 
@@ -41,16 +42,16 @@ class ThreadsController extends Controller
 
         // check if channel object exists
 
-        if($channel->exists){
+        if ($channel->exists) {
 
             // fetch all threads for channel in descending order
 
-            $threads->where('channel_id' , $channel->id);
+            $threads->where('channel_id', $channel->id);
         }
 
         // check if request ask for json responce
 
-        if(request()->wantsJson())
+        if (request()->wantsJson())
 
             // return the collection of threads
 
@@ -62,7 +63,7 @@ class ThreadsController extends Controller
 
         // return view with threads
 
-        return view('threads.index', compact('threads' , 'trending'));
+        return view('threads.index', compact('threads', 'trending'));
     }
 
     /**
@@ -80,7 +81,7 @@ class ThreadsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(ThreadsRequestForm $form)
@@ -91,7 +92,7 @@ class ThreadsController extends Controller
 
         // repear flash message
 
-        session()->flash('message' , 'The thread created successfully');
+        session()->flash('message', 'The thread created successfully');
 
         // redirect to thread path
 
@@ -101,10 +102,10 @@ class ThreadsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Thread  $thread
+     * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
-    public function show($channel , Thread $thread)
+    public function show($channel, Thread $thread)
     {
         // mark thread as read
 
@@ -120,32 +121,32 @@ class ThreadsController extends Controller
 
         // return view with specific thread and replies
 
-        return view('threads.show',compact(['thread' , 'replies' , 'bestReply']));
+        return view('threads.show', compact(['thread', 'replies', 'bestReply']));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Thread  $thread
+     * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
-    public function edit(Channel $channel , Thread $thread)
+    public function edit(Channel $channel, Thread $thread)
     {
-        return view('threads.edit',compact('channel','thread'));
+        return view('threads.edit', compact('channel', 'thread'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Thread  $thread
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
     public function update(Channel $channel, Thread $thread)
     {
         // validate the request data
 
-        $this->validate(request(),[
+        $this->validate(request(), [
 
             'title' => 'required|spamDetect',
 
@@ -165,7 +166,7 @@ class ThreadsController extends Controller
 
         // fetch thread from trending table if exists
 
-        if($trendThread = ThreadsVistores::where('thread_id' , $thread->id)->first())
+        if ($trendThread = ThreadsVistores::where('thread_id', $thread->id)->first())
 
             // update the thread title in trending table
 
@@ -175,7 +176,7 @@ class ThreadsController extends Controller
 
         // repear flash message
 
-        session()->flash('message' , 'The thread updated successfully');
+        session()->flash('message', 'The thread updated successfully');
 
         // redirect to thread page
 
@@ -185,25 +186,27 @@ class ThreadsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Thread  $thread
+     * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy($channel , Thread $thread)
+    public function destroy($channel, Thread $thread)
     {
         // check if user can delete this thread
 
-        $this->authorize('delete' , $thread);
-        
+        $this->authorize('delete', $thread);
+
         // delete thread
 
-        $thread->delete();
+        if($thread->delete())
+
+            event(new ThreadDeleted($thread));
 
         // repear flash message
 
-        session()->flash('message' , 'The thread deleted successfully');
+        session()->flash('message', 'The thread deleted successfully');
 
         // redirect to threads page
-        
+
         return redirect(route('threads'));
     }
 }
