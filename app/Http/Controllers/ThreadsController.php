@@ -92,7 +92,8 @@ class ThreadsController extends Controller
 
         // repear flash message
 
-        session()->flash('message', 'The thread created successfully');
+        session()->flash('message', 'The thread created 
+        ');
 
         // redirect to thread path
 
@@ -197,7 +198,7 @@ class ThreadsController extends Controller
 
         // delete thread
 
-        if($thread->delete())
+        if($thread->delete() && $thread->user_id != auth()->id())
 
             event(new ThreadDeleted($thread));
 
