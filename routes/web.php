@@ -80,3 +80,7 @@ Route::get('/admin/control/users' , 'AdminsController@showUsers');
 Route::get('/admin/control/threads' , 'AdminsController@showThreads');
 
 Route::post('/users/{user}/supervisor' , 'SupervisorController@store');
+
+Route::match(['patch','get' , 'put'],'/profiles/{user}/edit' , 'ProfilesController@edit')->name('profile-edit');
+
+Route::put('/profiles/{user}/update' , 'ProfilesController@update')->name('profile-update');

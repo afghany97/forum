@@ -69,12 +69,13 @@ class ProfilesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('profiles.edit' , compact('user'));
+
     }
 
     /**
@@ -84,9 +85,18 @@ class ProfilesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(User $user)
     {
-        //
+        $this->validate(request(),[
+           'name'=> 'required|spamDetect'
+        ]);
+
+        $this->authorize('create' , $user);
+
+        $user->update(['name' => request('name')]);
+
+        return redirect(route('profile',$user))->with('message',"updated successfully");
+
     }
 
     /**
