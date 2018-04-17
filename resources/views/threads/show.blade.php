@@ -28,6 +28,10 @@
 
     @include('layouts.errors')
 
-    @include('threads.rightSide')
+    @if(auth()->check())
+
+        @include('threads.rightSide')
+
+    @endif
 
 @endsection

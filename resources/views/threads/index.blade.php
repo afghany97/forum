@@ -75,9 +75,10 @@
 
             </div>
 
-            @if(count($trending))
+            <div class="col-md-4">
 
-                <div class="col-md-4">
+                @if(count($trending))
+
 
                     <div class="panel panel-default">
 
@@ -122,50 +123,50 @@
                     </div>
 
 
-                    @endif
+                @endif
 
-                    @if(count($archives))
+                @if(count($archives))
 
 
-                        <div class="panel panel-default">
+                    <div class="panel panel-default">
 
-                            <div class="panel panel-heading">
+                        <div class="panel panel-heading">
 
-                                <strong>Archives</strong>
-
-                            </div>
-
-                            <div class="panel-body">
-
-                                <ul class="list-group">
-
-                                    @foreach($archives as $archive)
-
-                                        <li class="list-group-item flex">
-
-                                            <div class="level">
-
-                                                <a href="/threads?archive=1&year={{$archive->year}}&month={{$archive->month}}">
-
-                                                    {{$archive->year}} , {{$archive->month}}
-
-                                                </a>
-
-                                                <span class="ml-a"> {{$archive->published}} </span>
-
-                                            </div>
-
-                                        </li>
-
-                                    @endforeach
-
-                                </ul>
-
-                            </div>
+                            <strong>Archives</strong>
 
                         </div>
 
-                </div>
+                        <div class="panel-body">
+
+                            <ul class="list-group">
+
+                                @foreach($archives as $archive)
+
+                                    <li class="list-group-item flex">
+
+                                        <div class="level">
+
+                                            <a href="/threads?archive=1&year={{$archive->year}}&month={{$archive->month}}">
+
+                                                {{$archive->year}} , {{$archive->month}}
+
+                                            </a>
+
+                                            <span class="ml-a"> {{$archive->published}} </span>
+
+                                        </div>
+
+                                    </li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+            </div>
 
             @endif
 
