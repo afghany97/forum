@@ -61,9 +61,11 @@ class ThreadsController extends Controller
 
         $trending = ThreadsVistores::fetchTopTrendingThreads();
 
+        $archives = Thread::archives();
+
         // return view with threads
 
-        return view('threads.index', compact('threads', 'trending'));
+        return view('threads.index', compact('threads', 'trending' ,'archives'));
     }
 
     /**
@@ -92,8 +94,7 @@ class ThreadsController extends Controller
 
         // repear flash message
 
-        session()->flash('message', 'The thread created 
-        ');
+        session()->flash('message', 'The thread created successfully');
 
         // redirect to thread path
 
@@ -198,7 +199,7 @@ class ThreadsController extends Controller
 
         // delete thread
 
-        if($thread->delete() && $thread->user_id != auth()->id())
+        if($thread->delete())
 
             event(new ThreadDeleted($thread));
 
@@ -209,5 +210,11 @@ class ThreadsController extends Controller
         // redirect to threads page
 
         return redirect(route('threads'));
+    }
+
+    public function test()
+    {
+        return view('threads.test',['archives' => Thread::archives()]);
+
     }
 }

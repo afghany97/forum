@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Thread;
 use Illuminate\Support\ServiceProvider;
 
 use App\Channel;
@@ -38,12 +39,13 @@ class AppServiceProvider extends ServiceProvider
                 // pass authenticated user for all views
 
                 $view->with('authUser' , $authUser);
+
+                // pass the channels for all views
+
+                $view->with('channels' , Channel::all());
+
             }
         });
-
-        // pass the channels for all views
-
-        view()->share('channels' , Channel::all());
 
         // add spamDetect rule for validation rules
 

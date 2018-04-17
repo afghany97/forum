@@ -201,4 +201,15 @@ class Thread extends Model
     {
         $this->update(['is_locked' => ! $this->is_locked]);
     }
+
+    public static function archives()
+    {
+        return static::selectRaw('year(created_at) as year , monthname(created_at) as month , COUNT(*) as published')
+
+            ->groupBy('year' , 'month')
+
+            ->orderByRaw('min(created_at) desc')
+
+            ->get();
+    }
 }
