@@ -39,6 +39,8 @@ class Thread extends Model
         static::deleting(function ($thread) {
 
             $thread->replies->each->delete();
+
+            ThreadsVistores::where('thread_id' , $thread->id)->delete();
         });
 
         static::created(function ($thread) {
