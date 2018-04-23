@@ -21,6 +21,8 @@ Route::get('/home', function () {
 
 Auth::routes();
 
+Route::post('/threads/{thread}/update/history' , 'ModifyController@show');
+
 Route::get('/threads','ThreadsController@index')->name('threads');
 
 Route::match(['patch','get' , 'put'],'/threads/{channel}/{thread}/edit','ThreadsController@edit');
@@ -84,3 +86,6 @@ Route::post('/users/{user}/supervisor' , 'SupervisorController@store');
 Route::match(['patch','get' , 'put'],'/profiles/{user}/edit' , 'ProfilesController@edit')->name('profile-edit');
 
 Route::put('/profiles/{user}/update' , 'ProfilesController@update')->name('profile-update');
+
+
+Route::get('/test','ThreadsController@test');

@@ -4,12 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\User;
-
-use App\Favourite;
-
-use App\Thread;
-
 use Carbon\Carbon;
 
 class Reply extends Model

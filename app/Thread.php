@@ -10,7 +10,7 @@ use App\Events\ThreadHasNewReply;
 
 class Thread extends Model
 {
-    use RecordsActivites, ableToFavourite;
+    use RecordsActivites, ableToFavourite , recordsModifiedHistory;
 
     // unguard all fileds of threads table "able to fill"
 

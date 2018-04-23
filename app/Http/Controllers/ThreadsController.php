@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ThreadDeleted;
 use App\Events\ThreadHasUpdated;
+use App\modifyHistory;
 use App\Reply;
 use App\Thread;
 
@@ -210,11 +211,5 @@ class ThreadsController extends Controller
         // redirect to threads page
 
         return redirect(route('threads'));
-    }
-
-    public function test()
-    {
-        return view('threads.test',['archives' => Thread::archives()]);
-
     }
 }
