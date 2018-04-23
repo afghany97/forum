@@ -20,7 +20,7 @@
 
     <div class="panel-body" >
 
-            {{$Reply->body  }}
+            {!! $Reply->body !!}
       
     </div>
 
