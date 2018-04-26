@@ -60,13 +60,13 @@ class ThreadsController extends Controller
 
         $threads = $threads->paginate(10);
 
-        $trending = ThreadsVistores::fetchTopTrendingThreads();
+        $trendingThreads = Thread::fetchTopTrendingThreads();
 
         $archives = Thread::archives();
 
         // return view with threads
 
-        return view('threads.index', compact('threads', 'trending' ,'archives'));
+        return view('threads.index', compact('threads', 'trendingThreads' ,'archives'));
     }
 
     /**

@@ -59,7 +59,7 @@
 
                         <div class="panel-footer">
 
-                            {{count(App\ThreadsVistores::ThreadVists($thread))}} vists
+                            {{$thread->visits}} visits
 
                         </div>
 
@@ -77,7 +77,7 @@
 
             <div class="col-md-4">
 
-                @if(count($trending))
+                @if(count($trendingThreads))
 
 
                     <div class="panel panel-default">
@@ -92,19 +92,19 @@
 
                             <ul class="list-group">
 
-                                @forelse($trending as $thread)
+                                @forelse($trendingThreads as $thread)
 
                                     <li class="list-group-item">
 
                                         <div class="level">
 
-                                            <a href="{{$thread['path']}}">
+                                            <a href="{{$thread->path()}}">
 
-                                                {{$thread['title']}}
+                                                {{$thread->title}}
 
                                             </a>
 
-                                            <span class="ml-a"> visted : {{$thread['trend']}} times </span>
+                                            <span class="ml-a"> visted : {{$thread->visits}} times </span>
 
                                         </div>
 

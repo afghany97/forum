@@ -177,7 +177,7 @@ class Thread extends Model
 
             cache()->forever(auth()->user()->getVistedThreadCasheKey($this), Carbon::now());
 
-        if (!ThreadsVistores::isVisted($this->id, request()->ip()))
+        if (!ThreadsVistores::isVisited($this->id, request()->ip()))
 
             // increment thread views
 
@@ -213,5 +213,10 @@ class Thread extends Model
             ->orderByRaw('min(created_at) desc')
 
             ->get();
+    }
+
+    public static function fetchTopTrendingThreads($take = 5) // fetch top threads order by number of visits
+    {
+        return static::where('visits','!=',0)->orderBy('visits','DESC')->take($take)->get();
     }
 }

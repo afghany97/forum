@@ -66,7 +66,7 @@
 
                             <td class="text-center" width="50px">{{$thread->replies_count}}</td>
 
-                            <td class="text-center" width="50px">{{count(\App\ThreadsVistores::ThreadVists($thread))}}</td>
+                            <td class="text-center" width="50px">{{$thread->visits}}</td>
 
                             <td class="text-center" width="50px">{{$thread->favourites->count()}}</td>
 
