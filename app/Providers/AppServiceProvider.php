@@ -19,14 +19,22 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        
+
+        // get status of auth
+
+        $status = auth()->check() ? true : false;
+
         // pass value to all views
 
-        view()->composer('*' ,function($view)
+        view()->composer('*' ,function($view) use($status)
         {
+            // pass status of auth to all views
+
+            $view->with('status' , $status);
+
             // check if there authenticated user
 
-            if(auth()->check()){
+            if($status){
 
                 // fetch authenticated user
 

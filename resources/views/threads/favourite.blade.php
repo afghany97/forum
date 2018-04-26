@@ -1,4 +1,4 @@
-@if(auth()->check())
+@if($status)
 
     @if($thread->IsFavourited())
 

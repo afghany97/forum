@@ -1,4 +1,4 @@
-@if( auth()->check() && $thread->is_locked && $authUser->confirmed)
+@if( $status && $thread->is_locked && $authUser->confirmed)
 
     <p class="text-center">
 
@@ -6,7 +6,7 @@
 
     </p>
 
-@elseif(auth()->check() && $authUser->confirmed)
+@elseif($status && $authUser->confirmed)
 
     <form action="{{$thread->path() . '/replies'}}" method="POST">
 
@@ -18,7 +18,7 @@
 
 	</form>
 
-@elseif(auth()->check() && !$authUser->confirmed)
+@elseif($status && !$authUser->confirmed)
 
     <p class="text-center">
 

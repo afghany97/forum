@@ -59,7 +59,7 @@
 
                             <a class="dropdown-item" href="/threads?unanswered=1">Unanswered Threads</a>
 
-                            @if(auth()->checK())
+                            @if($status)
 
                                 <a class="dropdown-item" href="/threads?by={{$authUser->name}}">My Threads</a>
 
@@ -90,7 +90,7 @@
 
                     </li>
 
-                    @if(auth()->check())
+                    @if($status)
 
                         <li><a href="\threads\create">New Thread</a></li>
 
@@ -101,7 +101,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    @if (Auth::guest())
+                    @if (!$status)
                         <li><a href="{{ route('login') }}">Login</a></li>
                         <li><a href="{{ route('register') }}">Register</a></li>
                     @else
