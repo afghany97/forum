@@ -20,21 +20,17 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        // get status of auth
-
-        $status = auth()->check() ? true : false;
-
         // pass value to all views
 
-        view()->composer('*' ,function($view) use($status)
+        view()->composer('*' ,function($view)
         {
-            // pass status of auth to all views
+             // pass the channels for all views
 
-            $view->with('status' , $status);
+            $view->with('channels' , Channel::all());
 
             // check if there authenticated user
 
-            if($status){
+            if(auth()->check()){
 
                 // fetch authenticated user
 
@@ -50,9 +46,7 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        // pass the channels for all views
-
-        view()->share('channels' , Channel::all());
+       
 
         // add spamDetect rule for validation rules
 
