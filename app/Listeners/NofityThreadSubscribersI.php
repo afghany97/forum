@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\ThreadDeleted;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NofityThreadSubscribersI
 {

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Thread;
 use App\User;
-use Illuminate\Http\Request;
 
 class AdminsController extends Controller
 {

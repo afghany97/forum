@@ -6,9 +6,6 @@ use Illuminate\Notifications\Notifiable;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use App\Thread;
-
-use App\Reply;
 
 class User extends Authenticatable
 {

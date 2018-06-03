@@ -3,9 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\ThreadLocked;
-use App\Notifications\ThreadLockedForSubscribes;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NofityThreadSubscribers
 {

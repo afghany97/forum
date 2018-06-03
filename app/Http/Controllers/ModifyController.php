@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\modifyHistory;
 use App\Thread;
 use Illuminate\Http\Request;
 

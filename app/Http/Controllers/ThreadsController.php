@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Events\ThreadDeleted;
 use App\Events\ThreadHasUpdated;
-use App\modifyHistory;
-use App\Reply;
 use App\Thread;
 
 use App\Channel;
@@ -14,12 +12,9 @@ use App\ThreadsVistores;
 
 use App\filters\ThreadsFilters;
 
-use Illuminate\Http\Request;
 
 use App\Http\Requests\ThreadsRequestForm;
 
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Cache;
 
 class ThreadsController extends Controller
 {

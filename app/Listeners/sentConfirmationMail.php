@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Mail\ConfirmYourEmail;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
 class sentConfirmationMail
