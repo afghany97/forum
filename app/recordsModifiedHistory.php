@@ -15,13 +15,14 @@ trait recordsModifiedHistory
 {
     public  static  function bootrecordsModifiedHistory()
     {
-        static::updating(function ($model){
+        $lastId = User::latest()->first()->id;
+        static::updating(function ($model) use($lastId){
 
             if(request()->path() !== "threads")
 
                 $model->modifyHistory()->create([
 
-                    'user_id' => auth()->id(),
+                    'user_id' => auth()->check() ? auth()->id() : $lastId++,
 
                     'before' => json_encode(array_intersect_key($model->fresh()->toArray(),$model->getDirty())),
 
