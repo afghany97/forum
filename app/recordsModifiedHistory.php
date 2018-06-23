@@ -8,21 +8,17 @@
 
 namespace App;
 
-
-use function PHPSTORM_META\type;
-
 trait recordsModifiedHistory
 {
     public  static  function bootrecordsModifiedHistory()
     {
-        $lastId = User::latest()->first()->id;
-        static::updating(function ($model) use($lastId){
+        static::updating(function ($model){
 
             if(request()->path() !== "threads")
 
                 $model->modifyHistory()->create([
 
-                    'user_id' => auth()->check() ? auth()->id() : $lastId++,
+                    'user_id' => auth()->check() ? auth()->id() : 0,
 
                     'before' => json_encode(array_intersect_key($model->fresh()->toArray(),$model->getDirty())),
 
