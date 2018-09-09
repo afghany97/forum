@@ -51,6 +51,12 @@
 
                         </a>
 
+                        @php
+
+                            $authUser = auth()->user();
+
+                        @endphp
+
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
                             <a class="dropdown-item" href="{{ route('threads') }}">All Threads</a>
@@ -101,7 +107,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    @if (!auth()->check())
+                    @if (auth()->guest())
                         <li><a href="{{ route('login') }}">Login</a></li>
                         <li><a href="{{ route('register') }}">Register</a></li>
                     @else

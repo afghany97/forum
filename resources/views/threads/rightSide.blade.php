@@ -18,7 +18,7 @@
 
 @include('threads.subscribe')
 
-@if(($status && $authUser->is_supervisor) || $authUser->is_admin)
+@if((auth()->check() && auth()->user()->is_supervisor) || auth()->user()->is_admin)
 
 @include('threads.lock')
 

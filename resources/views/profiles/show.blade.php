@@ -48,8 +48,9 @@
 
         	@foreach($records as $activity)
 
+{{--                {{dd($records)}}--}}
             	@include("profiles.activites.{$activity->type}")
-        	
+
         	@endforeach
 
         @empty

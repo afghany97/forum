@@ -1,4 +1,4 @@
-@if($status)
+@if(auth()->check())
 
     <div class="panel-footer level">
 

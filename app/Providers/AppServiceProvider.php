@@ -32,21 +32,11 @@ class AppServiceProvider extends ServiceProvider
 
             if(auth()->check()){
 
-                // fetch authenticated user
-
-                $authUser = auth()->user();
-
                 // pass unreadNotifications for all views
 
-                $view->with('unreadNotifications',$authUser->unreadNotifications);
-
-                // pass authenticated user for all views
-
-                $view->with('authUser' , $authUser);
+                $view->with('unreadNotifications', auth()->user()->unreadNotifications);
             }
         });
-
-       
 
         // add spamDetect rule for validation rules
 

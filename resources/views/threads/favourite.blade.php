@@ -1,10 +1,10 @@
-@if($status)
+@if(auth()->check())
 
     @if($thread->IsFavourited())
 
         <div class="text-right flex" style="float:right;">
 
-            <form method="POST" action="/threads/{{$thread->id}}/unfavourite">
+            <form method="POST" action="/threads/{{$thread->slug}}/unfavourite">
 
                 {{csrf_field()}}
 
@@ -26,7 +26,7 @@
 
     <div class="text-right flex" style="float:right;">
 
-        <form method="POST" action="/threads/{{$thread->id}}/favourite">
+        <form method="POST" action="/threads/{{$thread->slug}}/favourite">
 
             {{csrf_field()}}
 

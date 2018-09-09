@@ -28,7 +28,7 @@
 
     @include('layouts.errors')
 
-    @if($status)
+    @if(auth()->check())
 
         @include('threads.rightSide')
 
