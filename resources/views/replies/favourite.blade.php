@@ -1,4 +1,4 @@
-@if($status)
+@if(auth()->check())
 
     @if($Reply->IsFavourited())
 

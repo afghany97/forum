@@ -35,7 +35,7 @@ trait ableToFavourite{
 
     public function unfavourite()
     {
-        $this->favourites()->delete();
+        $this->favourites->each->delete();
     }
 
   public function isFavourited() // check if the authenticated user favourite this object
