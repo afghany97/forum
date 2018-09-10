@@ -8,7 +8,6 @@
 
     <ul class="dropdown-menu" role="menu">
 
-
     	@forelse($unreadNotifications as $notification)
 
         	<li><a href="{{$notification->data['link']}}">{{$notification->data['message']}}</a></li>
@@ -21,7 +20,7 @@
 
         <hr>
         
-    	<li><a href="/profiles/{{auth()->user()->name}}/notifications"}}>show all notifications</a></li>
+    	<li><a href="{{route('user.notifications',auth()->user())}}"}}>show all notifications</a></li>
 
     </ul>
 

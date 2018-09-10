@@ -12,23 +12,39 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('fonts/font-awesome.min.css') }}" rel="stylesheet">
-    {{--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">--}}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 </head>
+
 <body>
+
+@php
+
+    $authUser = auth()->user();
+
+@endphp
+
 <div id="app">
+
     <nav class="navbar navbar-default navbar-static-top">
+
         <div class="container">
+
             <div class="navbar-header">
 
                 <!-- Collapsed Hamburger -->
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                         data-target="#app-navbar-collapse">
+
                     <span class="sr-only">Toggle Navigation</span>
+
                     <span class="icon-bar"></span>
+
                     <span class="icon-bar"></span>
+
                     <span class="icon-bar"></span>
+
                 </button>
 
                 <!-- Branding Image -->
@@ -37,68 +53,59 @@
                 </a>
             </div>
 
+
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     &nbsp;
+                    <li class="dropdown">
 
-                    <li class="nav-item dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true"
 
-                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           aria-expanded="false">Browse <span class="caret"></span></a>
 
-                            Browse
+                        <ul class="dropdown-menu">
 
-                        </a>
+                            <li><a class="dropdown-item" href="{{ route('threads') }}">All Threads</a></li>
 
-                        @php
+                            <li><a class="dropdown-item" href="/threads?populair=1">Populair Threads</a></li>
 
-                            $authUser = auth()->user();
-
-                        @endphp
-
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-
-                            <a class="dropdown-item" href="{{ route('threads') }}">All Threads</a>
-
-                            <a class="dropdown-item" href="/threads?populair=1">Populair Threads</a>
-
-                            <a class="dropdown-item" href="/threads?unanswered=1">Unanswered Threads</a>
+                            <li><a class="dropdown-item" href="/threads?unanswered=1">Unanswered Threads</a></li>
 
                             @if(auth()->check())
 
-                                <a class="dropdown-item" href="/threads?by={{$authUser->name}}">My Threads</a>
+                                <li><a class="dropdown-item" href="/threads?by={{$authUser->name}}">My Threads</a></li>
 
                             @endif
 
-                        </div>
+                        </ul>
 
                     </li>
 
-                    <li class="nav-item dropdown">
+                    <li class="dropdown">
 
-                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true"
 
-                            Channels
+                           aria-expanded="false">Channels <span class="caret"></span></a>
 
-                        </a>
-
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <ul class="dropdown-menu">
 
                             @foreach($channels as $channel)
 
-                                <a class="dropdown-item" href="/threads/{{$channel->name}}">{{$channel->name}}</a>
+                                <li><a class="dropdown-item"
+                                       href="{{route('channel.show',$channel)}}">{{$channel->name}}</a></li>
 
                             @endforeach
 
-                        </div>
+                        </ul>
 
                     </li>
 
                     @if(auth()->check())
 
-                        <li><a href="\threads\create">New Thread</a></li>
+                        <li><a href="{{route('thread.create')}}">New Thread</a></li>
 
                     @endif
 
@@ -128,11 +135,11 @@
 
                                         @if($authUser->confirmed)
 
-                                            <i class="fas fa-check"></i>
+                                            <i class="fas fa-check pull-right"></i>
 
                                         @else
 
-                                            <i class="fas fa-times"></i>
+                                            <i class="fas fa-times pull-right"></i>
 
                                         @endif
 
@@ -142,15 +149,13 @@
 
                                 <li>
 
-                                    <form action="{{route('profile-edit' , $authUser)}}" method="POST">
+                                    <a href="{{route('profile.edit' , $authUser)}}"
 
-                                        {{csrf_field()}}
+                                        data-method="patch">
 
-                                        {{method_field('patch')}}
+                                        Profile Edit
 
-                                        <button type="submit" class="btn btn-primary btn-xs">Profile Update</button>
-
-                                    </form>
+                                    </a>
 
                                 </li>
 

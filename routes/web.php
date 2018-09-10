@@ -81,6 +81,6 @@ Route::get('/admin/control/threads' , 'AdminsController@showThreads')->name('das
 
 Route::post('/users/{user}/supervisor' , 'SupervisorController@store')->name('user.supervisor');
 
-Route::match(['patch','get' , 'put'],'/profiles/{user}/edit' , 'ProfilesController@edit')->name('profile-edit');
+Route::match(['patch','get' , 'put'],'/profiles/{user}/edit' , 'ProfilesController@edit')->name('profile.edit');
 
 Route::put('/profiles/{user}/update' , 'ProfilesController@update')->name('profile-update');
