@@ -189,6 +189,17 @@
     @endif
 
     @yield('content')
+
+    <footer>
+
+        <div class="text-center mt-10">
+
+            <p>Forum &copy; Afghany {{date('Y')}}</p>
+
+        </div>
+
+    </footer>
+
 </div>
 
 <!-- Scripts -->

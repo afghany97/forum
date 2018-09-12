@@ -78,4 +78,9 @@ class User extends Authenticatable
     {
        $this->update(['is_supervisor' => ! $this->is_supervisor]);
     }
+
+    public function avatarPath()
+    {
+        return "/storage/" . $this->avatar_path;
+    }
 }

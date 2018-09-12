@@ -32,7 +32,7 @@
 
                             by :
 
-                            <img src="/storage/{{$thread->user->avatar_path}}" alt="{{$thread->user->name}}"
+                            <img src="{{$thread->user->avatarPath()}}" alt="{{$thread->user->name}}"
                                  class="smallAvatar mr-5">
 
                             <a href="{{route('profile',$thread->user)}}">
@@ -104,7 +104,7 @@
 
                                             </a>
 
-                                            <span class="ml-a"> visted : {{$thread->visits}} times </span>
+                                            <span class="ml-a"> visited : {{$thread->visits}} times </span>
 
                                         </div>
 
