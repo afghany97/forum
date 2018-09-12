@@ -21,7 +21,7 @@ Route::get('/home', function () {
 
 Auth::routes();
 
-Route::post('/threads/{thread}/update/history' , 'ModifyController@show')->name('thread.history');
+Route::get('/threads/{thread}/edit/history' , 'ModifyController@show')->name('thread.history');
 
 Route::get('/threads','ThreadsController@index')->name('threads');
 
@@ -45,7 +45,7 @@ Route::delete('/threads/{channel}/{thread}','ThreadsController@destroy')->name('
 
 Route::post('/threads','ThreadsController@store')->middleware('shouldConfirmYourEmail')->name('thread.store');
 
-Route::post('/threads/{channel}/{thread}/replies','RepliesController@store')->middleware('shouldConfirmYourEmail')->name('reply.post');
+Route::post('/threads/{channel}/{thread}/replies','RepliesController@store')->middleware('shouldConfirmYourEmail')->name('reply.store');
 
 Route::delete('/replies/{reply}','RepliesController@destroy')->name('reply.destroy');
 

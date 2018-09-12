@@ -2,7 +2,7 @@
 
     <p class="text-center">
 
-      <strong>this thread was locked by a supervisor or administrator</strong>
+        <strong>Can't reply to this thread while it's locked</strong>
 
     </p>
 
@@ -10,19 +10,20 @@
 
     <form action="{{$thread->path() . '/replies'}}" method="POST">
 
-	    {{csrf_field()}}
+        {{csrf_field()}}
 
-	    <textarea class="form-control" placeholder="leave a reply..." id="body" name="body" rows="4">{{old('body')}}</textarea>
+        <textarea class="form-control" placeholder="leave a reply..." id="body" name="body"
+                    rows="4">{{old('body')}}</textarea>
 
-	    <button type="submit" class="btn btn-defualt">Submit</button>
+        <button type="submit" class="btn btn-default mt-10">Submit</button>
 
-	</form>
+    </form>
 
 @elseif(auth()->check() && !auth()->user()->confirmed)
 
     <p class="text-center">
 
-            please confirm your email to be albe to reply to thread
+        please confirm your email to be able to reply to thread
 
     </p>
 
@@ -36,7 +37,7 @@
 
         </a>
 
-        to be albe to reply to thread
+        to be able to reply to thread
 
     </p>
 

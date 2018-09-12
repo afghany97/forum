@@ -61,7 +61,7 @@ class ThreadsController extends Controller
 
         // return view with threads
 
-        return view('threads.index', compact('threads', 'trendingThreads' ,'archives'));
+        return view('threads.index', compact('threads', 'trendingThreads', 'archives'));
     }
 
     /**
@@ -113,9 +113,17 @@ class ThreadsController extends Controller
 
         $replies = $thread->replies()->paginate(5);
 
-        // fetch first reply
+        $bestReply = null;
 
-        $bestReply = (new \App\Reply)->find($thread->best_reply_id);
+        foreach($replies->items() as $key => $reply){
+
+            if ($reply->isBest()){
+
+                unset($replies[$key]);
+
+                    $bestReply = $reply;
+            }
+        }
 
         // return view with specific thread and replies
 
@@ -195,7 +203,7 @@ class ThreadsController extends Controller
 
         // delete thread
 
-        if($thread->delete())
+        if ($thread->delete())
 
             event(new ThreadDeleted($thread));
 

@@ -40,10 +40,10 @@ class FavouriteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function store(Thread $thread = null ,Reply $reply = null)
+    public function store($id)
     {
         // check if the request want to favouirte reply
 
@@ -51,7 +51,7 @@ class FavouriteController extends Controller
 
             // favourite reply end point "replies/{Reply->id}/favourite"
 
-            $reply->favourite();
+            Reply::find($id)->favourite();
 
             // repear the flash message
 
@@ -61,7 +61,7 @@ class FavouriteController extends Controller
 
             // favourite thread end point "threads/{thread->id}/favourite"
 
-            $thread->favourite();
+            Thread::find($id)->favourite();
 
             // repear the flash message
 
@@ -107,10 +107,10 @@ class FavouriteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Favourite  $favourite
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Thread $thread = null ,Reply $reply = null)
+    public function destroy($id)
     {
         // check if the request want to favouirte reply
 
@@ -118,7 +118,7 @@ class FavouriteController extends Controller
 
             // unfavourite reply end point "replies/{Reply->id}/favourite"
 
-            $reply->unfavourite();
+            Reply::find($id)->unfavourite();
 
             // repear the flash message
 
@@ -128,7 +128,7 @@ class FavouriteController extends Controller
 
             // unfavourite thread end point "threads/{thread->id}/favourite"
 
-            $thread->unfavourite();
+            Thread::find($id)->unfavourite();
 
             // repear the flash message
 
