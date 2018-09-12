@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
 
 	<form method = "POST" action="/threads">
 	
@@ -42,11 +41,10 @@
 		</div>
 		
 
-		<button type="submit" class="btn btn-primary">create post</button>
+		<button type="submit" class="btn btn-default">Create Thread</button>
 		
 		@include('layouts.errors')
 
 	</form>
 
-</div>
 @endsection

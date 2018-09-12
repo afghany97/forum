@@ -86,7 +86,7 @@ class RepliesController extends Controller
         
         // return view with reply object
 
-        return view('replies.update' , compact('reply'));
+        return view('replies.edit' , compact('reply'));
     }
 
     /**

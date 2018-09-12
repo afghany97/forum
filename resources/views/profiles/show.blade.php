@@ -1,65 +1,60 @@
 @extends('layouts.app')
 
 @section('content')
-   
-    <div class="container">
 
-        <div class="row">
+    <div class="row">
 
-            <h1>{{$profileUser->name}}</h1>
+        <h1>{{$profileUser->name}}</h1>
 
-            @if($profileUser->is_supervisor)
+        @if($profileUser->is_supervisor)
 
-                <h4>Supervisor</h4>
+            <h4>Supervisor</h4>
 
-            @endif
+        @endif
 
-            @if($profileUser->is_admin)
+        @if($profileUser->is_admin)
 
-                <h4>administrator</h4>
+            <h4>administrator</h4>
 
-            @endif
+        @endif
 
-            <div>
+        <div>
 
-                <img src="/storage/{{$profileUser->avatar_path}}" alt="{{$profileUser->name}}" class="avatar mb-10">
+            <img src="/storage/{{$profileUser->avatar_path}}" alt="{{$profileUser->name}}" class="avatar mb-10">
 
-            </div>
-            
-            @can('create' , $profileUser)
+        </div>
+        
+        @can('create' , $profileUser)
 
-                <form method="POST" action="{{route('avatar',$profileUser)}}" enctype="multipart/form-data">
-                    
-                    {{ csrf_field() }}
-
-                    <input type="file" name="avatar" class="mb-10">
-
-                    <button type="submit" class="btn btn-primary" >Add Avatar</button>
-
-                </form>
-
-            @endcan
-            
-            <div class="col-md-8 col-md-offset-2">
+            <form method="POST" action="{{route('avatar',$profileUser)}}" enctype="multipart/form-data">
                 
-        @forelse($activites as $date => $records)
+                {{ csrf_field() }}
 
-        	<h1> {{$date}} </h1>
+                <input type="file" name="avatar" class="mb-10">
 
-        	@foreach($records as $activity)
+                <button type="submit" class="btn btn-primary" >Add Avatar</button>
 
-{{--                {{dd($records)}}--}}
-            	@include("profiles.activites.{$activity->type}")
+            </form>
 
-        	@endforeach
+        @endcan
+        
+        <div class="col-md-8 col-md-offset-2">
+            
+    @forelse($activites as $date => $records)
 
-        @empty
+        <h1> {{$date}} </h1>
 
-            <p>There is no activites for this user yet.</p>
+        @foreach($records as $activity)
 
-        @endforelse
+            @include("profiles.activites.{$activity->type}")
 
-            </div>
+        @endforeach
+
+    @empty
+
+        <p>There is no activites for this user yet.</p>
+
+    @endforelse
 
         </div>
 

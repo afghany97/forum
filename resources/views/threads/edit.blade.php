@@ -2,37 +2,33 @@
 
 @section('content')
 
-    <div class="container">
+    <form method="POST" action="{{$thread->path()}}/update">
 
-        <form method="POST" action="{{$thread->path()}}/update">
+        {{ csrf_field() }}
 
-            {{ csrf_field() }}
+        {{method_field('PUT')}}
 
-            {{method_field('PUT')}}
+        <div class="form-group">
 
-            <div class="form-group">
+            <label for="title">Thread Title</label>
 
-                <label for="exampleInputEmail1">thread title</label>
+            <input name = "title" type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="post title" value="{{old('title')? old('title')  : $thread->title }}" required>
 
-                <input name = "title" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="post title" value="{{old('title')? old('title')  : $thread->title }}" required>
+        </div>
 
-            </div>
+        <div class="form-group">
 
-            <div class="form-group">
+            <label for="body">Thread Body</label>
 
-                <label for="exampleInputPassword1">thread body</label>
+            <textarea name = "body" type="text" class="form-control" id="body" placeholder="post body" required>{{old('body')? old('body')  : $thread->body }}</textarea>
 
-                <textarea name = "body" type="text" class="form-control" id="exampleInputPassword1" placeholder="post body" required>{{old('body')? old('body')  : $thread->body }}</textarea>
-
-            </div>
+        </div>
 
 
-            <button type="submit" class="btn btn-primary">update thread</button>
+        <button type="submit" class="btn btn-success">Update Thread</button>
 
-            @include('layouts.errors')
+        @include('layouts.errors')
 
-        </form>
-
-    </div>
+    </form>
 
 @endsection

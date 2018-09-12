@@ -2,37 +2,33 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="row">
 
-        <div class="row">
+        @forelse($history as $modify)
 
-            @forelse($history as $modify)
+            <div class="col-md-6">
 
-                <div class="col-md-6">
+                <div class="panel panel-danger">
 
-                    <div class="panel panel-danger">
+                    <div class="panel-heading level">
 
-                        <div class="panel-heading level">
+                        @if(isset(json_decode($modify->before)->title))
 
-                            @if(isset(json_decode($modify->before)->title))
+                            {{json_decode($modify->before)->title}}
 
-                                {{json_decode($modify->before)->title}}
+                        @endif
+
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="body">
+
+                            @if(isset(json_decode($modify->before)->body))
+
+                                {{json_decode($modify->before)->body}}
 
                             @endif
-
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div class="body">
-
-                                @if(isset(json_decode($modify->before)->body))
-
-                                    {{json_decode($modify->before)->body}}
-
-                                @endif
-
-                            </div>
 
                         </div>
 
@@ -40,31 +36,31 @@
 
                 </div>
 
-                <div class="col-md-6">
+            </div>
 
-                    <div class="panel panel-success">
+            <div class="col-md-6">
 
-                        <div class="panel-heading level">
+                <div class="panel panel-success">
 
-                            @if(isset(json_decode($modify->after)->title))
+                    <div class="panel-heading level">
 
-                                {{json_decode($modify->after)->title}}
+                        @if(isset(json_decode($modify->after)->title))
+
+                            {{json_decode($modify->after)->title}}
+
+                        @endif
+
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="body">
+
+                            @if(isset(json_decode($modify->after)->body))
+
+                                {{json_decode($modify->after)->body}}
 
                             @endif
-
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div class="body">
-
-                                @if(isset(json_decode($modify->after)->body))
-
-                                    {{json_decode($modify->after)->body}}
-
-                                @endif
-
-                            </div>
 
                         </div>
 
@@ -72,13 +68,13 @@
 
                 </div>
 
-            @empty
+            </div>
 
-                <h1>This thread didn't updated yet</h1>
+        @empty
 
-            @endforelse
+            <h1>This thread didn't updated yet</h1>
 
-        </div>
+        @endforelse
 
     </div>
 
