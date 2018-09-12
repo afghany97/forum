@@ -14,7 +14,7 @@ class profilepolicy
      * @param User $ownerUser
      * @return bool
      */
-    public function create(User $user , User $ownerUser)
+    public function update(User $user , User $ownerUser)
    {
        return $user->id === $ownerUser->id;
    }

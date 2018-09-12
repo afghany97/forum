@@ -21,8 +21,7 @@ class CreateUsersTable extends Migration
             $table->boolean('confirmed')->default(false);
             $table->string('confirmation_token',25)->unique();
             $table->string('avatar_path')->default('avatars/default.jpg');
-            $table->boolean('is_supervisor')->default(false);
-            $table->boolean('is_admin')->default(false);
+            $table->unsignedInteger('role')->default(config('auth.roles.user'));
             $table->rememberToken();
             $table->timestamps();
         });

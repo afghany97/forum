@@ -58,6 +58,6 @@ class ThreadPolicy
     {
         // check if authenticated user the owner of thread "can delete it"
         
-        return ($user->id == $thread->user_id) || $user->is_admin;
+        return ($user->id == $thread->user_id) || $user->isAdmin();
     }
 }

@@ -25,7 +25,7 @@
 
                     @if(auth()->check())
 
-                        @if(auth()->user()->is_supervisor || auth()->user()->is_admin)
+                        @if(auth()->user()->isSupervisor() || auth()->user()->isAdmin())
 
                             <div class="text-right flex mr-10">
 
@@ -49,7 +49,7 @@
                             
                         @endif
 
-                        <div class="text-right flex mr-10" style="display:contents">
+                        <div class="text-right flex mr-10" style="{{auth()->user()->isSupervisor() || auth()->user()->isAdmin() ? 'display:contents' : ''}}">
                         
                             @if($thread->IsFavourited())
 

@@ -83,4 +83,14 @@ class User extends Authenticatable
     {
         return "/storage/" . $this->avatar_path;
     }
+
+    public function isAdmin()
+    {
+        return $this->role == config('auth.roles.admin');
+    }
+
+    public function isSupervisor()
+    {
+        return $this->role == config('auth.roles.supervisor');
+    }
 }

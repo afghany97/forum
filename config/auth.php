@@ -13,6 +13,12 @@ return [
     |
     */
 
+    'roles' => [
+        'admin' => 1,
+        'supervisor' => 2,
+        'user' => 3
+    ],
+
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',

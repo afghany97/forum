@@ -12,7 +12,7 @@
 
         @endif
 
-        @if($profileUser->is_admin)
+        @if($profileUser->isAdmin())
 
             <h4>administrator</h4>
 
@@ -20,11 +20,11 @@
 
         <div>
 
-            <img src="/storage/{{$profileUser->avatar_path}}" alt="{{$profileUser->name}}" class="avatar mb-10">
+            <img src="{{$profileUser->avatarPath()}}" alt="{{$profileUser->name}}" class="avatar mb-10">
 
         </div>
         
-        @can('create' , $profileUser)
+        @can('update' , $profileUser)
 
             <form method="POST" action="{{route('avatar',$profileUser)}}" enctype="multipart/form-data">
                 
@@ -32,7 +32,7 @@
 
                 <input type="file" name="avatar" class="mb-10">
 
-                <button type="submit" class="btn btn-primary" >Add Avatar</button>
+                <button type="submit" class="btn btn-default" >Add Avatar</button>
 
             </form>
 
@@ -51,8 +51,12 @@
         @endforeach
 
     @empty
+    
+        <div class="text-center">
 
-        <p>There is no activites for this user yet.</p>
+            <strong>This user has no activities yet.</strong>
+
+        </div>
 
     @endforelse
 

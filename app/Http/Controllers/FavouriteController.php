@@ -61,7 +61,7 @@ class FavouriteController extends Controller
 
             // favourite thread end point "threads/{thread->id}/favourite"
 
-            Thread::find($id)->favourite();
+            Thread::where('slug',$id)->first()->favourite();
 
             // repear the flash message
 
@@ -128,7 +128,7 @@ class FavouriteController extends Controller
 
             // unfavourite thread end point "threads/{thread->id}/favourite"
 
-            Thread::find($id)->unfavourite();
+            Thread::where('slug',$id)->first()->unfavourite();
 
             // repear the flash message
 
