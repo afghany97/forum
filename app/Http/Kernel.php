@@ -59,7 +59,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'shoudConfirmYourEmail'=>shouldConfirmYourEmail::class,
+        'shouldConfirmYourEmail'=>shouldConfirmYourEmail::class,
         'supervisor'=> must_be_supervisor::class,
         'admin'=> must_be_admin::class,
     ];

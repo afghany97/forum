@@ -43,9 +43,9 @@ Route::get('/threads/{channel}/{thread}','ThreadsController@show')->name('thread
 
 Route::delete('/threads/{channel}/{thread}','ThreadsController@destroy')->name('thread.destroy');
 
-Route::post('/threads','ThreadsController@store')->middleware('shoudConfirmYourEmail')->name('thread.store');
+Route::post('/threads','ThreadsController@store')->middleware('shouldConfirmYourEmail')->name('thread.store');
 
-Route::post('/threads/{channel}/{thread}/replies','RepliesController@store')->middleware('shoudConfirmYourEmail')->name('reply.post');
+Route::post('/threads/{channel}/{thread}/replies','RepliesController@store')->middleware('shouldConfirmYourEmail')->name('reply.post');
 
 Route::delete('/replies/{reply}','RepliesController@destroy')->name('reply.destroy');
 
