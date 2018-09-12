@@ -66,52 +66,56 @@
 
         </div>
 
-        <div class="panel-footer level">
+        @if(auth()->check())
+        
+            <div class="panel-footer level">
 
-            @can('delete' , $reply)
+                @can('delete' , $reply)
 
-                <form method="POST" action="{{route('reply.destroy',$reply)}}" class="mr-1 fl">
-
-                    {{csrf_field()}}
-
-                    {{method_field('DELETE')}}
-
-                    <button type="submit" class="btn btn-danger btn-xs">Delete</button>
-
-                </form>
-
-            @endcan
-
-            @can('update' , $reply)
-
-                <form method="POST" action="{{route('reply.edit',$reply)}}">
-
-                    {{csrf_field()}}
-
-                    {{method_field('PATCH')}}
-
-                    <button type="submit" class="btn btn-default btn-xs">Edit</button>
-
-                </form>
-
-            @endcan
-            
-            @if(!$reply->isBest)
-            
-                @can('update' , $reply->thread)
-
-                    <form method="POST" action="{{route('reply.best',$reply)}}" class="ml-a">
+                    <form method="POST" action="{{route('reply.destroy',$reply)}}" class="mr-1 fl">
 
                         {{csrf_field()}}
 
-                        <button type="submit" class="btn btn-default btn-xs">Best Reply ?</button>
+                        {{method_field('DELETE')}}
+
+                        <button type="submit" class="btn btn-danger btn-xs">Delete</button>
 
                     </form>
 
                 @endcan
-            
-            @endif
 
-        </div>
+                @can('update' , $reply)
+
+                    <form method="POST" action="{{route('reply.edit',$reply)}}">
+
+                        {{csrf_field()}}
+
+                        {{method_field('PATCH')}}
+
+                        <button type="submit" class="btn btn-default btn-xs">Edit</button>
+
+                    </form>
+
+                @endcan
+                
+                @if(!$reply->isBest)
+                
+                    @can('update' , $reply->thread)
+
+                        <form method="POST" action="{{route('reply.best',$reply)}}" class="ml-a">
+
+                            {{csrf_field()}}
+
+                            <button type="submit" class="btn btn-default btn-xs">Best Reply ?</button>
+
+                        </form>
+
+                    @endcan
+                
+                @endif
+
+            </div>
+
+        @endif
 
     </div>
