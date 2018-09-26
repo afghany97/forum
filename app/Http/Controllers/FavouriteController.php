@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ThreadFavorited;
 use App\Favourite;
-
 use App\Reply;
-
 use App\Thread;
-
 use Illuminate\Http\Request;
 
 class FavouriteController extends Controller
@@ -40,10 +38,10 @@ class FavouriteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param $id
+     * @param $key
      * @return \Illuminate\Http\Response
      */
-    public function store($id)
+    public function store($key)
     {
         // check if the request want to favouirte reply
 
@@ -51,7 +49,7 @@ class FavouriteController extends Controller
 
             // favourite reply end point "replies/{Reply->id}/favourite"
 
-            Reply::find($id)->favourite();
+            Reply::find($key)->favourite();
 
             // repear the flash message
 
@@ -61,7 +59,11 @@ class FavouriteController extends Controller
 
             // favourite thread end point "threads/{thread->id}/favourite"
 
-            Thread::where('slug',$id)->first()->favourite();
+            $thread = Thread::whereSlug($key)->first();
+
+            $thread->favourite();
+
+            event(new ThreadFavorited($thread));
 
             // repear the flash message
 

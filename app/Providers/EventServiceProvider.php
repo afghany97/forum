@@ -17,7 +17,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\NofityAllThreadSubscribers',
             'App\Listeners\NofityAllMentionedUsers',
         ],
-        Registered::class =>[
+        Registered::class => [
             'App\Listeners\sentConfirmationMail',
 
         ],
@@ -29,11 +29,14 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\NofityThreadSubscribers',
         ],
 
-         'App\Events\ThreadDeleted' => [
+        'App\Events\ThreadDeleted' => [
             'App\Listeners\NofityThreadOwnerI',
             'App\Listeners\NofityThreadSubscribersI',
+        ],
+        'App\Events\ThreadFavorited' => [
+            'App\Listeners\NotifyThreadFavoritedOwner'
         ]
-        ];
+    ];
 
     /**
      * Register any events for your application.
