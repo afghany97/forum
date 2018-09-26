@@ -1,5 +1,5 @@
 ### Laravel Forum
-    php forum build with laravel framework with many of helpful features , still under development , please feel free to use it.
+php forum build with laravel framework with many of helpful features , still under development , please feel free to use it.
 ### Forum Installation
 
 - ```git clone https://github.com/afghany97/forum.git```
