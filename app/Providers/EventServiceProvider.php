@@ -35,7 +35,11 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\ThreadFavorited' => [
             'App\Listeners\NotifyThreadFavoritedOwner'
+        ],
+        'App\Events\ReplyFavorited' => [
+            'App\Listeners\NotifyReplyFavoritedOwner'
         ]
+
     ];
 
     /**

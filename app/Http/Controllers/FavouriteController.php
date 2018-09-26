@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ReplyFavorited;
 use App\Events\ThreadFavorited;
 use App\Favourite;
 use App\Reply;
@@ -49,7 +50,11 @@ class FavouriteController extends Controller
 
             // favourite reply end point "replies/{Reply->id}/favourite"
 
-            Reply::find($key)->favourite();
+            $reply = Reply::find($key);
+
+            $reply->favourite();
+
+            event(new ReplyFavorited($reply));
 
             // repear the flash message
 
